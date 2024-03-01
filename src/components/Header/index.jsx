@@ -12,7 +12,7 @@ export default function Header({ ...props }) {
           </Text>
           <div className="flex flex-row justify-start items-center w-[22%] gap-0.5">
             <Text as="p" className="!text-gray-900 text-right !font-medium">
-              For Kindergarten
+              For School
             </Text>
             <Img src="images/img_arrow_down.svg" alt="arrowdown_one" className="h-6 w-6" />
           </div>
