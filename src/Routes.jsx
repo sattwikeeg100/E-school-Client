@@ -16,15 +16,15 @@ const ProjectRoutes = () => {
     { path: "*", element: <NotFound /> },
     {
       path: "/",
-      element: <EduviCoursesDetails />,
+      element: <EduviCourses />,
     },
     {
       path: "eduvishop",
       element: <EduviShop />,
     },
     {
-      path: "eduvicourses",
-      element: <EduviCourses />,
+      path: "eduvicoursedetail",
+      element: <EduviCoursesDetails />,
     },
     {
       path: "eduvicoursespricing",
