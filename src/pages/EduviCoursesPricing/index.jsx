@@ -1,7 +1,7 @@
 
 import { Button, Heading, Text, Img } from "../../components";
 import Footer from "../../components/Footer";
-import Header1 from "../../components/Header1";
+import Header1 from "../../components/Header";
 
 export default function EduviCoursesPricingPage() {
   return (
