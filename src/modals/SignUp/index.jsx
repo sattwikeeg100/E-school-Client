@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,10 +10,17 @@ const Login = () => {
   const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { data } = await axios.post(`http://localhost:8000`, {
+      email,
+      name,
+      password,
+    });
+  };
 
   return (
     <div className=" flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
-    
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 relative">
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded">
@@ -28,7 +35,9 @@ const Login = () => {
 
         <div className="sm:mx-auto sm:w-full">
           <div className="text-center">
-          <p className="mt-2 text-center text-5xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900">🎓 LearnOpia</p>
+            <p className="mt-2 text-center text-5xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900">
+              🎓 LearnOpia
+            </p>
           </div>
 
           <h2 className="mt-10 text-center text-xl font-bold leading-9 tracking-tight text-gray-900">
@@ -37,13 +46,13 @@ const Login = () => {
         </div>
 
         <div className="mt-4 mx-96 sm:mx-auto sm:w-full ">
-          <form className="space-y-6" >
-          <div>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
               <label
                 htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-               Name
+                Name
               </label>
               <div className="mt-2">
                 <input
@@ -57,7 +66,6 @@ const Login = () => {
                 />
               </div>
             </div>
-
 
             <div>
               <label
@@ -103,7 +111,6 @@ const Login = () => {
               </div>
             </div>
 
-
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -137,7 +144,9 @@ const Login = () => {
           </form>
           <div className="flex justify-center gap-2 my-4">
             <p>Already have an account?</p>
-            <a href="/login" className="text-orange-300">Login</a>
+            <a href="/login" className="text-orange-300">
+              Login
+            </a>
           </div>
         </div>
       </div>

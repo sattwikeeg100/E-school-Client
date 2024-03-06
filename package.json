@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "clsx": "^2.1.0",
+    "axios": "^1.6.7",
     "dotenv": "^16.0.1",
     "postcss": "^8.4.35",
     "prop-types": "^15.8.1",

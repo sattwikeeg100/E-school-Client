@@ -10,6 +10,7 @@ import Allmentors from "./pages/Allmentors";
 import Singlementordetails from "./pages/Singlementordetails";
 import NotFound from "pages/NotFound";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import ForgetPassword from "modals/ForgetPassword";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
     const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <SignUp /> },
+      { path: "/forgetpassword", element: <ForgetPassword /> },
       {path: "*" , element: <NotFound/>},
       {
         path: "/",
@@ -37,26 +39,26 @@ function App() {
            path: "/shop",
             element: <EduviShopPage/>,
           },
-    {
-      path: "/coursedetail", 
-      element: <EduviCoursesDetails />,
-    },
-    {
-      path: "/coursespricing",
-      element: <EduviCoursesPricing />,
-    },
-    {
-      path: "/joinasteacher",
-      element: <EduviJoinAsTeacher />,
-    },
-    {
-      path: "/allmentors",
-      element: <Allmentors />,
-    },
-    {
-      path: "mentordetails",
-      element: <Singlementordetails />,
-    }
+          {
+            path: "/coursedetail", 
+            element: <EduviCoursesDetails />,
+          },
+          {
+            path: "/coursespricing",
+            element: <EduviCoursesPricing />,
+          },
+          {
+            path: "/joinasteacher",
+            element: <EduviJoinAsTeacher />,
+          },
+          {
+            path: "/allmentors",
+            element: <Allmentors />,
+          },
+          {
+            path: "mentordetails",
+            element: <Singlementordetails />,
+          }
   ],
 },
 ]);
