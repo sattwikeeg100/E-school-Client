@@ -14,7 +14,6 @@ export default function AllmentorsPage() {
     <>
       <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
         <div className="flex flex-col items-center justify-start w-full gap-12">
-          <Header className="flex justify-center items-center w-full p-[22px] bg-gray-100" />
           <div className="flex flex-col items-start justify-start w-full gap-[5px] p-5 bg-red-50 max-w-7xl rounded-[20px]">
             <Text as="p" className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium">
               Home | Our Mentors
