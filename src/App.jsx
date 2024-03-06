@@ -10,62 +10,61 @@ import Allmentors from "./pages/Allmentors";
 import Singlementordetails from "./pages/Singlementordetails";
 import NotFound from "pages/NotFound";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
- 
-    // const navigationElement = <Header1/>
-    
-    const router = createBrowserRouter([
-      { path: "/login", element: <Login /> },
-      { path: "/signup", element: <SignUp /> },
-      {path: "*" , element: <NotFound/>},
-      {
-        path: "/",
-        element:(
-          <>
-          <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100"/>
-          <Outlet/>
-          </>
-        ),
-        children: [
-          { path:"/", 
-           element:<EduviCoursesPage/>
+  // const navigationElement = <Header1/>
 
-          },
-          {
-           path: "/shop",
-            element: <EduviShopPage/>,
-          },
+  const router = createBrowserRouter([
+    { path: "/login", element: <Login /> },
+    { path: "/signup", element: <SignUp /> },
+    { path: "*", element: <NotFound /> },
     {
-      path: "/coursedetail", 
-      element: <EduviCoursesDetails />,
+      path: "/",
+      element: (
+        <>
+          <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100" />
+          <Outlet />
+        </>
+      ),
+      children: [
+        { path: "/", element: <EduviCoursesPage /> },
+        {
+          path: "/shop",
+          element: <EduviShopPage />,
+        },
+        {
+          path: "/coursedetail",
+          element: <EduviCoursesDetails />,
+        },
+        {
+          path: "/coursespricing",
+          element: <EduviCoursesPricing />,
+        },
+        {
+          path: "/joinasteacher",
+          element: <EduviJoinAsTeacher />,
+        },
+        {
+          path: "/allmentors",
+          element: <Allmentors />,
+        },
+        {
+          path: "mentordetails",
+          element: <Singlementordetails />,
+        },
+      ],
     },
-    {
-      path: "/coursespricing",
-      element: <EduviCoursesPricing />,
-    },
-    {
-      path: "/joinasteacher",
-      element: <EduviJoinAsTeacher />,
-    },
-    {
-      path: "/allmentors",
-      element: <Allmentors />,
-    },
-    {
-      path: "mentordetails",
-      element: <Singlementordetails />,
-    }
-  ],
-},
-]);
-    
+  ]);
 
   return (
-    <RouterProvider router={router}>
-    <Outlet />
-  </RouterProvider>
+    <>
+      <ToastContainer />
+      <RouterProvider router={router}>
+        <Outlet />
+      </RouterProvider>
+    </>
   );
 }
 

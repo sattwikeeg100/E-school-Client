@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,10 +10,23 @@ const Login = () => {
   const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(`${API_BASE_URL}/login`, {
+        email,
+        password,
+      });
+      console.log(data);
+      toast.success("Welcome Back!🙇‍♂️");
+    } catch (err) {
+      toast.error(err.response.data);
+    }
+  };
 
   return (
     <div className=" flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
-    
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 relative">
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded">
@@ -27,7 +41,9 @@ const Login = () => {
 
         <div className="sm:mx-auto sm:w-full">
           <div className="text-center">
-          <p className="mt-2 text-center text-5xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900">🎓 LearnOpia</p>
+            <p className="mt-2 text-center text-5xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900">
+              🎓 LearnOpia
+            </p>
           </div>
 
           <h2 className="mt-10 text-center text-xl font-bold leading-9 tracking-tight text-gray-900">
@@ -36,7 +52,7 @@ const Login = () => {
         </div>
 
         <div className="mt-4 mx-96 sm:mx-auto sm:w-full ">
-          <form className="space-y-6" >
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -100,7 +116,9 @@ const Login = () => {
           </form>
           <div className="flex justify-center gap-2 my-4">
             <p>Didn't have an account?</p>
-            <a href="/signup" className="text-orange-300">Signup</a>
+            <a href="/signup" className="text-orange-300">
+              Signup
+            </a>
           </div>
         </div>
       </div>
