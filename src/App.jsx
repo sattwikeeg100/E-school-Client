@@ -3,14 +3,16 @@ import Login from "modals/LogIn";
 import SignUp from "modals/SignUp";
 import EduviCoursesDetails from "./pages/EduviCoursesDetails";
 import EduviShopPage from "./pages/EduviShop";
-import EduviCoursesPage from "./pages/EduviCourses";
+import EduviCoursesPage from "./pages/leranopiaMainPage";
 import EduviCoursesPricing from "./pages/EduviCoursesPricing";
 import EduviJoinAsTeacher from "./pages/EduviJoinAsTeacher";
 import Allmentors from "./pages/Allmentors";
 import Singlementordetails from "./pages/Singlementordetails";
 import NotFound from "pages/NotFound";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import { ToastContainer } from "react-toastify";
+import ForgetPassword from "modals/ForgetPassword";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     { path: "/signup", element: <SignUp /> },
+    { path: "/forgetpassword", element: <ForgetPassword /> },
     { path: "*", element: <NotFound /> },
     {
       path: "/",
@@ -57,6 +60,7 @@ function App() {
       ],
     },
   ]);
+
 
   return (
     <>
