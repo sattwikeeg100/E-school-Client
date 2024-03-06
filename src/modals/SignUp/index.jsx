@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,14 +10,20 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await axios.post(`http://localhost:8000`, {
-      email,
-      name,
-      password,
-    });
+    try {
+      const { data } = await axios.post(`${API_BASE_URL}/register`, {
+        email,
+        name,
+        password,
+      });
+      toast.success("Registration Successfull");
+    } catch (err) {
+      toast.error(err.response.data);
+    }
   };
 
   return (
