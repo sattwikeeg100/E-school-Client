@@ -3,7 +3,7 @@ import Login from "modals/LogIn";
 import SignUp from "modals/SignUp";
 import EduviCoursesDetails from "./pages/EduviCoursesDetails";
 import EduviShopPage from "./pages/EduviShop";
-import EduviCoursesPage from "./pages/EduviCourses";
+import EduviCoursesPage from "./pages/leranopiaMainPage";
 import EduviCoursesPricing from "./pages/EduviCoursesPricing";
 import EduviJoinAsTeacher from "./pages/EduviJoinAsTeacher";
 import Allmentors from "./pages/Allmentors";
