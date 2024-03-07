@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Context } from "context";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,9 @@ const Login = () => {
   const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const {
+    state: { user },
+  } = useContext(Context);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +29,10 @@ const Login = () => {
       toast.error(err.response.data);
     }
   };
+
+  useEffect(() => {
+    if (user !== null) navigate("/");
+  }, [user]);
 
   return (
     <div className=" flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
