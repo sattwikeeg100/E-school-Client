@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Context } from "context";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const {
+    state: { user },
+    dispatch,
+  } = useContext(Context);
+
   const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
 
@@ -18,12 +24,21 @@ const Login = () => {
         email,
         password,
       });
-      console.log(data);
+      dispatch({
+        type: "LOGIN",
+        payload: data,
+      });
+      window.localStorage.setItem("user", JSON.stringify(data));
       toast.success("Welcome Back!🙇‍♂️");
+      navigate("/");
     } catch (err) {
       toast.error(err.response.data);
     }
   };
+
+  useEffect(() => {
+    if (user !== null) navigate("/login");
+  }, [user]);
 
   return (
     <div className=" flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">

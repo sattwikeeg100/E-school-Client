@@ -10,7 +10,7 @@ import Allmentors from "./pages/Allmentors";
 import Singlementordetails from "./pages/Singlementordetails";
 import NotFound from "pages/NotFound";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-
+import { Provider } from "context";
 import { ToastContainer } from "react-toastify";
 import ForgetPassword from "modals/ForgetPassword";
 import "react-toastify/dist/ReactToastify.css";
@@ -61,14 +61,13 @@ function App() {
     },
   ]);
 
-
   return (
-    <>
+    <Provider>
       <ToastContainer />
       <RouterProvider router={router}>
         <Outlet />
       </RouterProvider>
-    </>
+    </Provider>
   );
 }
 
