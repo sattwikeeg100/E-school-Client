@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Img } from "..";
 import { useNavigate } from "react-router-dom";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { Context } from "context";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FaFaceGrinStars } from "react-icons/fa6";
 
 export default function Header({ ...props }) {
   const navigate = useNavigate();
@@ -27,14 +27,23 @@ export default function Header({ ...props }) {
     navigate("/");
   };
 
+  // const Name = {user.name}
   const navigateLogin = () => navigate("/login");
   const navigateMentor = () => navigate("/allmentors");
   const navigateShop = () => navigate("/shop");
+  const navigateBeInstructor = () => navigate("/joinasteacher");
+
+  const name = user?.name.toUpperCase();
+
+  const getInitials = () => {
+    const firstInitial = user ? user.name.charAt(0).toUpperCase() : "";
+    return firstInitial || <FaFaceGrinStars />;
+  };
 
   return (
     <header {...props}>
       <div className="flex flex-row justify-between w-full mx-auto max-w-7xl">
-        <p className="text-2xl font-bold">🎓 𝑳𝒆𝒂𝒓𝒏𝑶𝒑𝒊𝒂</p>
+        <a className="text-2xl font-bold" href="/">🎓 𝑳𝒆𝒂𝒓𝒏𝑶𝒑𝒊𝒂</a>
 
         {/* Mobile Menu Button */}
         <button
@@ -59,6 +68,11 @@ export default function Header({ ...props }) {
               Search
             </button>
           </form>
+          <button 
+           className="hover:text-orange-300 font-medium"
+           onClick={navigateBeInstructor}>
+                Be a Instuctor
+              </button>
           <button
             className="font-medium hover:text-orange-300"
             onClick={navigateShop}
@@ -82,9 +96,9 @@ export default function Header({ ...props }) {
             <>
               <button
                 onClick={navigateLogin}
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 rounded-md"
               >
-                <p className="text-gray-900 font-medium">Signin</p>
+                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Login</p>
               </button>
             </>
           )}
@@ -92,28 +106,68 @@ export default function Header({ ...props }) {
             <>
               {" "}
               <button className="text-gray-900 font-medium">
-                My learnings(0)
+                My learnings
               </button>
+
               <button
                 onClick={logout}
                 className="flex items-center gap-1 float-right"
               >
-                <p className="text-gray-900 font-medium ">Logout</p>
-                <Img
-                  src="images/img_profile_24_outline.svg"
-                  alt="profiletwentyfo"
-                  className="h-[30px] w-[30px]"
-                />
+                <p className="text-gray-900 font-medium mr-1">{name}</p>
+                <div className="w-10 h-10 bg-orange-400 rounded-full mx-auto  flex items-center justify-center">
+                  <span className="text-xl font-semibold text-gray-100">
+                    {getInitials()}
+                  </span>
+                </div>
               </button>
             </>
           )}
         </div>
 
         {/* Mobile Menu */}
+
         {isMobileMenuOpen && (
-          <div className=" h-scrren fixed inset-0 z-10 overflow-y-hidden">
-            <div className=" h-full px-28 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
-              <div className="lg:hidden absolute top-10 py-4 mx-auto text-xl flex flex-col gap-y-4 justify-center">
+          <div className=" h-scrren fixed inset-0 z-50 overflow-hidden overscroll-none">
+            <div className=" h-full px-28 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-100">
+              <div className="lg:hidden absolute top-10 py-2 mx-auto text-xl flex flex-col gap-y-2 justify-center">
+              {user == null && (
+            <>
+            <div className="pb-8 text-center">
+              <button
+                onClick={navigateLogin}
+                className="rounded-md ml-2"
+              >
+                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Login</p>
+              </button>
+              </div>
+            </>
+          )}
+          {user != null && (
+            <>
+             
+              <div className="pb-6">
+              <div className="flex items-center gap-1 ">
+                <div className="w-10 h-10 bg-orange-400 rounded-full mx-auto flex items-center justify-center">
+                  <span className="text-xl font-semibold text-gray-100">
+                    {getInitials()}
+                  </span>
+                </div>
+
+                <p className="font-bold mr-2">{name}</p>
+              </div>
+              <p className="mt-2 text-sm font-semibold tracking-widest">{user.email}</p>
+              </div>
+
+              <button className="font-medium hover:text-orange-300 mb-4">
+                My Dashboard
+              </button>
+
+              <button className="font-medium hover:text-orange-300 mb-4">
+                My learnings
+              </button>
+
+            </>
+          )}
                 <button
                   className="text-center font-medium hover:text-orange-300 block mb-4"
                   onClick={navigateShop}
@@ -121,7 +175,7 @@ export default function Header({ ...props }) {
                   Shop
                 </button>
                 <button
-                  className="text-center font-medium hover:text-orange-300 block mb-4"
+                  className="text-center font-medium hover:text-orange-300 block mb-4 "
                   onClick={navigateMentor}
                 >
                   All Courses
@@ -133,27 +187,27 @@ export default function Header({ ...props }) {
                   Mentors
                 </button>
 
-                <button className="text-gray-900 font-medium hover:text-orange-300 block mb-4">
-                  My learnings(0)
-                </button>
+              <button className="font-medium hover:text-orange-300 font-medium mb-2 "
+              onClick={navigateBeInstructor}>
+                Be a Instuctor
+              </button>
 
-                <button
-                  onClick={navigateLogin}
-                  className="flex items-center gap-1 mb-4"
-                >
-                  <p className="text-gray-900 font-medium hover:text-orange-300 block">
-                    Signin
-                  </p>
-                  <Img
-                    src="images/img_profile_24_outline.svg"
-                    alt="profiletwentyfo"
-                    className="h-[30px] w-[30px]"
-                  />
-                </button>
+              {user != null && (
+            <>
+              {" "}
+
+              <button
+                onClick={logout}
+                className="rounded-md"
+              >
+                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Logout</p>
+              </button>
+              </>
+              )}
 
                 <button
                   onClick={toggleMobileMenu}
-                  className="items-center pl-12 text-3xl hover:text-orange-300 block mb-4"
+                  className="items-center ml-10 text-5xl hover:text-orange-300 block my-8"
                 >
                   <IoIosCloseCircleOutline />
                 </button>

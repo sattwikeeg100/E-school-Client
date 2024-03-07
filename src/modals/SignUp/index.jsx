@@ -7,6 +7,7 @@ import { Context } from "context";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(password === confirmPassword){
     try {
       const { data } = await axios.post(`${API_BASE_URL}/register`, {
         email,
@@ -27,6 +29,9 @@ const Login = () => {
       toast.success("Registration Successfull");
     } catch (err) {
       toast.error(err.response.data);
+    }
+  }else{
+     setError("Password and confirm password must be same")
     }
   };
 
@@ -56,7 +61,7 @@ const Login = () => {
           </div>
 
           <h2 className="mt-10 text-center text-xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+            Create new account
           </h2>
         </div>
 
@@ -137,13 +142,12 @@ const Login = () => {
               </div>
               <div className="mt-2">
                 <input
-                  id="password"
-                  name="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
                   type="password"
-                  autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 sm:text-sm sm:leading-6"
                 />
               </div>

@@ -114,8 +114,8 @@ const ForgetPassword = () => {
             </div>
           </form>
           <div className="flex justify-center gap-2 my-4">
-            <p>Didn't have an account?</p>
-            <a href="/signup" className="text-orange-300">Signup</a>
+            <p>Already have an account?</p>
+            <a href="/login" className="text-orange-300">Login</a>
           </div>
         </div>
       </div>

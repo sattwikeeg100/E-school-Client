@@ -13,6 +13,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Provider } from "context";
 import { ToastContainer } from "react-toastify";
 import ForgetPassword from "modals/ForgetPassword";
+import ResetPassword from "modals/ForgetPassword/resetPassword";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
     { path: "/login", element: <Login /> },
     { path: "/signup", element: <SignUp /> },
     { path: "/forgetpassword", element: <ForgetPassword /> },
+    { path: "/resetpassword" , element: <ResetPassword />},
     { path: "*", element: <NotFound /> },
     {
       path: "/",
