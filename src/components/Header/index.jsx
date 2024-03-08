@@ -28,10 +28,22 @@ export default function Header({ ...props }) {
   };
 
   // const Name = {user.name}
-  const navigateLogin = () => navigate("/login");
-  const navigateMentor = () => navigate("/allmentors");
-  const navigateShop = () => navigate("/shop");
-  const navigateBeInstructor = () => navigate("/joinasteacher");
+  const navigateLogin = () =>{
+   navigate("/login")
+   setMobileMenuOpen(false)
+  };
+  const navigateMentor = () =>{
+    navigate("/allmentors")
+    setMobileMenuOpen(false)
+   };
+  const navigateShop = () =>{
+    navigate("/shop")
+    setMobileMenuOpen(false)
+   };
+  const navigateBeInstructor = () =>{
+    navigate("/joinasteacher")
+    setMobileMenuOpen(false)
+   };
 
   const name = user?.name.toUpperCase();
 
@@ -127,9 +139,9 @@ export default function Header({ ...props }) {
         {/* Mobile Menu */}
 
         {isMobileMenuOpen && (
-          <div className=" h-scrren fixed inset-0 z-50 overflow-hidden overscroll-none">
-            <div className=" h-full px-28 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-100">
-              <div className="lg:hidden absolute top-10 py-2 mx-auto text-xl flex flex-col gap-y-2 justify-center">
+          <div className=" h-screen fixed inset-0 z-50 overflow-hidden overscroll-none mx-auto">
+            <div className="h-full px-auto shadow-lg backdrop-blur-md backdrop-filter bg-opacity-100 text-center">
+              <div className="lg:hidden relative top-8 py-2 mx-auto text-xl flex flex-col gap-y-1 justify-center text-center">
               {user == null && (
             <>
             <div className="pb-8 text-center">
@@ -145,24 +157,23 @@ export default function Header({ ...props }) {
           {user != null && (
             <>
              
-              <div className="pb-6">
-              <div className="flex items-center gap-1 ">
-                <div className="w-10 h-10 bg-orange-400 rounded-full mx-auto flex items-center justify-center">
-                  <span className="text-xl font-semibold text-gray-100">
+
+              <div  className="pt-2 flex items-center gap-x-2 mx-auto"> 
+                <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-center">
+                  <span className="text-2xl font-semibold text-gray-100">
                     {getInitials()}
                   </span>
                 </div>
+                <p className="font-bold">{name}</p>
+                </div>
+                <p className="mt-2 mb-8 text-sm font-semibold tracking-widest text-center">{user.email}</p>
+                
 
-                <p className="font-bold mr-2">{name}</p>
-              </div>
-              <p className="mt-2 text-sm font-semibold tracking-widest">{user.email}</p>
-              </div>
-
-              <button className="font-medium hover:text-orange-300 mb-4">
+              <button className="font-medium hover:text-orange-300 mb-4 text-center">
                 My Dashboard
               </button>
 
-              <button className="font-medium hover:text-orange-300 mb-4">
+              <button className="font-medium hover:text-orange-300 mb-4 text-center">
                 My learnings
               </button>
 
@@ -198,7 +209,7 @@ export default function Header({ ...props }) {
 
               <button
                 onClick={logout}
-                className="rounded-md"
+                className="rounded-md w-28 mx-auto my-4"
               >
                 <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Logout</p>
               </button>
@@ -207,13 +218,13 @@ export default function Header({ ...props }) {
 
                 <button
                   onClick={toggleMobileMenu}
-                  className="items-center ml-10 text-5xl hover:text-orange-300 block my-8"
+                  className="items-center text-5xl hover:text-orange-300 block my-6 mx-auto"
                 >
                   <IoIosCloseCircleOutline />
                 </button>
               </div>
-            </div>
-          </div>
+             </div>
+           </div>
         )}
       </div>
     </header>

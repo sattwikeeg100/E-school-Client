@@ -53,7 +53,7 @@ export default function Footer() {
         </div>
       </div>
    
-<div className="flex flex-row md:flex-col justify-between w-full text-xl py-8 bg-orange-100 px-20 md:px-8 lg:px-18 ">
+<div className="flex flex-row md:flex-col justify-between w-full text-xl py-8 bg-orange-100 px-20 md:px-8 lg:px-18">
 
   <div className="flex flex-col justify-start md:justify-center mx-4 md:mx-2 mb-4 md:mb-0">
     <p className="mb-1">©2024 𝑳𝒆𝒂𝒓𝒏𝑶𝒑𝒊𝒂</p>

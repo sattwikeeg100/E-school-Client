@@ -19,7 +19,7 @@ const dropDownOptions = [
   { label: "Option3", value: "option3" },
 ];
 
-export default function EduviShopPage() {
+export default function ShopPage() {
   const [searchBarValue6, setSearchBarValue6] = React.useState("");
 
   return (

@@ -1,24 +1,25 @@
 
-import { Img, Heading, Button, Text } from "../../components";
+import { Img, Heading, Text } from "../../components";
 import Footer from "../../components/Footer";
-import Header from "../../components/Header";
 
-export default function EduviJoinAsTeacherPage() {
+export default function JoinAsTeacherPage() {
   return (
     <>
-      <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
-        <div className="flex flex-col items-center justify-start w-full gap-12">
-          <Header className="flex justify-center items-center w-full p-[22px] bg-gray-100" />
-          <div className="flex flex-col items-start justify-start w-full gap-[5px] p-5 bg-yellow-100 max-w-7xl rounded-[20px]">
-            <Text as="p" className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium">
+      <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100 sm:w-[99%]">
+        <div className="flex flex-col items-center justify-start w-full gap-12 sm:mx-0 sm:w-[95%]">
+          <div className="flex items-start justify-between w-full gap-[5px] p-8 bg-yellow-100 max-w-7xl rounded-[20px] flex flex-row sm:flex-col sm:mx-0 mt-8">
+            <div className="flex flex-col sm:flex-row"> 
+            <p className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium sm:text-lg sm:ml-0">
               Home | Become An Instructor
-            </Text>
-            <div className="flex flex-row justify-center items-center w-[99%] ml-2.5 gap-[546px]">
-              <Heading size="3xl" as="h1" className="w-[31%] !font-semibold">
+            </p>
+            <h1 className="!font-semibold text-3xl my-8 sm:text-lg sm:my-1 sm:right-1">
                 Join Educatsy as
                 <br />a Mentor
-              </Heading>
-              <div className="flex flex-row justify-center w-[26%]">
+              </h1>
+            </div>
+           
+              
+              <div className="flex flex-row justify-center w-[26%] sm:mx-4">
                 <div className="flex flex-row justify-center w-full mb-1">
                   <div className="flex flex-col items-center justify-start w-full">
                     <div className="h-[201px] w-full relative">
@@ -397,24 +398,24 @@ export default function EduviJoinAsTeacherPage() {
                   </div>
                 </div>
               </div>
-            </div>
+         
           </div>
         </div>
         <div className="flex flex-row justify-center w-full">
-          <div className="flex flex-row justify-between items-center w-full max-w-7xl">
-            <div className="flex flex-row justify-center">
+          <div className="flex flex-row justify-between items-center w-full ">
+            <div className="flex flex-row justify-center md:hidden">
               <Img src="images/img_image_521x510.png" alt="image_seven" className="w-[88%] object-cover" />
             </div>
-            <div className="flex flex-col items-start justify-start w-[46%] gap-[30px]">
+            <div className="flex flex-col items-start justify-start w-[46%] gap-[30px] sm:w-[99%] sm:mx-4">
               <div className="flex flex-col items-start justify-start w-full pt-0.5 gap-2.5">
-                <Heading size="xl" as="h2">
+                <h1 className="text-3xl font-bold">
                   Apply As Instructor
-                </Heading>
-                <Text as="p" className="!leading-[30px]">
+                </h1>
+                <p  className="!leading-[30px]">
                   Teaching is a vital and admirable career. As such, it comes with quite a bit of responsibility, both
                   in practice and in preparation with many skills required to be a teacher. The following steps provide
                   a general breakdown of the requirements for teachers:
-                </Text>
+                </p>
               </div>
               <div className="flex flex-col items-center justify-start w-full gap-5">
                 <div className="flex flex-row justify-start items-start w-full gap-[30px]">
@@ -455,7 +456,8 @@ export default function EduviJoinAsTeacherPage() {
                   </div>
                 </div>
               </div>
-              <Button className="font-medium min-w-[143px] rounded-[10px]">Apply Now</Button>
+              <button className="font-medium min-w-[143px] rounded-[10px] sm:mx-auto bg-orange-400 px-3 py-4 border-2 boder-white text-gray-100"
+              >Apply Now</button>
             </div>
           </div>
         </div>
@@ -477,7 +479,7 @@ export default function EduviJoinAsTeacherPage() {
             </div>
           </div>
         </div>
-        <Footer className="flex flex-col items-center justify-center w-full" />
+        <Footer/>
       </div>
     </>
   );

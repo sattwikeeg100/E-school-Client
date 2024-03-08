@@ -2,10 +2,10 @@ import Header from "components/Header";
 import Login from "modals/LogIn";
 import SignUp from "modals/SignUp";
 import EduviCoursesDetails from "./pages/EduviCoursesDetails";
-import EduviShopPage from "./pages/EduviShop";
+import ShopPage from "./pages/Shop";
 import EduviCoursesPage from "./pages/leranopiaMainPage";
 import EduviCoursesPricing from "./pages/EduviCoursesPricing";
-import EduviJoinAsTeacher from "./pages/EduviJoinAsTeacher";
+import JoinAsTeacherPage from "./pages/JoinAsTeacher/index.js";
 import Allmentors from "./pages/Allmentors";
 import Singlementordetails from "./pages/Singlementordetails";
 import NotFound from "pages/NotFound";
@@ -29,7 +29,7 @@ function App() {
       path: "/",
       element: (
         <>
-          <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100" />
+          <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
           <Outlet />
         </>
       ),
@@ -37,7 +37,7 @@ function App() {
         { path: "/", element: <EduviCoursesPage /> },
         {
           path: "/shop",
-          element: <EduviShopPage />,
+          element: <ShopPage />,
         },
         {
           path: "/coursedetail",
@@ -49,14 +49,14 @@ function App() {
         },
         {
           path: "/joinasteacher",
-          element: <EduviJoinAsTeacher />,
+          element: <JoinAsTeacherPage />,
         },
         {
           path: "/allmentors",
           element: <Allmentors />,
         },
         {
-          path: "mentordetails",
+          path: "/mentordetails",
           element: <Singlementordetails />,
         },
       ],
