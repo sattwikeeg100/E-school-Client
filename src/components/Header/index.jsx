@@ -44,8 +44,9 @@ export default function Header({ ...props }) {
     navigate("/joinasteacher")
     setMobileMenuOpen(false)
    };
-
-  const name = user?.name.toUpperCase();
+  
+   const Firstname = user?.name.split(" ");
+   const name = Firstname?.[0]?.toUpperCase();
 
   const getInitials = () => {
     const firstInitial = user ? user.name.charAt(0).toUpperCase() : "";

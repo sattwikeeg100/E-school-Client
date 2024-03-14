@@ -27,6 +27,7 @@ const Login = () => {
         password,
       });
       toast.success("Registration Successfull");
+      navigate("/login")
     } catch (err) {
       toast.error(err.response.data);
     }

@@ -1,11 +1,33 @@
-
+import JoinAsTeacherForm from "components/joinAsTeacherForm";
 import { Img, Heading, Text } from "../../components";
 import Footer from "../../components/Footer";
+import { useState } from "react";
+
 
 export default function JoinAsTeacherPage() {
+const [modal, setModal] = useState(false)
+
+const openModal = () => {
+  setModal(true);
+}
+const closeModal = () =>{
+  setModal(false)
+}
   return (
     <>
-      <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100 sm:w-[99%]">
+    {/* Modal */}
+    
+    {modal ? (
+      <div className="fixed overflow-y-hidden">
+            <JoinAsTeacherForm
+            closeModal={closeModal}
+            />
+            </div>
+          ) : (
+
+        //  Actual Page
+
+     <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100 sm:w-[99%] ">
         <div className="flex flex-col items-center justify-start w-full gap-12 sm:mx-0 sm:w-[95%]">
           <div className="flex items-start justify-between w-full gap-[5px] p-8 bg-yellow-100 max-w-7xl rounded-[20px] flex flex-row sm:flex-col sm:mx-0 mt-8">
             <div className="flex flex-col sm:flex-row"> 
@@ -18,7 +40,6 @@ export default function JoinAsTeacherPage() {
               </h1>
             </div>
            
-              
               <div className="flex flex-row justify-center w-[26%] sm:mx-4">
                 <div className="flex flex-row justify-center w-full mb-1">
                   <div className="flex flex-col items-center justify-start w-full">
@@ -423,11 +444,7 @@ export default function JoinAsTeacherPage() {
                     <Text as="p" className="!text-red-300_01 !font-medium">
                       Instructor Requirements
                     </Text>
-                    <div className="h-px w-full bg-red-300_01 shadow-xl" />
                   </div>
-                  <Text as="p" className="mt-[5px] !font-medium">
-                    Instructor Rules
-                  </Text>
                 </div>
                 <div className="flex flex-col items-center justify-start w-full gap-2.5">
                   <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
@@ -457,6 +474,7 @@ export default function JoinAsTeacherPage() {
                 </div>
               </div>
               <button className="font-medium min-w-[143px] rounded-[10px] sm:mx-auto bg-orange-400 px-3 py-4 border-2 boder-white text-gray-100"
+              onClick={openModal}
               >Apply Now</button>
             </div>
           </div>
@@ -481,6 +499,7 @@ export default function JoinAsTeacherPage() {
         </div>
         <Footer/>
       </div>
+          )}
     </>
   );
 }

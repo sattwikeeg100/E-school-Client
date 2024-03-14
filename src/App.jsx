@@ -5,7 +5,7 @@ import EduviCoursesDetails from "./pages/EduviCoursesDetails";
 import ShopPage from "./pages/Shop";
 import EduviCoursesPage from "./pages/leranopiaMainPage";
 import EduviCoursesPricing from "./pages/EduviCoursesPricing";
-import JoinAsTeacherPage from "./pages/JoinAsTeacher/index.js";
+import JoinAsTeacherPage from "./pages/JoinAsTeacher/index.jsx";
 import Allmentors from "./pages/Allmentors";
 import Singlementordetails from "./pages/Singlementordetails";
 import NotFound from "pages/NotFound";
