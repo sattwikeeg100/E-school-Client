@@ -1,54 +1,70 @@
 import JoinAsTeacherForm from "components/joinAsTeacherForm";
 import { Img, Heading, Text } from "../../components";
 import Footer from "../../components/Footer";
-import { useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { Context } from "context";
+import { useNavigate } from "react-router-dom";
 
 export default function JoinAsTeacherPage() {
-const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState(false);
 
-const openModal = () => {
-  setModal(true);
-}
-const closeModal = () =>{
-  setModal(false)
-}
+  const openModal = () => {
+    setModal(true);
+  };
+  const closeModal = () => {
+    setModal(false);
+  };
+  const {
+    state: { user },
+  } = useContext(Context);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user && user.role.includes("Instructor"))
+      navigate("/instructor-dashboard");
+  }, []);
   return (
     <>
-    {/* Modal */}
-    
-    {modal ? (
-      <div className="fixed overflow-y-hidden">
-            <JoinAsTeacherForm
-            closeModal={closeModal}
-            />
-            </div>
-          ) : (
+      {/* Modal */}
 
+      {modal ? (
+        <div className="fixed overflow-y-hidden">
+          <JoinAsTeacherForm closeModal={closeModal} />
+        </div>
+      ) : (
         //  Actual Page
 
-     <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100 sm:w-[99%] ">
-        <div className="flex flex-col items-center justify-start w-full gap-12 sm:mx-0 sm:w-[95%]">
-          <div className="flex items-start justify-between w-full gap-[5px] p-8 bg-yellow-100 max-w-7xl rounded-[20px] flex flex-row sm:flex-col sm:mx-0 mt-8">
-            <div className="flex flex-col sm:flex-row"> 
-            <p className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium sm:text-lg sm:ml-0">
-              Home | Become An Instructor
-            </p>
-            <h1 className="!font-semibold text-3xl my-8 sm:text-lg sm:my-1 sm:right-1">
-                Join Educatsy as
-                <br />a Mentor
-              </h1>
-            </div>
-           
+        <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100 sm:w-[99%] ">
+          <div className="flex flex-col items-center justify-start w-full gap-12 sm:mx-0 sm:w-[95%]">
+            <div className="flex items-start justify-between w-full gap-[5px] p-8 bg-yellow-100 max-w-7xl rounded-[20px] flex flex-row sm:flex-col sm:mx-0 mt-8">
+              <div className="flex flex-col sm:flex-row">
+                <p className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium sm:text-lg sm:ml-0">
+                  Home | Become An Instructor
+                </p>
+                <h1 className="!font-semibold text-3xl my-8 sm:text-lg sm:my-1 sm:right-1">
+                  Join Educatsy as
+                  <br />a Mentor
+                </h1>
+              </div>
+
               <div className="flex flex-row justify-center w-[26%] sm:mx-4">
                 <div className="flex flex-row justify-center w-full mb-1">
                   <div className="flex flex-col items-center justify-start w-full">
                     <div className="h-[201px] w-full relative">
                       <div className="flex flex-col items-start justify-center w-full h-full left-0 bottom-0 right-0 top-0 m-auto absolute">
-                        <Img src="images/img_vector_amber_200.svg" alt="vector_one" className="h-[200px] z-[1]" />
+                        <Img
+                          src="images/img_vector_amber_200.svg"
+                          alt="vector_one"
+                          className="h-[200px] z-[1]"
+                        />
                         <div className="flex flex-row justify-start items-center w-[49%] mt-[-43px] ml-[18px]">
                           <div className="flex flex-row justify-start items-center w-[99%]">
-                            <Img src="images/img_group_blue_gray_900_02.svg" alt="image" className="h-11" />
+                            <Img
+                              src="images/img_group_blue_gray_900_02.svg"
+                              alt="image"
+                              className="h-11"
+                            />
                             <Img
                               src="images/img_vector_deep_orange_300_01.svg"
                               alt="vector_three"
@@ -64,7 +80,11 @@ const closeModal = () =>{
                       </div>
                       <div className="flex flex-col items-start justify-start w-[30%] right-[26%] top-[15%] m-auto absolute">
                         <div className="flex flex-col items-start justify-start ml-[21px] z-[1]">
-                          <Img src="images/img_vector_gray_800_01.svg" alt="vector_seven" className="h-[23px] z-[1]" />
+                          <Img
+                            src="images/img_vector_gray_800_01.svg"
+                            alt="vector_seven"
+                            className="h-[23px] z-[1]"
+                          />
                           <Img
                             src="images/img_vector_gray_800_01_14x6.svg"
                             alt="vector_nine"
@@ -118,10 +138,18 @@ const closeModal = () =>{
                                         className="h-px w-px mt-[-3px] mr-[3px]"
                                       />
                                     </div>
-                                    <Img src="images/img_vector_gray_800.svg" alt="vector" className="h-0.5 mt-px" />
+                                    <Img
+                                      src="images/img_vector_gray_800.svg"
+                                      alt="vector"
+                                      className="h-0.5 mt-px"
+                                    />
                                   </div>
                                   <div className="flex flex-row justify-start items-center mt-[7px] ml-1 gap-[7px]">
-                                    <Img src="images/img_vector_red_400.svg" alt="vector" className="h-px w-px" />
+                                    <Img
+                                      src="images/img_vector_red_400.svg"
+                                      alt="vector"
+                                      className="h-px w-px"
+                                    />
                                     <Img
                                       src="images/img_vector_red_400_3x3.svg"
                                       alt="vector"
@@ -163,7 +191,11 @@ const closeModal = () =>{
                                   className="justify-center h-[41px] left-0 bottom-0 right-0 top-0 m-auto absolute"
                                 />
                                 <div className="flex flex-col items-start justify-start w-[29%] gap-1.5 left-0 top-[9%] m-auto absolute">
-                                  <Img src="images/img_vector_gray_400_4x8.svg" alt="vector" className="h-1 ml-2" />
+                                  <Img
+                                    src="images/img_vector_gray_400_4x8.svg"
+                                    alt="vector"
+                                    className="h-1 ml-2"
+                                  />
                                   <Img
                                     src="images/img_vector_gray_400.svg"
                                     alt="vector_fortyone"
@@ -217,7 +249,11 @@ const closeModal = () =>{
                                         alt="vector"
                                         className="h-px mr-px"
                                       />
-                                      <Img src="images/img_vector_white_a700_1x51.svg" alt="vector" className="h-px" />
+                                      <Img
+                                        src="images/img_vector_white_a700_1x51.svg"
+                                        alt="vector"
+                                        className="h-px"
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -269,7 +305,11 @@ const closeModal = () =>{
                                     alt="vector"
                                     className="h-[5px] mt-px"
                                   />
-                                  <Img src="images/img_vector_black_900_02_4x9.svg" alt="vector" className="h-1" />
+                                  <Img
+                                    src="images/img_vector_black_900_02_4x9.svg"
+                                    alt="vector"
+                                    className="h-1"
+                                  />
                                 </div>
                                 <div className="flex flex-row justify-end items-start w-full">
                                   <div className="h-5 w-[5px] mt-[3px] z-[1] bg-black-900_02" />
@@ -286,7 +326,11 @@ const closeModal = () =>{
                           <div className="flex flex-row justify-end items-center w-[65%] mt-[-98px] mr-[25px]">
                             <div className="flex flex-row justify-end items-start w-[99%] z-[1]">
                               <div className="flex flex-row justify-end items-center w-[61%]">
-                                <Img src="images/img_group_red_300.svg" alt="image_four" className="h-[138px]" />
+                                <Img
+                                  src="images/img_group_red_300.svg"
+                                  alt="image_four"
+                                  className="h-[138px]"
+                                />
                                 <div className="h-[108px] w-[35%] ml-[-30px] relative">
                                   <Img
                                     src="images/img_vector_red_100_108x37.svg"
@@ -336,7 +380,11 @@ const closeModal = () =>{
                               </div>
                             </div>
                             <div className="flex flex-row justify-end items-center w-[41%] ml-[-69px]">
-                              <Img src="images/img_vector_blue_gray_100.svg" alt="vector" className="h-[17px] z-[1]" />
+                              <Img
+                                src="images/img_vector_blue_gray_100.svg"
+                                alt="vector"
+                                className="h-[17px] z-[1]"
+                              />
                               <div className="h-[92px] w-[89%] ml-[-3px] relative">
                                 <Img
                                   src="images/img_vector_blue_gray_900_02.svg"
@@ -378,9 +426,21 @@ const closeModal = () =>{
                         />
                       </div>
                       <div className="flex flex-col items-start justify-start w-[1%] gap-px top-[27%] right-0 left-0 m-auto absolute">
-                        <Img src="images/img_vector_gray_800_01_1x2.svg" alt="vector" className="h-px w-0.5 ml-px" />
-                        <Img src="images/img_vector_gray_800_01_1x2.svg" alt="vector" className="h-px w-px ml-px" />
-                        <Img src="images/img_vector_gray_800_01_2x7.svg" alt="vector" className="h-px w-px" />
+                        <Img
+                          src="images/img_vector_gray_800_01_1x2.svg"
+                          alt="vector"
+                          className="h-px w-0.5 ml-px"
+                        />
+                        <Img
+                          src="images/img_vector_gray_800_01_1x2.svg"
+                          alt="vector"
+                          className="h-px w-px ml-px"
+                        />
+                        <Img
+                          src="images/img_vector_gray_800_01_2x7.svg"
+                          alt="vector"
+                          className="h-px w-px"
+                        />
                       </div>
                       <Img
                         src="images/img_vector_gray_800_01_24x16.svg"
@@ -393,16 +453,36 @@ const closeModal = () =>{
                         className="h-[3px] w-[3px] right-[24%] bottom-0 top-0 m-auto absolute"
                       />
                       <div className="flex flex-row justify-center items-center h-[3px] w-[3px] right-[40%] top-[29%] m-auto absolute">
-                        <Img src="images/img_vector_red_400.svg" alt="vector" className="h-[3px] w-[3px]" />
-                        <Img src="images/img_vector_red_400_1x1.svg" alt="vector" className="h-px w-px ml-[-1px]" />
+                        <Img
+                          src="images/img_vector_red_400.svg"
+                          alt="vector"
+                          className="h-[3px] w-[3px]"
+                        />
+                        <Img
+                          src="images/img_vector_red_400_1x1.svg"
+                          alt="vector"
+                          className="h-px w-px ml-[-1px]"
+                        />
                       </div>
                       <div className="flex flex-col items-end justify-start w-[4%] bottom-[37%] right-[32%] m-auto absolute">
                         <div className="h-[25px] w-[3px] mr-0.5 bg-gray-400_01" />
-                        <Img src="images/img_vector_gray_400_01_3x4.svg" alt="vector" className="h-[5px] mt-[-1px]" />
+                        <Img
+                          src="images/img_vector_gray_400_01_3x4.svg"
+                          alt="vector"
+                          className="h-[5px] mt-[-1px]"
+                        />
                       </div>
                       <div className="flex flex-col items-start justify-start w-[13%] gap-[5px] right-[14%] top-[12%] m-auto absolute">
-                        <Img src="images/img_vector_white_a700_1x36.svg" alt="vector" className="h-px" />
-                        <Img src="images/img_vector_white_a700_1x34.svg" alt="vector" className="h-px ml-0.5" />
+                        <Img
+                          src="images/img_vector_white_a700_1x36.svg"
+                          alt="vector"
+                          className="h-px"
+                        />
+                        <Img
+                          src="images/img_vector_white_a700_1x34.svg"
+                          alt="vector"
+                          className="h-px ml-0.5"
+                        />
                       </div>
                       <Img
                         src="images/img_vector_white_a700.svg"
@@ -415,91 +495,109 @@ const closeModal = () =>{
                         className="h-1 w-1 right-[9%] top-[12%] m-auto absolute"
                       />
                     </div>
-                    <Img src="images/img_group_black_900_02.svg" alt="image_five" className="h-px" />
+                    <Img
+                      src="images/img_group_black_900_02.svg"
+                      alt="image_five"
+                      className="h-px"
+                    />
                   </div>
                 </div>
               </div>
-         
-          </div>
-        </div>
-        <div className="flex flex-row justify-center w-full">
-          <div className="flex flex-row justify-between items-center w-full ">
-            <div className="flex flex-row justify-center md:hidden">
-              <Img src="images/img_image_521x510.png" alt="image_seven" className="w-[88%] object-cover" />
-            </div>
-            <div className="flex flex-col items-start justify-start w-[46%] gap-[30px] sm:w-[99%] sm:mx-4">
-              <div className="flex flex-col items-start justify-start w-full pt-0.5 gap-2.5">
-                <h1 className="text-3xl font-bold">
-                  Apply As Instructor
-                </h1>
-                <p  className="!leading-[30px]">
-                  Teaching is a vital and admirable career. As such, it comes with quite a bit of responsibility, both
-                  in practice and in preparation with many skills required to be a teacher. The following steps provide
-                  a general breakdown of the requirements for teachers:
-                </p>
-              </div>
-              <div className="flex flex-col items-center justify-start w-full gap-5">
-                <div className="flex flex-row justify-start items-start w-full gap-[30px]">
-                  <div className="flex flex-col items-center justify-start w-[33%] pt-1.5 gap-[13px]">
-                    <Text as="p" className="!text-red-300_01 !font-medium">
-                      Instructor Requirements
-                    </Text>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center justify-start w-full gap-2.5">
-                  <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
-                    <div className="h-2.5 w-2.5 bg-red-300_01 rounded-[50%]" />
-                    <Text as="p" className="mt-[3px] !text-gray-900">
-                      An undergraduate degree
-                    </Text>
-                  </div>
-                  <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
-                    <div className="h-2.5 w-2.5 bg-red-300_01 rounded-[50%]" />
-                    <Text as="p" className="mt-[3px] !text-gray-900">
-                      Participate in supervised teaching
-                    </Text>
-                  </div>
-                  <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
-                    <div className="h-2.5 w-2.5 bg-red-300_01 rounded-[50%]" />
-                    <Text as="p" className="mt-[3px] !text-gray-900">
-                      State teaching license
-                    </Text>
-                  </div>
-                  <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
-                    <div className="h-2.5 w-2.5 bg-red-300_01 rounded-[50%]" />
-                    <Text as="p" className="mt-[3px] !text-gray-900">
-                      Pursue graduate studies
-                    </Text>
-                  </div>
-                </div>
-              </div>
-              <button className="font-medium min-w-[143px] rounded-[10px] sm:mx-auto bg-orange-400 px-3 py-4 border-2 boder-white text-gray-100"
-              onClick={openModal}
-              >Apply Now</button>
             </div>
           </div>
-        </div>
-        <div className="flex flex-row justify-center w-full">
-          <div className="flex flex-row justify-center w-full max-w-7xl">
-            <div className="flex flex-col items-center justify-start w-[83%] pt-[5px] gap-16">
-              <Heading size="3xl" as="h2" className="!font-metropolis text-center">
-                How to apply to join as instructor
-              </Heading>
-              <div className="flex flex-row justify-center w-full">
-                <div className="flex flex-row justify-center w-full p-2 bg-white-A700 shadow-lg rounded-[20px]">
-                  <div className="flex flex-row justify-center w-full mt-[7px]">
-                    <div className="flex flex-row justify-center w-full bg-white-A700">
-                      <Img src="images/img_bg.png" alt="bg_three" className="w-full object-cover rounded-[20px]" />
+          <div className="flex flex-row justify-center w-full">
+            <div className="flex flex-row justify-between items-center w-full ">
+              <div className="flex flex-row justify-center md:hidden">
+                <Img
+                  src="images/img_image_521x510.png"
+                  alt="image_seven"
+                  className="w-[88%] object-cover"
+                />
+              </div>
+              <div className="flex flex-col items-start justify-start w-[46%] gap-[30px] sm:w-[99%] sm:mx-4">
+                <div className="flex flex-col items-start justify-start w-full pt-0.5 gap-2.5">
+                  <h1 className="text-3xl font-bold">Apply As Instructor</h1>
+                  <p className="!leading-[30px]">
+                    Teaching is a vital and admirable career. As such, it comes
+                    with quite a bit of responsibility, both in practice and in
+                    preparation with many skills required to be a teacher. The
+                    following steps provide a general breakdown of the
+                    requirements for teachers:
+                  </p>
+                </div>
+                <div className="flex flex-col items-center justify-start w-full gap-5">
+                  <div className="flex flex-row justify-start items-start w-full gap-[30px]">
+                    <div className="flex flex-col items-center justify-start w-[33%] pt-1.5 gap-[13px]">
+                      <Text as="p" className="!text-red-300_01 !font-medium">
+                        Instructor Requirements
+                      </Text>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center justify-start w-full gap-2.5">
+                    <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
+                      <div className="h-2.5 w-2.5 bg-red-300_01 rounded-[50%]" />
+                      <Text as="p" className="mt-[3px] !text-gray-900">
+                        An undergraduate degree
+                      </Text>
+                    </div>
+                    <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
+                      <div className="h-2.5 w-2.5 bg-red-300_01 rounded-[50%]" />
+                      <Text as="p" className="mt-[3px] !text-gray-900">
+                        Participate in supervised teaching
+                      </Text>
+                    </div>
+                    <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
+                      <div className="h-2.5 w-2.5 bg-red-300_01 rounded-[50%]" />
+                      <Text as="p" className="mt-[3px] !text-gray-900">
+                        State teaching license
+                      </Text>
+                    </div>
+                    <div className="flex flex-row justify-start items-center w-full gap-2.5 py-[3px]">
+                      <div className="h-2.5 w-2.5 bg-red-300_01 rounded-[50%]" />
+                      <Text as="p" className="mt-[3px] !text-gray-900">
+                        Pursue graduate studies
+                      </Text>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  className="font-medium min-w-[143px] rounded-[10px] sm:mx-auto bg-orange-400 px-3 py-4 border-2 boder-white text-gray-100"
+                  onClick={openModal}
+                >
+                  Apply Now
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row justify-center w-full">
+            <div className="flex flex-row justify-center w-full max-w-7xl">
+              <div className="flex flex-col items-center justify-start w-[83%] pt-[5px] gap-16">
+                <Heading
+                  size="3xl"
+                  as="h2"
+                  className="!font-metropolis text-center"
+                >
+                  How to apply to join as instructor
+                </Heading>
+                <div className="flex flex-row justify-center w-full">
+                  <div className="flex flex-row justify-center w-full p-2 bg-white-A700 shadow-lg rounded-[20px]">
+                    <div className="flex flex-row justify-center w-full mt-[7px]">
+                      <div className="flex flex-row justify-center w-full bg-white-A700">
+                        <Img
+                          src="images/img_bg.png"
+                          alt="bg_three"
+                          className="w-full object-cover rounded-[20px]"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <Footer />
         </div>
-        <Footer/>
-      </div>
-          )}
+      )}
     </>
   );
 }
