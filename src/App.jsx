@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import ForgetPassword from "modals/ForgetPassword";
 import ResetPassword from "modals/ForgetPassword/resetPassword";
 import "react-toastify/dist/ReactToastify.css";
+import { InstructorIndex } from "pages/InstructorDashboard/dashboard";
 
 function App() {
   // const navigationElement = <Header1/>
@@ -50,6 +51,10 @@ function App() {
         {
           path: "/joinasteacher",
           element: <JoinAsTeacherPage />,
+        },
+        {
+          path: "/instructor-dashboard",
+          element: <InstructorIndex />,
         },
         {
           path: "/allmentors",
