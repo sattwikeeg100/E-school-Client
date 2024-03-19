@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Context } from "context";
+import Loading from "Loading/loading";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,12 +15,13 @@ const Login = () => {
   } = useContext(Context);
 
   const navigate = useNavigate();
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await axios.post(`${API_BASE_URL}/login`, {
         email,
         password,
@@ -28,9 +30,18 @@ const Login = () => {
         type: "LOGIN",
         payload: data,
       });
+      console.log(data.role)
       window.localStorage.setItem("user", JSON.stringify(data));
+      window.localStorage.setItem("Role", JSON.stringify(data.role));
       toast.success("Welcome Back!🙇‍♂️");
-      navigate("/");
+      window.location.reload();
+      // setTimeout(() => {
+      //   if(data.role.includes("Instructor")){                        kaj ache ekahne
+
+      //   navigate("/instructor-dashboard")}
+      //   else{navigate("/")}                         
+      // }, 3000);
+      
     } catch (err) {
       toast.error(err.response.data);
     }
@@ -48,11 +59,11 @@ const Login = () => {
             {error}
           </div>
         )}
-        {/* {loading && (
+        {loading && (
           <div className="py-2 rounded">
             <Loading />
           </div>
-        )} */}
+        )}
 
         <div className="sm:mx-auto sm:w-full">
           <div className="text-center">

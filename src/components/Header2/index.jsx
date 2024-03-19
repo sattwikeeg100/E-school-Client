@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FaFaceGrinStars } from "react-icons/fa6";
 
-export default function Header({ ...props }) {
+export default function Header2({ ...props }) {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { state, dispatch } = useContext(Context);
@@ -25,7 +25,7 @@ export default function Header({ ...props }) {
     window.localStorage.removeItem("Role");
     const { data } = axios.get(`${API_BASE_URL}/logout`);
     toast.success("Please visit again!🖖");
-    navigate("/");
+    navigate("/login");
   };
 
   // const Name = {user.name}
@@ -69,7 +69,7 @@ export default function Header({ ...props }) {
 
         {/* Desktop Menu */}
         <div className="flex md:hidden md:flex lg:justify-center lg:items-center  gap-8">
-          <form className="flex">
+          {/* <form className="flex">
             <input
               type="text"
               placeholder="Enter your search term"
@@ -81,49 +81,25 @@ export default function Header({ ...props }) {
             >
               Search
             </button>
-          </form>
+          </form> */}
           <button 
            className="hover:text-orange-300 font-medium"
            onClick={navigateBeInstructor}>
-                Be a Instuctor
+                My DashBoard
               </button>
           <button
             className="font-medium hover:text-orange-300"
             onClick={navigateShop}
           >
-            Shop
+            Create Course
           </button>
           <button
             className="font-medium hover:text-orange-300"
             onClick={navigateMentor}
           >
-            All Courses
+            Overview
           </button>
           <button
-            className="font-medium hover:text-orange-300"
-            onClick={navigateMentor}
-          >
-            Mentors
-          </button>
-
-          {user == null && (
-            <>
-              <button
-                onClick={navigateLogin}
-                className="flex items-center gap-1 rounded-md"
-              >
-                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Login</p>
-              </button>
-            </>
-          )}
-          {user != null && (
-            <>
-              {" "}
-              <button className="text-gray-900 font-medium">
-                My learnings
-              </button>
-
-              <button
                 onClick={logout}
                 className="flex items-center gap-1 float-right"
               >
@@ -134,8 +110,7 @@ export default function Header({ ...props }) {
                   </span>
                 </div>
               </button>
-            </>
-          )}
+    
         </div>
 
         {/* Mobile Menu */}
@@ -144,21 +119,6 @@ export default function Header({ ...props }) {
           <div className=" h-screen fixed inset-0 z-50 overflow-hidden overscroll-none mx-auto">
             <div className="h-full px-auto shadow-lg backdrop-blur-md backdrop-filter bg-opacity-100 text-center">
               <div className="lg:hidden relative top-8 py-2 mx-auto text-xl flex flex-col gap-y-1 justify-center text-center">
-              {user == null && (
-            <>
-            <div className="pb-8 text-center">
-              <button
-                onClick={navigateLogin}
-                className="rounded-md ml-2"
-              >
-                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Login</p>
-              </button>
-              </div>
-            </>
-          )}
-          {user != null && (
-            <>
-             
 
               <div  className="pt-2 flex items-center gap-x-2 mx-auto"> 
                 <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-center">
@@ -172,51 +132,30 @@ export default function Header({ ...props }) {
                 
 
               <button className="font-medium hover:text-orange-300 mb-4 text-center">
-                My Profile
+                My Dashboard
               </button>
 
               <button className="font-medium hover:text-orange-300 mb-4 text-center">
-                My learnings
+               Create Course
               </button>
 
-            </>
-          )}
+        
                 <button
                   className="text-center font-medium hover:text-orange-300 block mb-4"
                   onClick={navigateShop}
                 >
-                  Shop
-                </button>
-                <button
-                  className="text-center font-medium hover:text-orange-300 block mb-4 "
-                  onClick={navigateMentor}
-                >
-                  All Courses
-                </button>
-                <button
-                  className="text-center font-medium hover:text-orange-300 block mb-4"
-                  onClick={navigateMentor}
-                >
-                  Mentors
+                 Overview
                 </button>
 
-              <button className="font-medium hover:text-orange-300 font-medium mb-2 "
-              onClick={navigateBeInstructor}>
-                Be a Instuctor
-              </button>
-
-              {user != null && (
-            <>
-              {" "}
-
+          
               <button
                 onClick={logout}
                 className="rounded-md w-28 mx-auto my-4"
               >
                 <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Logout</p>
               </button>
-              </>
-              )}
+              
+             
 
                 <button
                   onClick={toggleMobileMenu}
@@ -232,3 +171,4 @@ export default function Header({ ...props }) {
     </header>
   );
 }
+

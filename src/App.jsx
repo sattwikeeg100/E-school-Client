@@ -16,10 +16,12 @@ import ForgetPassword from "modals/ForgetPassword";
 import ResetPassword from "modals/ForgetPassword/resetPassword";
 import "react-toastify/dist/ReactToastify.css";
 import { InstructorIndex } from "pages/InstructorDashboard/dashboard";
+import Header2 from "components/Header2";
 
 function App() {
   // const navigationElement = <Header1/>
-
+  const Role = localStorage.getItem("Role");
+  console.log(Role);
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     { path: "/signup", element: <SignUp /> },
@@ -30,7 +32,12 @@ function App() {
       path: "/",
       element: (
         <>
-          <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
+{Role === null || (Role !== null && !Role.includes("Instructor")) ?(
+  <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
+): (
+  <Header2 className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
+)}
+         
           <Outlet />
         </>
       ),

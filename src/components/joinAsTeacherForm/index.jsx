@@ -36,6 +36,7 @@ const JoinAsTeacherForm = ({ closeModal }) => {
           payload: res.data,
         });
         window.localStorage.setItem("user", JSON.stringify(res.data));
+        window.localStorage.setItem("Role", JSON.stringify(res.data.role));
         window.location.href = "/instructor-dashboard";
       })
       .catch((err) => {
