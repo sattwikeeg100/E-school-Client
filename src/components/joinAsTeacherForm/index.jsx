@@ -3,6 +3,7 @@ import { Context } from "context";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaCamera } from "react-icons/fa";
 
 const JoinAsTeacherForm = ({ closeModal }) => {
   const [qualification, setQualification] = useState("");
@@ -43,6 +44,33 @@ const JoinAsTeacherForm = ({ closeModal }) => {
         console.error(err);
         toast.error("Onboarding failed!");
       });
+  };
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+
+    console.log([...formData]);
+
+    try {
+      const { data } = await axios.post(
+        `${API_BASE_URL}/instructor-image`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      dispatch({
+        type: "LOGIN",
+        payload: data,
+      });
+      window.localStorage.setItem("user", JSON.stringify(data));
+    } catch (e) {
+      console.error(e);
+      toast.error("Image upload failed!");
+    }
   };
 
   useEffect(() => {
@@ -189,6 +217,15 @@ const JoinAsTeacherForm = ({ closeModal }) => {
               </button>
             </div>
           </form>
+          <label>
+            <FaCamera className="mt-2" />
+            <input
+              onChange={handleImage}
+              type="file"
+              accept="images/*"
+              hidden
+            />
+          </label>
         </div>
       </div>
     </div>
