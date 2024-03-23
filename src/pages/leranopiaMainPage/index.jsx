@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import { Img,SelectBox} from "../../components";
 import EduviCoursesDetailsMaincard from "../../components/EduviCoursesDetailsMaincard";
 import EduviCoursesDetailsMaincard1 from "../../components/EduviCoursesDetailsMaincard1";
-import EduviCoursesEight from "../../components/EduviCoursesEight";
-import EduviCoursesEleven from "../../components/EduviCoursesEleven";
 import EduviCoursesFive from "../../components/EduviCoursesFive";
 import EduviCoursesFour from "../../components/EduviCoursesFour";
-import EduviCoursesNine from "../../components/EduviCoursesNine";
 import EduviCoursesOne from "../../components/EduviCoursesOne";
 import EduviCoursesSeven from "../../components/EduviCoursesSeven";
 import EduviCoursesSix from "../../components/EduviCoursesSix";
-import EduviCoursesTen from "../../components/EduviCoursesTen";
 import EduviCoursesThree from "../../components/EduviCoursesThree";
 import EduviCoursesTwo from "../../components/EduviCoursesTwo";
+import EduviCoursesMore from "../../components/EduviCoursesMore";
 import Footer from "components/Footer";
 
 const dropDownOptions = [
@@ -28,19 +25,10 @@ export default function leranopiaMainPage() {
     <>
       <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100 border-red-700 boreder-2">
           
-  <div className="flex flex-row md:flex-col items-center justify-start w-full gap-5 sm:gap-2 p-5 sm:p-1 bg-yellow-100 max-w-7xl rounded-20 mt-12 sm:pb-12 sm:mt-4">
-    <div className="flex flex-col sm:flex-row  gap-y-7 sm:gap-x-10 mx-2">
-  <p className="mt-1 sm:mr-12 font-medium sm:text-sm mb-12 sm:ml-1">
-    Home | Courses
-  </p>
-  <h1 className="w-full text-center sm:text-right font-semibold text-lg md:text-sm">
-      Educatsy Courses
-      <br />
-      For All Standards
-    </h1>
-    </div>
+  <div className="flex flex-row md:flex-col items-center justify-start w-full h-[300px] gap-5 sm:gap-2 p-5 sm:p-1 bg-yellow-100 max-w-7xl rounded-20 mt-12 sm:pb-12 sm:pt-24 sm:h-[200px]">
     <div className="w-full relative">
-      <div className="h-3.5 w-full bottom-1% right-0 left-0 m-auto backdrop-opacity-50 blur-20px absolute rounded-full" />
+      <div className="text-3xl text-yellow-600 float-left p-10 w-[50%] font-medium italic sm:hidden">Welcome to Learnopia - Where Knowledge Blossoms and Futures Flourish!</div>
+      <div className="h-3.5 bottom-1% right-0 left-0 backdrop-opacity-50 blur-20px absolute rounded-full" />
       <img
       src="images/img_image_210x374.png"
       alt="image_one"
@@ -82,7 +70,7 @@ export default function leranopiaMainPage() {
           <div className="flex flex-row justify-center w-full">
             <div className="flex flex-col items-start justify-start w-full gap-[23px] max-w-7xl">
               <h2 className="text-4xl font-bold sm:p-4">
-                Standard Classes
+                Discover Our Top Free Courses!
               </h2>
               <div className="flex flex-row justify-start sm:justify-center w-full">
                 <div className=" w-full sm:w-72 gap-10 grid-cols-4 grid min-h-[auto] sm:grid-cols-1 sm:gap-4">
@@ -93,10 +81,7 @@ export default function leranopiaMainPage() {
                   <EduviCoursesFive className="flex flex-col items-center justify-start w-full" />
                   <EduviCoursesSix className="flex flex-col items-center justify-start w-full" />
                   <EduviCoursesSeven className="flex flex-col items-center justify-start w-full" />
-                  <EduviCoursesEight className="flex flex-col items-center justify-start w-full" />
-                  <EduviCoursesNine className="flex flex-col items-center justify-start w-full" />
-                  <EduviCoursesTen className="flex flex-col items-center justify-start w-full" />
-                  <EduviCoursesEleven className="flex flex-col items-center justify-start w-full" />
+                  <EduviCoursesMore className="flex flex-col items-center justify-start w-full" />
                 </div>
               </div>
             </div>
