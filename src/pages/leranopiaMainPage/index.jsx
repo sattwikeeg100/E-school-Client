@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import { Img,SelectBox} from "../../components";
 import EduviCoursesDetailsMaincard from "../../components/EduviCoursesDetailsMaincard";
 import EduviCoursesDetailsMaincard1 from "../../components/EduviCoursesDetailsMaincard1";
-import EduviCoursesEight from "../../components/EduviCoursesEight";
-import EduviCoursesEleven from "../../components/EduviCoursesEleven";
 import EduviCoursesFive from "../../components/EduviCoursesFive";
 import EduviCoursesFour from "../../components/EduviCoursesFour";
-import EduviCoursesNine from "../../components/EduviCoursesNine";
 import EduviCoursesOne from "../../components/EduviCoursesOne";
 import EduviCoursesSeven from "../../components/EduviCoursesSeven";
 import EduviCoursesSix from "../../components/EduviCoursesSix";
-import EduviCoursesTen from "../../components/EduviCoursesTen";
 import EduviCoursesThree from "../../components/EduviCoursesThree";
 import EduviCoursesTwo from "../../components/EduviCoursesTwo";
+import EduviCoursesMore from "../../components/EduviCoursesMore";
 import Footer from "components/Footer";
 
 const dropDownOptions = [
@@ -82,7 +79,7 @@ export default function leranopiaMainPage() {
           <div className="flex flex-row justify-center w-full">
             <div className="flex flex-col items-start justify-start w-full gap-[23px] max-w-7xl">
               <h2 className="text-4xl font-bold sm:p-4">
-                Standard Classes
+                Discover Our Top Free Courses!
               </h2>
               <div className="flex flex-row justify-start sm:justify-center w-full">
                 <div className=" w-full sm:w-72 gap-10 grid-cols-4 grid min-h-[auto] sm:grid-cols-1 sm:gap-4">
@@ -93,10 +90,7 @@ export default function leranopiaMainPage() {
                   <EduviCoursesFive className="flex flex-col items-center justify-start w-full" />
                   <EduviCoursesSix className="flex flex-col items-center justify-start w-full" />
                   <EduviCoursesSeven className="flex flex-col items-center justify-start w-full" />
-                  <EduviCoursesEight className="flex flex-col items-center justify-start w-full" />
-                  <EduviCoursesNine className="flex flex-col items-center justify-start w-full" />
-                  <EduviCoursesTen className="flex flex-col items-center justify-start w-full" />
-                  <EduviCoursesEleven className="flex flex-col items-center justify-start w-full" />
+                  <EduviCoursesMore className="flex flex-col items-center justify-start w-full" />
                 </div>
               </div>
             </div>
