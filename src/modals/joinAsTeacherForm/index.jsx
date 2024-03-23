@@ -38,7 +38,8 @@ const JoinAsTeacherForm = ({ closeModal }) => {
         });
         window.localStorage.setItem("user", JSON.stringify(res.data));
         window.localStorage.setItem("Role", JSON.stringify(res.data.role));
-        window.location.href = "/instructor-dashboard";
+        window.location.reload()
+        navigate("/")
       })
       .catch((err) => {
         console.error(err);
@@ -200,6 +201,23 @@ const JoinAsTeacherForm = ({ closeModal }) => {
               </div>
             </div>
 
+            <div className="flex flex-row sm:flex-row items-center">
+    <label className="cursor-pointer sm:mr-4">
+        <FaCamera className="mt-2" />
+    </label>
+    <div className="mt-1">
+        <input
+            onChange={handleImage}
+            type="file"
+            accept="images/*"
+            id="image"
+            name="image"
+            required
+            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 sm:text-sm sm:leading-6"
+        />
+    </div>
+</div>
+
             <div>
               <button
                 type="submit"
@@ -217,15 +235,6 @@ const JoinAsTeacherForm = ({ closeModal }) => {
               </button>
             </div>
           </form>
-          <label>
-            <FaCamera className="mt-2" />
-            <input
-              onChange={handleImage}
-              type="file"
-              accept="images/*"
-              hidden
-            />
-          </label>
         </div>
       </div>
     </div>

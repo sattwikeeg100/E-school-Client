@@ -21,7 +21,7 @@ const dropDownOptions = [
   { label: "Option3", value: "option3" },
 ];
 
-export default function leranopiaMainPage() {
+export default function LeranopiaMainPage() {
   const [searchBarValue7, setSearchBarValue7] = useState("");
 
   return (

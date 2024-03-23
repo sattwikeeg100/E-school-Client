@@ -3,7 +3,6 @@ import Login from "modals/LogIn";
 import SignUp from "modals/SignUp";
 import EduviCoursesDetails from "./pages/EduviCoursesDetails";
 import ShopPage from "./pages/Shop";
-import EduviCoursesPage from "./pages/leranopiaMainPage";
 import EduviCoursesPricing from "./pages/EduviCoursesPricing";
 import JoinAsTeacherPage from "./pages/JoinAsTeacher/index.jsx";
 import Allmentors from "./pages/Allmentors";
@@ -15,13 +14,28 @@ import { ToastContainer } from "react-toastify";
 import ForgetPassword from "modals/ForgetPassword";
 import ResetPassword from "modals/ForgetPassword/resetPassword";
 import "react-toastify/dist/ReactToastify.css";
-import { InstructorIndex } from "pages/InstructorDashboard/dashboard";
 import Header2 from "components/Header2";
+import LeranopiaMainPage from "pages/LeranopiaMainPage";
+import InstructorDashboard from "pages/InstructorDashboard/dashboard";
 
 function App() {
   // const navigationElement = <Header1/>
   const Role = localStorage.getItem("Role");
   console.log(Role);
+
+  const HomePage =
+    Role === null || (Role !== null && !Role.includes("Instructor")) ?(
+      <LeranopiaMainPage/>
+    ): (
+     <InstructorDashboard/>
+    )
+  const navbar =
+  Role === null || (Role !== null && !Role.includes("Instructor")) ?(
+    <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
+  ): (
+    <Header2 className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
+  )
+
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     { path: "/signup", element: <SignUp /> },
@@ -32,17 +46,12 @@ function App() {
       path: "/",
       element: (
         <>
-{Role === null || (Role !== null && !Role.includes("Instructor")) ?(
-  <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
-): (
-  <Header2 className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
-)}
-         
+          {navbar}
           <Outlet />
         </>
       ),
       children: [
-        { path: "/", element: <EduviCoursesPage /> },
+        { path: "/", element: HomePage},
         {
           path: "/shop",
           element: <ShopPage />,
@@ -59,10 +68,10 @@ function App() {
           path: "/joinasteacher",
           element: <JoinAsTeacherPage />,
         },
-        {
-          path: "/instructor-dashboard",
-          element: <InstructorIndex />,
-        },
+        // {
+        //   path: "/instructor-dashboard",
+        //   element: <InstructorIndex />,
+        // },
         {
           path: "/allmentors",
           element: <Allmentors />,

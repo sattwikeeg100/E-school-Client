@@ -16,7 +16,8 @@ export default function Header2({ ...props }) {
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
-
+// console.log({user})
+const image = user?.image.url
   const logout = async () => {
     dispatch({
       type: "LOGOUT",
@@ -42,7 +43,7 @@ export default function Header2({ ...props }) {
     setMobileMenuOpen(false)
    };
   const navigateBeInstructor = () =>{
-    navigate("/joinasteacher")
+    navigate("/")
     setMobileMenuOpen(false)
    };
   
@@ -50,8 +51,18 @@ export default function Header2({ ...props }) {
    const name = Firstname?.[0]?.toUpperCase();
 
   const getInitials = () => {
+    if(image !== null){
+    return <img src={image} alt="avatar" className="w-10 h-10 rounded-full object-cover"/>
+    }else{
     const firstInitial = user ? user.name.charAt(0).toUpperCase() : "";
-    return firstInitial || <FaFaceGrinStars />;
+    return (
+      <div className="w-10 h-10 bg-orange-400 rounded-full mx-auto  flex items-center justify-center">
+      <span className="text-xl font-semibold text-gray-100">
+      {firstInitial || <FaFaceGrinStars />}
+      </span>
+      </div>
+    )
+    }
   };
 
   return (
@@ -104,10 +115,9 @@ export default function Header2({ ...props }) {
                 className="flex items-center gap-1 float-right"
               >
                 <p className="text-gray-900 font-medium mr-1">{name}</p>
-                <div className="w-10 h-10 bg-orange-400 rounded-full mx-auto  flex items-center justify-center">
-                  <span className="text-xl font-semibold text-gray-100">
+                <div className="w-12">
                     {getInitials()}
-                  </span>
+                 
                 </div>
               </button>
     
@@ -121,10 +131,8 @@ export default function Header2({ ...props }) {
               <div className="lg:hidden relative top-8 py-2 mx-auto text-xl flex flex-col gap-y-1 justify-center text-center">
 
               <div  className="pt-2 flex items-center gap-x-2 mx-auto"> 
-                <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-center">
-                  <span className="text-2xl font-semibold text-gray-100">
+                <div className="w-12 ">
                     {getInitials()}
-                  </span>
                 </div>
                 <p className="font-bold">{name}</p>
                 </div>

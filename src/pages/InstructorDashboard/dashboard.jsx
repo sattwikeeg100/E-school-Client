@@ -2,7 +2,7 @@ import { Context } from "context";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const InstructorIndex = () => {
+export default function InstructorDashboard() {
   const {
     state: { user },
   } = useContext(Context);

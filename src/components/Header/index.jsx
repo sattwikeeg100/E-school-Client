@@ -25,7 +25,7 @@ export default function Header({ ...props }) {
     window.localStorage.removeItem("Role");
     const { data } = axios.get(`${API_BASE_URL}/logout`);
     toast.success("Please visit again!🖖");
-    navigate("/");
+    navigate("/login")
   };
 
   // const Name = {user.name}

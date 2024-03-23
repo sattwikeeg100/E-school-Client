@@ -1,4 +1,4 @@
-import JoinAsTeacherForm from "components/joinAsTeacherForm";
+import JoinAsTeacherForm from "modals/joinAsTeacherForm";
 import { Img, Heading, Text } from "../../components";
 import Footer from "../../components/Footer";
 import { useContext, useEffect, useState } from "react";
@@ -22,7 +22,7 @@ export default function JoinAsTeacherPage() {
 
   useEffect(() => {
     if (user && user.role.includes("Instructor"))
-      navigate("/instructor-dashboard");
+      navigate("/");
   }, []);
   return (
     <>

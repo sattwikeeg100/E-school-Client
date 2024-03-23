@@ -34,16 +34,14 @@ const Login = () => {
       window.localStorage.setItem("user", JSON.stringify(data));
       window.localStorage.setItem("Role", JSON.stringify(data.role));
       toast.success("Welcome Back!🙇‍♂️");
-      window.location.reload();
-      // setTimeout(() => {
-      //   if(data.role.includes("Instructor")){                        kaj ache ekahne
-
-      //   navigate("/instructor-dashboard")}
-      //   else{navigate("/")}                         
-      // }, 3000);
-      
+      window.location.reload()
+      navigate("/")
+                                
     } catch (err) {
       toast.error(err.response.data);
+      setEmail("")
+      setPassword("")
+      setLoading(false)
     }
   };
 
