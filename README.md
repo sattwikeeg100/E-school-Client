@@ -89,9 +89,9 @@ yarn add react-router
 ## Contributors
 
 This project was designed and developed by:
-- [Rupal](https://github.com/rupal29)
-- [Sattwikee](https://github.com/sattwikee)
-- [Souvik](https://github.com/souvik22)
+- [Rupal](https://github.com/rupal-draft)
+- [Sattwikee](https://github.com/sattwikeeg100)
+- [Souvik](https://github.com/souvik017)
   
 ---
 
