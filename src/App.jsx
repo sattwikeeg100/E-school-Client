@@ -15,7 +15,7 @@ import ForgetPassword from "modals/ForgetPassword";
 import ResetPassword from "modals/ForgetPassword/resetPassword";
 import "react-toastify/dist/ReactToastify.css";
 import Header2 from "components/Header2";
-import LeranopiaMainPage from "pages/LeranopiaMainPage";
+import LeranopiaMainPage from "pages/LearnopiaMainPage";
 import InstructorDashboard from "pages/InstructorDashboard/dashboard";
 
 function App() {
