@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Text, Button, Img, Slider, Heading } from "../../components";
 import AllMentorsMaincard from "../../components/AllMentorsMaincard";
 import Footer from "../../components/Footer";
-import Header from "../../components/Header";
 import { TabPanel, TabList, Tab, Tabs } from "react-tabs";
+
 
 export default function AllmentorsPage() {
   const [sliderState, setSliderState] = React.useState(0);
   const sliderRef = React.useRef(null);
+  const [users, setUsers] = useState([]);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+ useEffect(() => {
+  
+   // Function to fetch users from the backend
+   const fetchUsers = async () => {
+    try {
+      // Make a GET request using fetch
+      const response = await fetch(`${API_BASE_URL}/all-instructor`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch users');
+      }
+      // Extract JSON from the response
+      const data = await response.json();
+      // Update the state with the fetched users
+      setUsers(data);
+      console.log({data})
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  fetchUsers();
+ }, [])
+ 
   return (
     <>
       <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
@@ -272,139 +297,18 @@ export default function AllmentorsPage() {
           </div>
         </div>
         <div className="flex flex-row justify-center w-full">
-          <Tabs
-            className="flex flex-col items-center justify-start w-[89%] gap-[51px]"
-            selectedTabClassName="!text-white-A700 bg-orange-200_01 rounded-[10px]"
-            selectedTabPanelClassName="relative tab-panel--selected"
-          >
-            <TabList className="flex flex-row justify-center w-full gap-20 p-3.5">
-              <Tab className="ml-[193px] text-gray-900 text-base font-medium">All Mentors</Tab>
-              <Tab className="text-gray-900 text-base font-medium">For Kindergarten</Tab>
-              <Tab className="text-white-A700 text-base font-medium">For high school</Tab>
-              <Tab className="text-gray-900 text-base font-medium">For college</Tab>
-              <Tab className="mr-[193px] text-gray-900 text-base font-medium">For Technology</Tab>
-            </TabList>
-            <div className="flex flex-col items-center justify-start w-full gap-[42px]">
-              {[...Array(5)].map((_, index) => (
-                <TabPanel key={`tab-panel${index}`} className="items-center w-full absolute">
-                  <div className="flex flex-col items-center justify-start w-full">
-                    <div className="flex flex-col items-center justify-start w-full gap-[42px]">
-                      <div className="flex flex-row justify-start w-full gap-10">
-                        <AllMentorsMaincard className="flex flex-col items-center justify-start w-[23%] gap-2.5" />
-                        <AllMentorsMaincard
-                          bgOne="images/img_bg_1.png"
-                          kristinwatson="Brooklyn Simmons"
-                          className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                        />
-                        <AllMentorsMaincard
-                          bgOne="images/img_bg_2.png"
-                          kristinwatson="Robert Fox"
-                          className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                        />
-                        <AllMentorsMaincard
-                          bgOne="images/img_bg_3.png"
-                          kristinwatson="Wade Warren"
-                          className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                        />
-                      </div>
-                      <div className="flex flex-row justify-start w-full gap-10">
-                        <AllMentorsMaincard
-                          bgOne="images/img_bg_4.png"
-                          kristinwatson="Bessie Cooper"
-                          className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                        />
-                        <AllMentorsMaincard
-                          bgOne="images/img_bg_5.png"
-                          kristinwatson="Ronald Richards"
-                          className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                        />
-                        <AllMentorsMaincard
-                          bgOne="images/img_bg_6.png"
-                          kristinwatson="Guy Hawkins"
-                          className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                        />
-                        <AllMentorsMaincard
-                          bgOne="images/img_bg_7.png"
-                          kristinwatson="Floyd Miles"
-                          className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </TabPanel>
-              ))}
-              <div className="flex flex-row justify-center w-full">
-                <div className="flex flex-col items-center justify-start w-full gap-[51px]">
-                  <Slider
-                    autoPlay
-                    autoPlayInterval={2000}
-                    responsive={{ 0: { items: 1 }, 550: { items: 1 }, 1050: { items: 1 } }}
-                    disableDotsControls
-                    activeIndex={sliderState}
-                    onSlideChanged={(e) => {
-                      setSliderState(e?.item);
-                    }}
-                    ref={sliderRef}
-                    className="w-full"
-                    items={[...Array(3)].map(() => (
-                      <React.Fragment key={Math.random()}>
-                        <div className="flex flex-row gap-10 mx-auto">
-                          <AllMentorsMaincard
-                            bgOne="images/img_bg_8.png"
-                            kristinwatson="Theresa Webb"
-                            className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                          />
-                          <AllMentorsMaincard
-                            bgOne="images/img_bg_9.png"
-                            kristinwatson="Cody Fisher"
-                            className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                          />
-                          <AllMentorsMaincard
-                            bgOne="images/img_bg_10.png"
-                            kristinwatson="Courtney Henry"
-                            className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                          />
-                          <AllMentorsMaincard
-                            bgOne="images/img_bg_11.png"
-                            kristinwatson="Jerome Bell"
-                            className="flex flex-col items-center justify-start w-[23%] gap-2.5"
-                          />
-                        </div>
-                      </React.Fragment>
-                    ))}
+            <div className="flex flex-row items-center justify-center w-full gap-[42px]">
+              {users.map((mentor , index)=>(
+                <div key={index}>
+                  <AllMentorsMaincard
+                  image = {mentor.image.url}
+                  name = {mentor.name}
+                  email = {mentor.email}
                   />
-                  <div className="flex flex-row justify-between w-[23%]">
-                    <Button
-                      color="white_A700"
-                      size="lg"
-                      onClick={() => {
-                        sliderRef?.current?.slidePrev();
-                      }}
-                      className="w-11 !rounded-md"
-                    />
-                    <Button
-                      size="lg"
-                      onClick={() => {
-                        sliderRef?.current?.slideNext();
-                      }}
-                      className="w-11 !rounded-md"
-                    />
-                  </div>
                 </div>
-              </div>
+              ))}
+              
             </div>
-            <div className="flex flex-row justify-center items-center w-[23%] gap-[19px]">
-              <Text as="p" className="ml-[61px] !text-gray-900 !font-medium">
-                Page
-              </Text>
-              <Button color="white_A700" size="sm" className="!text-gray-700_01 font-medium min-w-[39px] rounded-lg">
-                1
-              </Button>
-              <Text as="p" className="mr-[61px] !text-gray-900 !font-medium">
-                of 03
-              </Text>
-            </div>
-          </Tabs>
         </div>
         <Footer className="flex flex-col items-center justify-center w-full" />
       </div>
