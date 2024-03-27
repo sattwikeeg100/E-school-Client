@@ -38,8 +38,8 @@ const image = user?.image.url
     navigate("/allmentors")
     setMobileMenuOpen(false)
    };
-  const navigateShop = () =>{
-    navigate("/shop")
+  const navigateCreateCourse = () =>{
+    navigate("/create-course")
     setMobileMenuOpen(false)
    };
   const navigateBeInstructor = () =>{
@@ -100,7 +100,7 @@ const image = user?.image.url
               </button>
           <button
             className="font-medium hover:text-orange-300"
-            onClick={navigateShop}
+            onClick={navigateCreateCourse}
           >
             Create Course
           </button>

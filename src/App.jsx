@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Header2 from "components/Header2";
 import LeranopiaMainPage from "pages/LearnopiaMainPage";
 import InstructorDashboard from "pages/InstructorDashboard/dashboard";
+import CreateCourse from "pages/createCourse";
 
 function App() {
   // const navigationElement = <Header1/>
@@ -79,6 +80,10 @@ function App() {
         {
           path: "/mentordetails",
           element: <Singlementordetails />,
+        },
+        {
+          path: "/create-course",
+          element: <CreateCourse/>,
         },
       ],
     },

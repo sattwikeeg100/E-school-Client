@@ -203,7 +203,7 @@ const JoinAsTeacherForm = ({ closeModal }) => {
 
             <div className="flex flex-row sm:flex-row items-center">
     <label className="cursor-pointer sm:mr-4">
-        <FaCamera className="mt-2" />
+        <FaCamera className="mt-2 text-xl mr-2" />
     </label>
     <div className="mt-1">
         <input
@@ -213,7 +213,7 @@ const JoinAsTeacherForm = ({ closeModal }) => {
             id="image"
             name="image"
             required
-            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 text-sm sm:leading-6"
         />
     </div>
 </div>
