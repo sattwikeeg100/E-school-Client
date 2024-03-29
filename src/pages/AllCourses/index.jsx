@@ -4,12 +4,13 @@ import { Text, Button, Img, Slider, Heading } from "../../components";
 import AllMentorsMaincard from "../../components/AllMentorsMaincard";
 import Footer from "../../components/Footer";
 import { TabPanel, TabList, Tab, Tabs } from "react-tabs";
+import AllCoursesMaincard from "components/AllCoursesMainCard";
 
 
 export default function AllcoursesPage() {
   const [sliderState, setSliderState] = React.useState(0);
   const sliderRef = React.useRef(null);
-  const [coursedata, setCoursedata] = useState({});
+  const [coursedata, setCoursedata] = useState({"data": "null"});
   const API_URL2 = import.meta.env.COURSE_API_BASE_URL2;
 
 
@@ -18,11 +19,27 @@ export default function AllcoursesPage() {
   const handleInput = (e) => {
     setKeywords(e.target.value);
   }
-  const handlerecommend = async () => {
-    
-  }
 
+  const handlerecommend = async () => { // Fetching data
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/recommend?course=${keywords}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log("handlerecommend called"); // Log the received data
+      setCoursedata(data);
+      console.log(coursedata);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
  
+  // Move the console.log outside of the handlerecommend function
+  useEffect(() => {
+    console.log(coursedata);
+  }, [coursedata]);
+
   return (
     <>
       <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
@@ -290,15 +307,31 @@ export default function AllcoursesPage() {
             <div className="flex flex-row items-center justify-center w-full gap-[42px]">
               <form method="GET" className="flex">
               <input type="text" placeholder="Enter some keywords..." className="px-4 py-2 bg-white rounded-l-md border-orange-200 focus:ring-orange-300" onChange={handleInput}/>
-              <button type="submit" className="px-4 py-2 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none" onClick={handlerecommend}>
+              <button type="button" className="px-4 py-2 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none" onClick={handlerecommend}>
               Recommend
               </button>
               </form>
             </div>
-            <div>hi
-            {coursedata[0]}
-            </div>
         </div>
+        <div className="flex flex-row justify-center max-w-7xl">
+        <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-1 gap-6">
+              {coursedata.data !== "null" && coursedata.data.map(course => (
+                <div key={course.course_title}>
+                  <AllCoursesMaincard
+                  title={course.course_title}
+                  url={course.url}
+                  ispaid={course.is_paid ? 'Paid' : 'Free'}
+                  price={course.price}
+                  level={course.level}
+                  content_duration={course.content_duration}
+                  subject={course.subject}
+                  published_date={course.published_date}
+                  />
+                </div>
+              ))}
+        </div>
+        </div>
+        
         <Footer className="flex flex-col items-center justify-center w-full" />
       </div>
     </>
