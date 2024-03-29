@@ -18,6 +18,7 @@ import Header2 from "components/Header2";
 import LeranopiaMainPage from "pages/LearnopiaMainPage";
 import InstructorDashboard from "pages/InstructorDashboard/dashboard";
 import CreateCourse from "pages/createCourse";
+import AllcoursesPage from "pages/AllCourses";
 
 function App() {
   // const navigationElement = <Header1/>
@@ -73,6 +74,10 @@ function App() {
         //   path: "/instructor-dashboard",
         //   element: <InstructorIndex />,
         // },
+        {
+          path: "/allcourses",
+          element: <AllcoursesPage />,
+        },
         {
           path: "/allmentors",
           element: <Allmentors />,
