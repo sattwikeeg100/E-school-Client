@@ -5,7 +5,7 @@ import AllMentorsMaincard from "../../components/AllMentorsMaincard";
 import Footer from "../../components/Footer";
 import { TabPanel, TabList, Tab, Tabs } from "react-tabs";
 import AllCoursesMaincard from "components/AllCoursesMainCard";
-
+import { ourcoursedata } from "./ourcoursedata";
 
 export default function AllcoursesPage() {
   const [sliderState, setSliderState] = React.useState(0);
@@ -302,23 +302,56 @@ export default function AllcoursesPage() {
           </div>
         </div>
 
-
+        <div className="flex flex-col justify-center items-center w-full gap-[42px]">
         <div className="flex flex-row justify-center w-full">
             <div className="flex flex-row items-center justify-center w-full gap-[42px]">
-              <form method="GET" className="flex">
-              <input type="text" placeholder="Enter some keywords..." className="px-4 py-2 bg-white rounded-l-md border-orange-200 focus:ring-orange-300" onChange={handleInput}/>
-              <button type="button" className="px-4 py-2 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none" onClick={handlerecommend}>
-              Recommend
+            <form method="GET" className="flex">
+              <input 
+                  type="text" 
+                  placeholder="Enter some keywords for the course you are looking for..." 
+                  className="px-4 py-4 bg-white rounded-l-md border-orange-200 focus:ring-orange-300 w-[900px] text-base" 
+                  onChange={handleInput}
+              />
+              <button 
+                  type="button" 
+                  className="px-4 py-4 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none text-base" 
+                  onClick={handlerecommend}
+              >
+                  Get Courses Recommendation
               </button>
-              </form>
+          </form>
+
             </div>
         </div>
-        <div className="flex flex-row justify-center max-w-7xl">
-        <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-1 gap-6">
+        <div className="flex flex-row justify-center max-w-9xl">
+        <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-1 gap-10">
               {coursedata.data !== "null" && coursedata.data.map(course => (
                 <div key={course.course_title}>
                   <AllCoursesMaincard
+                  imgsrc={course.course_image}
                   title={course.course_title}
+                  url={course.url}
+                  ispaid={course.is_paid ? 'Paid' : 'Free'}
+                  price={course.price}
+                  level={course.level}
+                  content_duration={course.content_duration}
+                  subject={course.subject}
+                  published_date={course.published_date}
+                  />
+                </div>
+              ))}
+        </div>
+        </div>
+        </div>
+
+        <Heading className="font-bold text-5xl">Explore our Amazing courses </Heading>
+        <div className="flex flex-row justify-center max-w-9xl">
+        <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-1 gap-10">
+              {ourcoursedata.map(course => (
+                <div key={course.title}>
+                  <AllCoursesMaincard
+                  imgsrc={course.image}
+                  title={course.title}
                   url={course.url}
                   ispaid={course.is_paid ? 'Paid' : 'Free'}
                   price={course.price}

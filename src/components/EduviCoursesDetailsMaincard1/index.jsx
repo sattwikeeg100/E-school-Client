@@ -1,17 +1,12 @@
 import React from "react";
-import { Button, Img, Heading, RatingBar } from "./..";
+import { Button, Img, Heading, RatingBar } from "..";
 
-export default function EduviCoursesDetailsMaincard1({
-  imageOne = "images/img_image_1.png",
-  thethree = "The Three Musketeers",
-  price = "$40.00",
-  ...props
-}) {
+export default function EduviCoursesDetailsMaincard1({ thethree = "The Three Musketeers", price = "$40.00", ...props }) {
   return (
     <div {...props}>
       <div className="flex flex-row justify-start items-center w-[89%] gap-[15px]">
         <div className="flex flex-row justify-start w-[31%]">
-          <Img src={imageOne} alt="image_one" className="w-full object-cover rounded-[10px]" />
+          <Img src="images/img_image_103x160.png" alt="image" className="w-full object-cover rounded-[10px]" />
         </div>
         <div className="flex flex-col items-start justify-start w-[67%] gap-3">
           <Heading size="md" as="h1">
@@ -30,8 +25,8 @@ export default function EduviCoursesDetailsMaincard1({
           </Heading>
         </div>
       </div>
-      <Button color="red_50" size="lg" className="w-11 !rounded-md">
-        <Img src="images/img_shopping_bag_24.svg" />
+      <Button size="lg" className="w-11 !rounded-md">
+        <Img src="images/img_shopping_bag_24_white_a700.svg" />
       </Button>
     </div>
   );

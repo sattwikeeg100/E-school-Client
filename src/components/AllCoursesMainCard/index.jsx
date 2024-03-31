@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, Text, Heading} from "./..";
+import {Img, Button, Text, Heading} from "./..";
 
 export default function AllCoursesMaincard({
+  imgsrc,
   title,
   url,
   ispaid,
@@ -13,6 +14,8 @@ export default function AllCoursesMaincard({
 }) {
   return (
     <div className="w-80 border border-gray-200 rounded-lg shadow-md overflow-hidden">
+      <Img src={imgsrc} alt="image" className="h-[200px] w-full rounded-[5px]" />
+
       <div className="p-4 gap-5 flex flex-col justify-between">
         <Heading>{title}</Heading>
         <div>
