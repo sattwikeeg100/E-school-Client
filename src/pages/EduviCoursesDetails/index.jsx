@@ -1,7 +1,7 @@
 
 import { Heading, Button, RatingBar, Text, Img } from "../../components";
-import EduviCoursesDetailsMaincard from "../../components/EduviCoursesDetailsMaincard";
-import EduviCoursesDetailsMaincard1 from "../../components/EduviCoursesDetailsMaincard1";
+import EduviCoursesDetailsMaincard from "../../components/EduviCoursesDetailsMaincard1";
+import EduviCoursesDetailsMaincard1 from "../../components/EduviCoursesDetailsMaincard";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 

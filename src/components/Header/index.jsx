@@ -37,6 +37,10 @@ export default function Header({ ...props }) {
     navigate("/allmentors")
     setMobileMenuOpen(false)
    };
+   const navigateCourses = () =>{
+    navigate("/allcourses")
+    setMobileMenuOpen(false)
+   };
   const navigateShop = () =>{
     navigate("/shop")
     setMobileMenuOpen(false)
@@ -95,7 +99,7 @@ export default function Header({ ...props }) {
           </button>
           <button
             className="font-medium hover:text-orange-300"
-            onClick={navigateMentor}
+            onClick={navigateCourses}
           >
             All Courses
           </button>

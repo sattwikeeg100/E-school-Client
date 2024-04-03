@@ -1,10 +1,10 @@
 import React from "react";
-import { Button, Text, Heading, Img } from "./..";
+import { Button, Text, Heading, Img } from "..";
 
 export default function EduviCoursesOne({
-  imgsrc = 'images/Cimg3.jpg',
-  domain = "Design Fundamentals",
-  descrip = "Learn the core principles and techniques of graphic design for impactful visual communication. ",
+  imgsrc = 'images/Cimg1.jpg',
+  domain = "Machine Learning",
+  description = "Master the essentials of machine learning with hands-on projects and real-world applications. ",
   ...props
 }) {
   return (
@@ -17,7 +17,7 @@ export default function EduviCoursesOne({
               {domain}
             </Heading>
             <Text as="p" className="text-center !leading-[30px]">
-              {descrip}
+              {description}
             </Text>
           </div>
         </div>
