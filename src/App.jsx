@@ -18,7 +18,9 @@ import Header2 from "components/Header2";
 import LeranopiaMainPage from "pages/LearnopiaMainPage";
 import InstructorDashboard from "pages/InstructorDashboard/dashboard";
 import CreateCourse from "pages/createCourse";
+import CourseView from "pages/createCourse/courseView/slug";
 import AllcoursesPage from "pages/AllCourses";
+
 
 function App() {
   // const navigationElement = <Header1/>
@@ -26,17 +28,17 @@ function App() {
   console.log(Role);
 
   const HomePage =
-    Role === null || (Role !== null && !Role.includes("Instructor")) ?(
-      <LeranopiaMainPage/>
-    ): (
-     <InstructorDashboard/>
-    )
+    Role === null || (Role !== null && !Role.includes("Instructor")) ? (
+      <LeranopiaMainPage />
+    ) : (
+      <InstructorDashboard />
+    );
   const navbar =
-  Role === null || (Role !== null && !Role.includes("Instructor")) ?(
-    <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
-  ): (
-    <Header2 className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
-  )
+    Role === null || (Role !== null && !Role.includes("Instructor")) ? (
+      <Header className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
+    ) : (
+      <Header2 className="flex flex-row justify-center items-center w-full p-[22px] bg-gray-100 overflew-hidden" />
+    );
 
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
@@ -53,7 +55,7 @@ function App() {
         </>
       ),
       children: [
-        { path: "/", element: HomePage},
+        { path: "/", element: HomePage },
         {
           path: "/shop",
           element: <ShopPage />,
@@ -88,8 +90,9 @@ function App() {
         },
         {
           path: "/create-course",
-          element: <CreateCourse/>,
+          element: <CreateCourse />,
         },
+        { path: "/course/view/:slug", element: <CourseView /> },
       ],
     },
   ]);
