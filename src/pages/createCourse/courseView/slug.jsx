@@ -7,6 +7,7 @@ import AddLessonForm from "../createLessonForm/addLessonForm";
 import { toast } from "react-toastify";
 import { Context } from "context";
 import Item from "antd/lib/list/Item";
+import { DeleteOutlined } from "@ant-design/icons";
 
 const CourseView = () => {
   const [course, setCourse] = useState({});
@@ -48,10 +49,10 @@ const CourseView = () => {
       setVisible(false);
       setUploadButtonText("Upload video");
       setCourse(data);
-      toast("Lesson added");
+      toast.success("Lesson added");
     } catch (err) {
       console.log(err);
-      toast("Lesson add failed");
+      toast.error("Lesson add failed");
     }
   };
 
@@ -105,6 +106,32 @@ const CourseView = () => {
       console.log(err);
       setUploading(false);
       toast("Video remove failed");
+    }
+  };
+
+  const handleLessonDelete = async (index) => {
+    const answer = window.confirm("Are you sure you want to delete?");
+    if (!answer) return;
+
+    let allLessons = [...course.lessons];
+    const removed = allLessons.splice(index, 1);
+
+    try {
+      const { data } = await axios.post(
+        `${API_BASE_URL}/course/${slug}`,
+        { removed },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      setCourse(data);
+      toast.success("Lesson deleted successfully");
+    } catch (error) {
+      console.error("Error deleting lesson:", error);
+      toast.error("Error deleting lesson");
     }
   };
 
@@ -185,6 +212,10 @@ const CourseView = () => {
                                 avatar={<Avatar>{index + 1}</Avatar>}
                                 title={item.title}
                               ></Item.Meta>
+                              <DeleteOutlined
+                                onClick={() => handleLessonDelete(index)}
+                                className="text-danger float-right"
+                              />
                             </Item>
                           )}
                         ></List>

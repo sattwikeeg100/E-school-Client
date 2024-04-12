@@ -30,18 +30,16 @@ const Login = () => {
         type: "LOGIN",
         payload: data,
       });
-      console.log(data.role)
       window.localStorage.setItem("user", JSON.stringify(data));
       window.localStorage.setItem("Role", JSON.stringify(data.role));
       toast.success("Welcome Back!🙇‍♂️");
-      window.location.reload()
-      navigate("/")
-                                
+      window.location.reload();
+      navigate("/");
     } catch (err) {
       toast.error(err.response.data);
-      setEmail("")
-      setPassword("")
-      setLoading(false)
+      setEmail("");
+      setPassword("");
+      setLoading(false);
     }
   };
 
