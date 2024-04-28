@@ -41,16 +41,20 @@ const Provider = ({ children }) => {
           axios
             .get(`${API_BASE_URL}/logout`)
             .then((data) => {
-              console.log("/401 error > logout");
+              console.log("/401 error > logout successful");
+
               dispatch({ type: "LOGOUT" });
               window.localStorage.removeItem("user");
+              resolve();
             })
             .catch((err) => {
-              console.log("AXIOS INTERCEPTORS ERR", err);
+              console.error("Logout request failed", err);
+
               reject(error);
             });
         });
       }
+
       return Promise.reject(error);
     }
   );

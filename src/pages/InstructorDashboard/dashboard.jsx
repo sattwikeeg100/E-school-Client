@@ -11,6 +11,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function InstructorDashboard() {
   const {
@@ -29,8 +30,10 @@ export default function InstructorDashboard() {
   }, [user]);
 
   useEffect(() => {
-    loadCourses(courses);
-  }, []);
+    if (user && user.token) {
+      loadCourses();
+    }
+  }, [user]);
   const loadCourses = async () => {
     const { data } = await axios.get(`${API_BASE_URL}/instructor-courses`, {
       headers: {
@@ -40,12 +43,58 @@ export default function InstructorDashboard() {
     setCourses(data);
   };
 
+  const handlePublish = async (e, index) => {
+    e.preventDefault();
+    try {
+      let answer = window.confirm(
+        "Are you sure you want to publish this course?"
+      );
+      if (!answer) return;
+
+      const { data } = await axios.put(
+        `${API_BASE_URL}/course/publish/${courses[index]._id}`
+      );
+
+      const updatedCourses = [...courses];
+      updatedCourses[index] = data;
+
+      setCourses(updatedCourses);
+      toast.success("Course published successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Toast published failed");
+    }
+  };
+
+  const handleUnPublish = async (e, index) => {
+    e.preventDefault();
+    try {
+      let answer = window.confirm(
+        "Are you sure you want to unpublish this course?"
+      );
+      if (!answer) return;
+
+      const { data } = await axios.put(
+        `${API_BASE_URL}/course/unpublish/${courses[index]._id}`
+      );
+
+      const updatedCourses = [...courses];
+      updatedCourses[index] = data;
+
+      setCourses(updatedCourses);
+      toast.success("Course unpublished successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Toast unpublished failed");
+    }
+  };
+
   return (
     <div>
       <h1 className="jumbotron text-center square">Course List</h1>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
         {courses &&
-          courses.map((course) => (
+          courses.map((course, index) => (
             <>
               <Card className="mt-6 w-96">
                 <CardHeader color="blue-gray" className="relative h-56">
@@ -83,18 +132,35 @@ export default function InstructorDashboard() {
                     >
                       Go to course
                     </Link>
-                    <Button
-                      size="lg"
-                      color="white"
-                      className="flex items-center gap-3"
-                    >
-                      <img
-                        src="https://docs.material-tailwind.com/icons/metamask.svg"
-                        alt="metamask"
-                        className="h-6 w-6"
-                      />
-                      Publish
-                    </Button>
+                    {courses[index].published ? (
+                      <Button
+                        size="lg"
+                        color="white"
+                        className="flex items-center gap-3"
+                        onClick={(e) => handleUnPublish(e, index)}
+                      >
+                        <img
+                          src="https://docs.material-tailwind.com/icons/metamask.svg"
+                          alt="metamask"
+                          className="h-6 w-6"
+                        />
+                        Unpublish
+                      </Button>
+                    ) : (
+                      <Button
+                        size="lg"
+                        color="white"
+                        className="flex items-center gap-3"
+                        onClick={(e) => handlePublish(e, index)}
+                      >
+                        <img
+                          src="https://docs.material-tailwind.com/icons/metamask.svg"
+                          alt="metamask"
+                          className="h-6 w-6"
+                        />
+                        Publish
+                      </Button>
+                    )}
                   </div>
                 </CardFooter>
               </Card>

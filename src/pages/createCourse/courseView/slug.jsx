@@ -2,11 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Text, Img } from "../../../components";
-import { Modal, List, Avatar } from "antd";
+import { Modal, List, Avatar, Tooltip } from "antd";
 import AddLessonForm from "../createLessonForm/addLessonForm";
 import { toast } from "react-toastify";
 import { Context } from "context";
 import Item from "antd/lib/list/Item";
+import { DeleteOutlined, UserSwitchOutlined } from "@ant-design/icons";
 
 const CourseView = () => {
   const [course, setCourse] = useState({});
@@ -16,8 +17,10 @@ const CourseView = () => {
   const [values, setValues] = useState({
     title: "",
     content: "",
+    preview: false,
     video: {},
   });
+  const [studentCount, setStudentCount] = useState([]);
   const {
     state: { user },
   } = useContext(Context);
@@ -26,10 +29,25 @@ const CourseView = () => {
   const { slug } = useParams();
   useEffect(() => {
     loadCourse(course);
-  }, []);
+  }, [slug]);
+  useEffect(() => {
+    course && StudentCount();
+  }, [course]);
+
   const loadCourse = async () => {
     const { data } = await axios.get(`${API_BASE_URL}/course/${slug}`);
     setCourse(data);
+  };
+
+  const StudentCount = async () => {
+    const { data } = await axios.post(
+      `${API_BASE_URL}/instructor/student-count`,
+      {
+        courseId: course._id,
+      }
+    );
+    // console.log(data);
+    setStudentCount(data.length);
   };
 
   const handleAddLesson = async (e) => {
@@ -48,10 +66,10 @@ const CourseView = () => {
       setVisible(false);
       setUploadButtonText("Upload video");
       setCourse(data);
-      toast("Lesson added");
+      toast.success("Lesson added");
     } catch (err) {
       console.log(err);
-      toast("Lesson add failed");
+      toast.error("Lesson add failed");
     }
   };
 
@@ -108,6 +126,33 @@ const CourseView = () => {
     }
   };
 
+  const handleLessonDelete = async (index) => {
+    const answer = window.confirm("Are you sure you want to delete?");
+    if (!answer) return;
+
+    let allLessons = [...course.lessons];
+
+    const removed = allLessons.splice(index, 1);
+
+    try {
+      const { data } = await axios.post(
+        `${API_BASE_URL}/course/${slug}`,
+        { removed },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      setCourse(data);
+      toast.success("Lesson deleted successfully");
+    } catch (error) {
+      console.error("Error deleting lesson:", error);
+      toast.error("Error deleting lesson");
+    }
+  };
+
   return (
     <div>
       {/* <h1 className="jumbotron text-center square">{slug}</h1> */}
@@ -145,13 +190,18 @@ const CourseView = () => {
                     <Text size="lg" as="p">
                       {course.subject}
                     </Text>
-                    <button
-                      type="button"
-                      onClick={() => setVisible(true)}
-                      className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                    >
-                      Start Adding Lesson
-                    </button>
+                    <div className="flex items-center space-x-4">
+                      <button
+                        type="button"
+                        onClick={() => setVisible(true)}
+                        className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                      >
+                        Start Adding Lesson
+                      </button>
+                      <Tooltip title={`${studentCount} Enrolled`}>
+                        <UserSwitchOutlined className="pointer mr-4 h-8 w-8 text-red-500 text-2xl" />
+                      </Tooltip>
+                    </div>
                     <Modal
                       title="+ Add Lesson"
                       centered
@@ -172,6 +222,9 @@ const CourseView = () => {
                     </Modal>
                     <div className="row pb-5">
                       <div className="col lesson-list">
+                        <Text size="1xl" as="p" className="!text-gray-900">
+                          {course.description}
+                        </Text>
                         <h4>
                           {course && course.lessons && course.lessons.length}{" "}
                           Lessons
@@ -185,6 +238,10 @@ const CourseView = () => {
                                 avatar={<Avatar>{index + 1}</Avatar>}
                                 title={item.title}
                               ></Item.Meta>
+                              <DeleteOutlined
+                                onClick={() => handleLessonDelete(index)}
+                                className="text-danger float-right"
+                              />
                             </Item>
                           )}
                         ></List>

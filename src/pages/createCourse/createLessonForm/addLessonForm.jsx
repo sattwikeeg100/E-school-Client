@@ -1,4 +1,5 @@
 import { Button, Row, Col, Progress, Tooltip } from "antd";
+import ReactPlayer from "react-player";
 import {
   DownloadOutlined,
   CloseCircleFilled,
@@ -16,6 +17,11 @@ const AddLessonForm = ({
   progress,
   handleVideoRemove,
 }) => {
+  const handlePreviewChange = (e) => {
+    const newValue = e.target.value === "true";
+    setValues({ ...values, preview: newValue });
+  };
+
   return (
     <div className="container pt-3">
       <form onSubmit={handleAddLesson}>
@@ -45,8 +51,39 @@ const AddLessonForm = ({
               style={{ width: "100%" }}
             ></textarea>
           </Col>
+          <Col span={24}>
+            <label className="cs_input_label cs_heading_color">
+              Free preview?
+            </label>
+            <div className="cs_radio_group">
+              <div className="cs_radio_wrap">
+                <input
+                  className="cs_radio_input"
+                  type="radio"
+                  name="Free"
+                  id="Free"
+                  value="true"
+                  onChange={handlePreviewChange}
+                  checked={values.preview === true}
+                />
+                <label className="cs_radio_label">Yes</label>
+              </div>
+              <div className="cs_radio_wrap">
+                <input
+                  className="cs_radio_input"
+                  type="radio"
+                  name="Paid"
+                  id="notFree"
+                  value="false"
+                  onChange={handlePreviewChange}
+                  checked={values.preview === false}
+                />
+                <label className="cs_radio_label">No</label>
+              </div>
+            </div>
+          </Col>
         </Row>
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mt-4">
           <label className="inline-flex items-center justify-center bg-blue-500 text-white px-4 py-2 rounded-lg border border-blue-500 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-600 hover:border-blue-600  shadow-md">
             <span className="mr-2 text-white !important">
               {uploadButtonText}
@@ -61,7 +98,12 @@ const AddLessonForm = ({
               className="hidden"
             />
           </label>
-
+          <ReactPlayer
+            url={values.video.Location}
+            width="410px"
+            height="240px"
+            controls
+          />
           {!uploading && values.video.Location && (
             <Tooltip title="Remove">
               <span onClick={handleVideoRemove} className="pt-1 pl-3">
@@ -70,7 +112,6 @@ const AddLessonForm = ({
             </Tooltip>
           )}
         </div>
-
         {progress > 0 && (
           <Progress
             className="d-flex justify-content-center pt-2"

@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(false);
   const { id, token } = useParams();
+  const navigate = useNavigate();
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const handleSubmit = async (e) => {
@@ -21,6 +20,7 @@ const ResetPassword = () => {
         .then((res) => {
           if (res.data.Status === "Success") {
             toast.success("Password was successfully reset");
+            navigate("/login");
           } else toast.error(res.data.Status);
         })
         .catch((err) => console.error(err));
