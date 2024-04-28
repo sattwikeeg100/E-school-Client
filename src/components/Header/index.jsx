@@ -79,19 +79,6 @@ export default function Header({ ...props }) {
 
         {/* Desktop Menu */}
         <div className="flex md:hidden md:flex lg:justify-center lg:items-center  gap-8">
-          <form className="flex">
-            <input
-              type="text"
-              placeholder="Enter your search term"
-              className="px-4 py-1 bg-white rounded-l-md border-orange-200 focus:ring-orange-300"
-            />
-            <button
-              type="submit"
-              className="px-4 py-1 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none"
-            >
-              Search
-            </button>
-          </form>
           <button
             className="hover:text-orange-300 font-medium"
             onClick={navigateBeInstructor}
