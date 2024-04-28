@@ -1,7 +1,6 @@
 import Header from "components/Header";
 import Login from "modals/LogIn";
 import SignUp from "modals/SignUp";
-import EduviCoursesDetails from "./pages/EduviCoursesDetails";
 import ShopPage from "./pages/Shop";
 import EduviCoursesPricing from "./pages/EduviCoursesPricing";
 import JoinAsTeacherPage from "./pages/JoinAsTeacher/index.jsx";
@@ -20,7 +19,9 @@ import InstructorDashboard from "pages/InstructorDashboard/dashboard";
 import CreateCourse from "pages/createCourse";
 import CourseView from "pages/createCourse/courseView/slug";
 import AllcoursesPage from "pages/AllCourses";
-
+import CoursesDetailsPage from "./pages/EduviCoursesDetails/slug";
+import PaymentSuccess from "pages/EduviCoursesDetails/PaymentSuccess";
+import MyLearning from "pages/UserDashboard/MyLearning";
 
 function App() {
   // const navigationElement = <Header1/>
@@ -61,8 +62,16 @@ function App() {
           element: <ShopPage />,
         },
         {
-          path: "/coursedetail",
-          element: <EduviCoursesDetails />,
+          path: "/paymentsuccess",
+          element: <PaymentSuccess />,
+        },
+        {
+          path: "/mylearning",
+          element: <MyLearning />,
+        },
+        {
+          path: "/course/:slug",
+          element: <CoursesDetailsPage />,
         },
         {
           path: "/coursespricing",
