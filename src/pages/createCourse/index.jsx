@@ -4,6 +4,7 @@ import { FaCamera } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { RxCrossCircled } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateCourse() {
   // const [inputValue, setInputValue] = useState("");
@@ -12,11 +13,14 @@ export default function CreateCourse() {
   const [price, setPrice] = useState();
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
+  const [prerequisites, setPrerequisites] = useState("");
+
   const [contentDuration, setContentDuration] = useState();
   const [image, setImage] = useState({});
   const {
     state: { user },
   } = useContext(Context);
+  const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleOptionChange = (event) => {
@@ -78,6 +82,7 @@ export default function CreateCourse() {
           IsPaid,
           subject,
           description,
+          prerequisites,
           contentDuration,
           image,
         },
@@ -88,6 +93,7 @@ export default function CreateCourse() {
         }
       );
       toast.success("Great! Now you can start adding lessons");
+      navigate("/");
     } catch (err) {
       toast.error(err.response.data);
     }
@@ -232,6 +238,25 @@ export default function CreateCourse() {
                       required
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
+                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="description"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Who is this Course for?
+                  </label>
+                  <div className="mt-1">
+                    <textarea
+                      id="prerequisites"
+                      name="prerequisites"
+                      type="text"
+                      required
+                      value={prerequisites}
+                      onChange={(e) => setPrerequisites(e.target.value)}
                       className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 sm:text-sm sm:leading-6"
                     />
                   </div>

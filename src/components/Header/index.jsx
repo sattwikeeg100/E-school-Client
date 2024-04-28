@@ -25,33 +25,37 @@ export default function Header({ ...props }) {
     window.localStorage.removeItem("Role");
     const { data } = axios.get(`${API_BASE_URL}/logout`);
     toast.success("Please visit again!🖖");
-    navigate("/login")
+    navigate("/login");
   };
 
   // const Name = {user.name}
-  const navigateLogin = () =>{
-   navigate("/login")
-   setMobileMenuOpen(false)
+  const navigateLogin = () => {
+    navigate("/login");
+    setMobileMenuOpen(false);
   };
-  const navigateMentor = () =>{
-    navigate("/allmentors")
-    setMobileMenuOpen(false)
-   };
-   const navigateCourses = () =>{
-    navigate("/allcourses")
-    setMobileMenuOpen(false)
-   };
-  const navigateShop = () =>{
-    navigate("/shop")
-    setMobileMenuOpen(false)
-   };
-  const navigateBeInstructor = () =>{
-    navigate("/joinasteacher")
-    setMobileMenuOpen(false)
-   };
-  
-   const Firstname = user?.name.split(" ");
-   const name = Firstname?.[0]?.toUpperCase();
+  const navigateMentor = () => {
+    navigate("/allmentors");
+    setMobileMenuOpen(false);
+  };
+  const navigateCourses = () => {
+    navigate("/allcourses");
+    setMobileMenuOpen(false);
+  };
+  const navigateShop = () => {
+    navigate("/shop");
+    setMobileMenuOpen(false);
+  };
+  const navigateBeInstructor = () => {
+    navigate("/joinasteacher");
+    setMobileMenuOpen(false);
+  };
+  const navigateUserdashboard = () => {
+    navigate("/mylearning");
+    setMobileMenuOpen(false);
+  };
+
+  const Firstname = user?.name.split(" ");
+  const name = Firstname?.[0]?.toUpperCase();
 
   const getInitials = () => {
     const firstInitial = user ? user.name.charAt(0).toUpperCase() : "";
@@ -61,7 +65,9 @@ export default function Header({ ...props }) {
   return (
     <header {...props}>
       <div className="flex flex-row justify-between w-full mx-auto max-w-7xl">
-        <a className="text-2xl font-bold" href="/">🎓 𝑳𝒆𝒂𝒓𝒏𝑶𝒑𝒊𝒂</a>
+        <a className="text-2xl font-bold" href="/">
+          🎓 𝑳𝒆𝒂𝒓𝒏𝑶𝒑𝒊𝒂
+        </a>
 
         {/* Mobile Menu Button */}
         <button
@@ -86,11 +92,12 @@ export default function Header({ ...props }) {
               Search
             </button>
           </form>
-          <button 
-           className="hover:text-orange-300 font-medium"
-           onClick={navigateBeInstructor}>
-                Be a Instuctor
-              </button>
+          <button
+            className="hover:text-orange-300 font-medium"
+            onClick={navigateBeInstructor}
+          >
+            Be a Instuctor
+          </button>
           <button
             className="font-medium hover:text-orange-300"
             onClick={navigateShop}
@@ -116,17 +123,21 @@ export default function Header({ ...props }) {
                 onClick={navigateLogin}
                 className="flex items-center gap-1 rounded-md"
               >
-                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Login</p>
+                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">
+                  Login
+                </p>
               </button>
             </>
           )}
           {user != null && (
             <>
               {" "}
-              <button className="text-gray-900 font-medium">
+              <button
+                className="text-gray-900 font-medium hover:text-orange-300"
+                onClick={navigateUserdashboard}
+              >
                 My learnings
               </button>
-
               <button
                 onClick={logout}
                 className="flex items-center gap-1 float-right"
@@ -148,43 +159,46 @@ export default function Header({ ...props }) {
           <div className=" h-screen fixed inset-0 z-50 overflow-hidden overscroll-none mx-auto">
             <div className="h-full px-auto shadow-lg backdrop-blur-md backdrop-filter bg-opacity-100 text-center">
               <div className="lg:hidden relative top-8 py-2 mx-auto text-xl flex flex-col gap-y-1 justify-center text-center">
-              {user == null && (
-            <>
-            <div className="pb-8 text-center">
-              <button
-                onClick={navigateLogin}
-                className="rounded-md ml-2"
-              >
-                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Login</p>
-              </button>
-              </div>
-            </>
-          )}
-          {user != null && (
-            <>
-             
+                {user == null && (
+                  <>
+                    <div className="pb-8 text-center">
+                      <button
+                        onClick={navigateLogin}
+                        className="rounded-md ml-2"
+                      >
+                        <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">
+                          Login
+                        </p>
+                      </button>
+                    </div>
+                  </>
+                )}
+                {user != null && (
+                  <>
+                    <div className="pt-2 flex items-center gap-x-2 mx-auto">
+                      <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-center">
+                        <span className="text-2xl font-semibold text-gray-100">
+                          {getInitials()}
+                        </span>
+                      </div>
+                      <p className="font-bold">{name}</p>
+                    </div>
+                    <p className="mt-2 mb-8 text-sm font-semibold tracking-widest text-center">
+                      {user.email}
+                    </p>
 
-              <div  className="pt-2 flex items-center gap-x-2 mx-auto"> 
-                <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-center">
-                  <span className="text-2xl font-semibold text-gray-100">
-                    {getInitials()}
-                  </span>
-                </div>
-                <p className="font-bold">{name}</p>
-                </div>
-                <p className="mt-2 mb-8 text-sm font-semibold tracking-widest text-center">{user.email}</p>
-                
+                    <button className="font-medium hover:text-orange-300 mb-4 text-center">
+                      My Profile
+                    </button>
 
-              <button className="font-medium hover:text-orange-300 mb-4 text-center">
-                My Profile
-              </button>
-
-              <button className="font-medium hover:text-orange-300 mb-4 text-center">
-                My learnings
-              </button>
-
-            </>
-          )}
+                    <button
+                      className="font-medium hover:text-orange-300 mb-4 text-center"
+                      onClick={navigateUserdashboard}
+                    >
+                      My learnings
+                    </button>
+                  </>
+                )}
                 <button
                   className="text-center font-medium hover:text-orange-300 block mb-4"
                   onClick={navigateShop}
@@ -204,23 +218,26 @@ export default function Header({ ...props }) {
                   Mentors
                 </button>
 
-              <button className="font-medium hover:text-orange-300 font-medium mb-2 "
-              onClick={navigateBeInstructor}>
-                Be a Instuctor
-              </button>
+                <button
+                  className="font-medium hover:text-orange-300 font-medium mb-2 "
+                  onClick={navigateBeInstructor}
+                >
+                  Be a Instuctor
+                </button>
 
-              {user != null && (
-            <>
-              {" "}
-
-              <button
-                onClick={logout}
-                className="rounded-md w-28 mx-auto my-4"
-              >
-                <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">Logout</p>
-              </button>
-              </>
-              )}
+                {user != null && (
+                  <>
+                    {" "}
+                    <button
+                      onClick={logout}
+                      className="rounded-md w-28 mx-auto my-4"
+                    >
+                      <p className="text-gray-100 font-medium bg-orange-400 px-3 py-1 border-2 boder-white rounded-md">
+                        Logout
+                      </p>
+                    </button>
+                  </>
+                )}
 
                 <button
                   onClick={toggleMobileMenu}
@@ -229,8 +246,8 @@ export default function Header({ ...props }) {
                   <IoIosCloseCircleOutline />
                 </button>
               </div>
-             </div>
-           </div>
+            </div>
+          </div>
         )}
       </div>
     </header>
