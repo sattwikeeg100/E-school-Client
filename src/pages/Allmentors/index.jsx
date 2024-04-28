@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Text, Button, Img, Slider, Heading } from "../../components";
+import { Text,  Img,  Heading } from "../../components";
 import AllMentorsMaincard from "../../components/AllMentorsMaincard";
 import Footer from "../../components/Footer";
-import { TabPanel, TabList, Tab, Tabs } from "react-tabs";
 
 
 export default function AllmentorsPage() {
-  const [sliderState, setSliderState] = React.useState(0);
-  const sliderRef = React.useRef(null);
   const [users, setUsers] = useState([]);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 

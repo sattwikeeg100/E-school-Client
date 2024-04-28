@@ -1,292 +1,172 @@
-import React from "react";
-import { CloseSVG } from "../../assets/images";
-import { Button, Img, Text, SelectBox, Input, Heading, RatingBar } from "../../components";
-import EduviShopEight from "../../components/EduviShopEight";
-import EduviShopFive from "../../components/EduviShopFive";
-import EduviShopFour from "../../components/EduviShopFour";
-import EduviShopNine from "../../components/EduviShopNine";
-import EduviShopOne from "../../components/EduviShopOne";
-import EduviShopSeven from "../../components/EduviShopSeven";
-import EduviShopSix from "../../components/EduviShopSix";
-import EduviShopThree from "../../components/EduviShopThree";
-import EduviShopTwo from "../../components/EduviShopTwo";
+import React, { useEffect, useState } from "react";
+import { Img,} from "../../components";
 import Footer from "../../components/Footer";
-import Header from "../../components/Header";
+import { IoSearchSharp } from "react-icons/io5";
+import BooksCard from "components/BooksCard";
+import Loading from "Loading/loading";
+import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 
-const dropDownOptions = [
-  { label: "Option1", value: "option1" },
-  { label: "Option2", value: "option2" },
-  { label: "Option3", value: "option3" },
-];
 
 export default function ShopPage() {
-  const [searchBarValue6, setSearchBarValue6] = React.useState("");
+  const [input, setInput] = useState("");
+  const [searchValues, setSearchValues] = useState("");
+  const [errorDiv, setErrorDiv] = useState(false);
+  const [books, setBooks] = useState();
+  const [demoData, setDemoData]= useState()
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1)
+  console.log(books)
+ 
+  useEffect(() => {
+    const searchUrl =
+      searchValues === ""
+        ? "https://api.itbook.store/1.0/new"
+        : `https://api.itbook.store/1.0/search/${searchValues}`;
 
+    if (searchValues !== "") {
+      setLoading(true);
+      setPage(1)
+      fetch(searchUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setBooks(data);
+          if (data.books.length === 0) {
+            setErrorDiv(true);
+            setBooks(demoData);
+          } else {
+            setErrorDiv(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      fetch(searchUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setBooks(data);
+        setDemoData(data)
+        setErrorDiv(false); // Reset errorDiv if searchValues is empty
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
+  }, [searchValues]);
+
+
+  const handleSearch = () => {
+    setSearchValues(input);
+  };
+
+  const totalPages = Math.ceil(books?.books.length / 6);
+
+  const pageHandleler = (e)=>{
+    if(
+      e >= 1 &&
+      e <= totalPages &&
+      e !== page
+    )
+    setPage(e)
+  }
   return (
     <>
       <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
-        <div className="flex flex-col items-center justify-start w-full gap-12">
-          <div className="flex flex-col items-start justify-start w-full gap-[5px] p-5 bg-red-50 max-w-7xl rounded-[20px]">
-            <Text as="p" className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium">
-              Home | Shop
-            </Text>
-            <div className="flex flex-row justify-between items-center w-[99%] ml-2.5 gap-[492px]">
-              <Heading size="3xl" as="h1" className="w-[30%] !font-semibold">
-                Educatsy Online
+      <div className="flex flex-row md:flex-col items-center justify-between w-[85%] h-[300px] gap-6 sm:gap-1 px-12 sm:px-0 bg-yellow-100 rounded-md mt-12 sm:mt-1 sm:py-2  sm:h-[250px]">
+              <h1 className="text-3xl w-[40%] !font-semibold sm:text-xl sm:w-[85%]">
+              Welcome to Learnopia shop
                 <br />
-                Book Shop
-              </Heading>
-              <Img src="images/img_kisspng_bookcas.png" alt="kisspngbookcas" className="w-[31%] object-cover" />
-            </div>
-          </div>
+               buy online Books 
+               <br />
+               and Courses
+              </h1>
+              <Img src="images/img_kisspng_bookcas.png" alt="kisspngbookcas" className="w-[31%] object-cover sm:w-[90%]" />
         </div>
-        <div className="flex flex-row justify-start items-start w-full pl-20 pr-14 gap-10">
-          <div className="flex flex-col w-[31%] gap-[39px]">
-            <div className="flex flex-col items-start justify-start w-full pt-0.5 gap-3.5">
-              <Heading size="xl" as="h2" className="!text-black-900_02">
-                Popular Books
-              </Heading>
-              <div className="flex flex-col w-full gap-[15px]">
-                <div className="flex flex-row justify-start items-center w-full gap-[15px] p-[21px] bg-white-A700 rounded-[10px]">
-                  <Img
-                    src="images/img_image_14.png"
-                    alt="popular_books"
-                    className="w-[21%] ml-[3px] object-cover rounded-[5px]"
-                  />
-                  <div className="flex flex-col items-start justify-start w-[73%] mr-[3px] gap-2.5">
-                    <RatingBar
-                      value={5}
-                      isEditable={true}
-                      color="#ffc107"
-                      activeColor="#ffc107"
-                      size={16}
-                      className="flex justify-between w-[92px]"
-                    />
-                    <Heading as="h3" className="!text-black-900_02">
-                      The Three Musketeers, by
-                      <br />
-                      Alexandre Dumas
-                    </Heading>
-                    <Heading as="h4" className="!text-red-300_01">
-                      $39.00
-                    </Heading>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-start items-center w-full gap-[15px] p-[21px] bg-white-A700 rounded-[10px]">
-                  <Img
-                    src="images/img_image_90x75.png"
-                    alt="image"
-                    className="w-[21%] ml-[3px] object-cover rounded-[5px]"
-                  />
-                  <div className="flex flex-col items-start justify-start w-[73%] mr-[3px] gap-2.5">
-                    <RatingBar
-                      value={5}
-                      isEditable={true}
-                      color="#ffc107"
-                      activeColor="#ffc107"
-                      size={16}
-                      className="flex justify-between w-[92px]"
-                    />
-                    <Heading as="h5" className="!text-black-900_02">
-                      The Three Musketeers, by
-                      <br />
-                      Alexandre Dumas
-                    </Heading>
-                    <Heading as="h6" className="!text-red-300_01">
-                      $39.00
-                    </Heading>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-start items-center w-full gap-[15px] p-[21px] bg-white-A700 rounded-[10px]">
-                  <Img
-                    src="images/img_image_4.png"
-                    alt="image"
-                    className="w-[21%] ml-[3px] object-cover rounded-[5px]"
-                  />
-                  <div className="flex flex-col items-start justify-start w-[73%] mr-[3px] gap-2.5">
-                    <RatingBar
-                      value={5}
-                      isEditable={true}
-                      color="#ffc107"
-                      activeColor="#ffc107"
-                      size={16}
-                      className="flex justify-between w-[92px]"
-                    />
-                    <Heading as="h6" className="!text-black-900_02">
-                      The Three Musketeers, by
-                      <br />
-                      Alexandre Dumas
-                    </Heading>
-                    <Heading as="h6" className="!text-red-300_01">
-                      $39.00
-                    </Heading>
-                  </div>
-                </div>
-              </div>
-              <Text size="xl" as="p" className="!text-red-300_01">
-                See More
-              </Text>
-            </div>
-            <div className="flex flex-col items-start justify-start w-full gap-4">
-              <Heading size="xl" as="h3" className="!text-black-900_02">
-                New Arrivals
-              </Heading>
-              <div className="flex flex-col w-full gap-[15px]">
-                <div className="flex flex-row justify-start items-center w-full gap-[15px] p-[21px] bg-white-A700 rounded-[10px]">
-                  <Img
-                    src="images/img_image_14.png"
-                    alt="new_arrivals"
-                    className="w-[21%] ml-[3px] object-cover rounded-[5px]"
-                  />
-                  <div className="flex flex-col items-start justify-start w-[73%] mr-[3px] gap-2.5">
-                    <RatingBar
-                      value={5}
-                      isEditable={true}
-                      color="#ffc107"
-                      activeColor="#ffc107"
-                      size={16}
-                      className="flex justify-between w-[92px]"
-                    />
-                    <Heading as="h6" className="!text-black-900_02">
-                      The Three Musketeers, by
-                      <br />
-                      Alexandre Dumas
-                    </Heading>
-                    <Heading as="h6" className="!text-red-300_01">
-                      $39.00
-                    </Heading>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-start items-center w-full gap-[15px] p-[21px] bg-white-A700 rounded-[10px]">
-                  <Img
-                    src="images/img_image_90x75.png"
-                    alt="image_one"
-                    className="w-[21%] ml-[3px] object-cover rounded-[5px]"
-                  />
-                  <div className="flex flex-col items-start justify-start w-[73%] mr-[3px] gap-2.5">
-                    <RatingBar
-                      value={5}
-                      isEditable={true}
-                      color="#ffc107"
-                      activeColor="#ffc107"
-                      size={16}
-                      className="flex justify-between w-[92px]"
-                    />
-                    <Heading as="h6" className="!text-black-900_02">
-                      The Three Musketeers, by
-                      <br />
-                      Alexandre Dumas
-                    </Heading>
-                    <Heading as="h6" className="!text-red-300_01">
-                      $39.00
-                    </Heading>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-start items-center w-full gap-[15px] p-[21px] bg-white-A700 rounded-[10px]">
-                  <Img
-                    src="images/img_image_4.png"
-                    alt="image_one"
-                    className="w-[21%] ml-[3px] object-cover rounded-[5px]"
-                  />
-                  <div className="flex flex-col items-start justify-start w-[73%] mr-[3px] gap-2.5">
-                    <RatingBar
-                      value={5}
-                      isEditable={true}
-                      color="#ffc107"
-                      activeColor="#ffc107"
-                      size={16}
-                      className="flex justify-between w-[92px]"
-                    />
-                    <Heading as="h6" className="!text-black-900_02">
-                      The Three Musketeers, by
-                      <br />
-                      Alexandre Dumas
-                    </Heading>
-                    <Heading as="h6" className="!text-red-300_01">
-                      $39.00
-                    </Heading>
-                  </div>
-                </div>
-              </div>
-              <Text size="xl" as="p" className="!text-red-300_01">
-                See More
-              </Text>
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-start w-[65%] gap-10">
-            <div className="flex flex-col items-center justify-start w-full gap-[30px]">
-              <div className="flex flex-row justify-start w-full gap-6">
-                <Button color="orange_200_01" className="font-medium min-w-[131px] rounded-[10px]">
-                  All Books
-                </Button>
-                <Button color="white_A700" className="font-medium min-w-[212px] rounded-[10px]">
-                  Kindergarten
-                </Button>
-                <Button color="white_A700" className="font-medium min-w-[212px] rounded-[10px]">
-                  High School
-                </Button>
-                <Button color="white_A700" className="font-medium min-w-[212px] rounded-[10px]">
-                  College
-                </Button>
-              </div>
-              <div className="flex flex-row justify-start w-full gap-[15px]">
-                <Input
-                  color="white_A700"
-                  size="md"
-                  name="search"
-                  placeholder="Search Class, Course, Book Name"
-                  value={searchBarValue6}
-                  onChange={(e) => setSearchBarValue6(e)}
-                  suffix={
-                    searchBarValue6?.length > 0 ? (
-                      <CloseSVG onClick={() => setSearchBarValue6("")} height={24} width={24} fillColor="#ffffffff" />
-                    ) : (
-                      <Img src="images/img_search.svg" alt="search" className="cursor-pointer" />
-                    )
-                  }
-                  className="w-[67%] gap-[35px] !text-gray-700_99 rounded-tr-[10px] rounded-br-[10px] font-medium"
+        </div>
+        <div className="w-full bg-gray-100 py-12 px-20 sm:px-2">
+         <div className="px-10 sm:px-0" >
+          <h1 className="text-4xl !font-bold sm:text-2xl"
+          >Popular Books</h1>
+         </div>
+         <div>
+          <div 
+          className="flex flex-row mt-4 justify-center"
+          >
+         <input
+                  id="searchValues"
+                  name="searchValues"
+                  type="text"
+                  required
+                  placeholder="Search books..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="block w-[600px] sm:w-full rounded-l-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 sm:text-sm sm:leading-6"
                 />
-                <SelectBox
-                  indicator={<Img src="images/img_arrowdown_red_300_01.svg" alt="arrow_down" />}
-                  name="sortbylatest"
-                  placeholder="Sort by: Latest"
-                  options={dropDownOptions}
-                  className="w-[33%] gap-px font-medium"
-                />
+          <button
+                type="button"
+                onClick={handleSearch}
+                className="text-orange-700 flex w-20 justify-center rounded-r-md bg-orange-500 px-3 py-1.5 text-2xl leading-6 text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              >
+              <IoSearchSharp />
+              </button>
+           </div>
+        </div>
+          {errorDiv ? (
+              <div className="text-center mt-2">
+                <h1 className="text-xl font-semibold">No result Found</h1>
               </div>
-              <div className="justify-center w-full gap-[15px] grid-cols-3 grid min-h-[auto]">
-                <EduviShopOne className="flex flex-col items-center justify-start w-full gap-2" />
-                <EduviShopTwo className="flex flex-col items-center justify-start w-full gap-2" />
-                <EduviShopThree className="flex flex-col items-center justify-start w-full gap-2" />
-                <EduviShopFour className="flex flex-col items-center justify-start w-full gap-2" />
-                <EduviShopFive className="flex flex-col items-center justify-start w-full gap-2" />
-                <EduviShopSix className="flex flex-col items-center justify-start w-full gap-2" />
-                <EduviShopSeven className="flex flex-col items-center justify-start w-full gap-2" />
-                <EduviShopEight className="flex flex-col items-center justify-start w-full gap-2" />
-                <EduviShopNine className="flex flex-col items-center justify-start w-full gap-2" />
-              </div>
-            </div>
-            <div className="flex flex-row justify-between items-center w-[35%]">
-              <Button color="white_A700" size="lg" className="w-[15%] !rounded-md">
-                <Img src="images/img_arrow_left.svg" />
-              </Button>
-              <Text as="p" className="!text-gray-900 !font-medium">
-                Page
-              </Text>
-              <Button color="white_A700" size="sm" className="!text-gray-700_01 font-medium min-w-[42px] rounded-lg">
-                5
-              </Button>
-              <Text as="p" className="!text-gray-900 !font-medium">
-                of 80
-              </Text>
-              <Button size="lg" className="w-[15%] !rounded-md">
-                <Img src="images/img_arrow_right.svg" />
-              </Button>
-            </div>
+            ):null
+          }
+        <div className="flex flex-wrap mt-4 items-center w-full justify-center gap-8 py-4">
+
+        {loading && (
+          <div className="py-2 rounded">
+            <Loading />
           </div>
+        )}
+        {books?.books.slice(page * 6 - 6, page * 6).map((product, index) => (
+      <BooksCard
+      key={index}
+    image={product.image}
+    title={product.title}
+    subtitle={product.subtitle}
+    price={product.price}
+  />
+))}
+        </div>
+        {books?.books.length > 6 && 
+          <div className="gap-2 text-center my-8 flex flex-row justify-center">
+          
+          <button className={`text-2xl hover:text-gray-100 hover:bg-orange-300 px-2 rounded-md  ${page > 1 ? '' :'opacity-20 hover:bg-gray-400' }`}
+          onClick={() => pageHandleler(page - 1)}
+          ><MdOutlineKeyboardDoubleArrowLeft /></button>
+            
+             <span className="text-center">
+               {[...Array(Math.ceil(books.books.length / 6))].fill().map((_, i) => (
+               <button onClick={() => pageHandleler(i+1)} key={i} 
+               className={`mx-2 hover:text-orange-600 cursor-pointer ${page === i + 1 ? 'text-orange-600' : ''}`}
+               >{i + 1}</button>
+                ))}
+             </span>
+
+             <button className={`text-2xl hover:text-gray-100 hover:bg-orange-300 px-2 rounded-md ${page < totalPages ? '' :'opacity-20 hover:bg-gray-400' }`}
+            onClick={() => pageHandleler(page + 1)}
+            ><MdOutlineKeyboardDoubleArrowRight /></button>
+          </div>
+          }
+        
         </div>
         <Footer className="flex flex-col items-center justify-center w-full" />
-      </div>
+      
     </>
   );
 }
