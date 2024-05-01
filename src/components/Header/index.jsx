@@ -5,10 +5,12 @@ import { Context } from "context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaFaceGrinStars } from "react-icons/fa6";
+import { Dropdown, Menu } from "antd";
 
 export default function Header({ ...props }) {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false); // State to manage dropdown menu
   const { state, dispatch } = useContext(Context);
   const { user } = state;
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -17,6 +19,9 @@ export default function Header({ ...props }) {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
   const logout = async () => {
     dispatch({
       type: "LOGOUT",
@@ -53,6 +58,10 @@ export default function Header({ ...props }) {
     navigate("/mylearning");
     setMobileMenuOpen(false);
   };
+  const navigateUserCart = () => {
+    navigate("/mycart");
+    setMobileMenuOpen(false);
+  };
 
   const Firstname = user?.name.split(" ");
   const name = Firstname?.[0]?.toUpperCase();
@@ -61,6 +70,18 @@ export default function Header({ ...props }) {
     const firstInitial = user ? user.name.charAt(0).toUpperCase() : "";
     return firstInitial || <FaFaceGrinStars />;
   };
+
+  // Menu for Ant Design Dropdown
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" onClick={navigateUserCart}>
+        My Cart
+      </Menu.Item>
+      <Menu.Item key="2" onClick={logout}>
+        Logout
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <header {...props}>
@@ -125,17 +146,21 @@ export default function Header({ ...props }) {
               >
                 My learnings
               </button>
-              <button
-                onClick={logout}
-                className="flex items-center gap-1 float-right"
-              >
-                <p className="text-gray-900 font-medium mr-1">{name}</p>
-                <div className="w-10 h-10 bg-orange-400 rounded-full mx-auto  flex items-center justify-center">
-                  <span className="text-xl font-semibold text-gray-100">
-                    {getInitials()}
-                  </span>
-                </div>
-              </button>
+
+              <Dropdown overlay={menu} trigger={["click"]}>
+                <button
+                  className="flex items-center gap-1 float-right"
+                  id="dropdown-menu"
+                >
+                  <p className="text-gray-900 font-medium mr-1">{name}</p>
+                  <div className="w-10 h-10 bg-orange-400 rounded-full mx-auto  flex items-center justify-center">
+                    <span className="text-xl font-semibold text-gray-100">
+                      {getInitials()}
+                    </span>
+                  </div>
+                </button>
+              </Dropdown>
+
             </>
           )}
         </div>
@@ -183,6 +208,13 @@ export default function Header({ ...props }) {
                       onClick={navigateUserdashboard}
                     >
                       My learnings
+                    </button>
+
+                    <button
+                      className="font-medium hover:text-orange-300 mb-4 text-center"
+                      onClick={navigateUserCart}
+                    >
+                      My Cart
                     </button>
                   </>
                 )}

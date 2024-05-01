@@ -5,10 +5,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Context } from "context";
 
-export default function EduviShopMainCard({
+export default function EduviCartProductCard({
   imgsrc,
   title,
   author,
+  publisher,
+  isbn,
+  format,
   ratings,
   price,
   productId,
@@ -19,23 +22,7 @@ export default function EduviShopMainCard({
     state: { user },
   } = useContext(Context);
 
-  const [isaddedtobag, setIsAddedToBag] = useState(false);
-  useEffect(() => {
-    const fetchUserCart = async () => {
-      try {
-        const response = await axios.get(
-          `${API_BASE_URL}/current-user`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
-        );
-        const userCart = response.data.cart.products;
-        setIsAddedToBag(userCart.includes(productId));
-      } catch (error) {
-        console.error("Error fetching user cart:", error);
-      }
-    };
-  
-    fetchUserCart();
-  });
+  const [isaddedtobag, setIsAddedToBag] = useState(true);
 
   const handleAddToCart = async () => {
     try {
@@ -73,10 +60,18 @@ export default function EduviShopMainCard({
           />
         </div>
 
-        <div className="flex flex-row justify-between items-center w-full">
-          <Heading as="h1" className="text-lg font-semibold text-gray-900">
-            {title} <br /> <i> Author: {author} </i>
-          </Heading>
+        <div className="flex flex-row md:flex-wrap justify-center items-center w-full gap-5">
+          <div className="flex flex-col justify-start md:w-full w-[80%] gap-[5px]">
+          <h5 className="text-lg font-semibold text-gray-900">
+            {title}
+          </h5>
+          <h6>
+            Author: {author} <br />
+            Publisher: {publisher} <br />  
+            ISBN: {isbn} 
+          </h6>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-center w-[25%] md:w-full gap-[5px]">
           <Button
             color={isaddedtobag ? "red_300_01" : "red_50"}
             size="lg"
@@ -91,7 +86,13 @@ export default function EduviShopMainCard({
               }
             />
           </Button>
+          <h5 className="text-lg font-semibold text-gray-900">
+            {format}
+          </h5>
+          </div>
         </div>
+        
+        
         <div className="flex flex-row justify-between items-center w-full">
           <Heading as="h2" className="text-red-300_01">
             Rs. {price}
