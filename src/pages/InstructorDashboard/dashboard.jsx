@@ -12,6 +12,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Heading } from "components";
 
 export default function InstructorDashboard() {
   const {
@@ -19,6 +20,7 @@ export default function InstructorDashboard() {
   } = useContext(Context);
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
+  const [products, setProducts] = useState([]);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
@@ -41,6 +43,22 @@ export default function InstructorDashboard() {
       },
     });
     setCourses(data);
+  };
+
+
+  useEffect(() => {
+    if (user && user.token) {
+      loadProducts();
+    }
+  }, [user]);
+  const loadProducts = async () => {
+    const { data } = await axios.get(`${API_BASE_URL}/instructor-products`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    console.log(data);
+    setProducts(data);
   };
 
   const handlePublish = async (e, index) => {
@@ -90,9 +108,11 @@ export default function InstructorDashboard() {
   };
 
   return (
-    <div>
-      <h1 className="jumbotron text-center square">Course List</h1>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+    <div className="flex flex-col gap-[50px] mb-20">
+    <div className="mx-[130px] md:mx-4">
+      <Heading size="3xl" as="h1" className="text-center !font-semibold">Your Courses List</Heading>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "25px" }}>
+        {courses.length===0 && <div className="text-xl"><i>You have not created any course yet!</i></div>}
         {courses &&
           courses.map((course, index) => (
             <>
@@ -167,6 +187,51 @@ export default function InstructorDashboard() {
             </>
           ))}
       </div>
+    </div>
+
+
+    <div className="mx-[130px] md:mx-4">
+      <Heading size="3xl" as="h1" className="text-center !font-semibold">Your Products List</Heading>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "25px" }}>
+        {products.length===0 && <div className="text-xl"><i>You have not created any product yet!</i></div>}
+        {products &&
+          products.map((product, index) => (
+            <>
+              <Card className="mt-6 w-96 pt-4 bg-white-A700_b2 shadow-md">
+                <CardHeader color="blue-gray" className="relative">
+                  <img
+                    src={
+                      product.image
+                        ? product.image.url
+                        : "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                    }
+                    alt="card-image"
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      objectFit: "cover",
+                    }}
+                    className="items-center justify-center"
+                  />
+                </CardHeader>
+                <CardBody>
+                  <Typography variant="h5" color="blue-gray" className="font-bold mb-2">
+                    {product.title}
+                  </Typography>
+                  <Typography variant="h6" color="blue-gray" className="mb-2">
+                    Category: {product.category}
+                  </Typography>
+                  <Typography className="mb-2">Author: {product.author}</Typography>
+                  <Typography className="mb-2">Publisher: {product.publisher}</Typography>
+                  <Typography className="mb-2">ISBN: {product.isbn}</Typography>
+                  <Typography className="mb-2">Price: Rs. {product.price}</Typography>
+                </CardBody>
+              </Card>
+            </>
+          ))}
+      </div>
+    </div>
+
     </div>
   );
 }

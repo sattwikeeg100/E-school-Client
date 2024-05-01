@@ -42,6 +42,10 @@ const image = user?.image.url
     navigate("/create-course")
     setMobileMenuOpen(false)
    };
+   const navigateCreateProduct = () =>{
+    navigate("/create-product")
+    setMobileMenuOpen(false)
+   };
   const navigateBeInstructor = () =>{
     navigate("/")
     setMobileMenuOpen(false)
@@ -106,6 +110,12 @@ const image = user?.image.url
           </button>
           <button
             className="font-medium hover:text-orange-300"
+            onClick={navigateCreateProduct}
+          >
+            Create Product
+          </button>
+          <button
+            className="font-medium hover:text-orange-300"
             onClick={navigateMentor}
           >
             Overview
@@ -139,21 +149,33 @@ const image = user?.image.url
                 <p className="mt-2 mb-8 text-sm font-semibold tracking-widest text-center">{user.email}</p>
                 
 
-              <button className="font-medium hover:text-orange-300 mb-4 text-center">
+              <button 
+                className="font-medium hover:text-orange-300 mb-4 text-center"
+                onClick={navigateBeInstructor}
+              >
                 My Dashboard
               </button>
 
-              <button className="font-medium hover:text-orange-300 mb-4 text-center">
+              <button 
+                className="font-medium hover:text-orange-300 mb-4 text-center"
+                onClick={navigateCreateCourse}
+              >
                Create Course
               </button>
 
-        
-                <button
-                  className="text-center font-medium hover:text-orange-300 block mb-4"
-                  onClick={navigateShop}
-                >
-                 Overview
-                </button>
+              <button 
+                className="font-medium hover:text-orange-300 mb-4 text-center"
+                onClick={navigateCreateProduct}
+              >
+               Create Product
+              </button>
+
+              <button
+                className="text-center font-medium hover:text-orange-300 block mb-4"
+                onClick={navigateMentor}
+              >
+                Overview
+              </button>
 
           
               <button

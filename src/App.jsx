@@ -22,6 +22,8 @@ import AllcoursesPage from "pages/AllCourses";
 import CoursesDetailsPage from "./pages/EduviCoursesDetails/slug";
 import PaymentSuccess from "pages/EduviCoursesDetails/PaymentSuccess";
 import MyLearning from "pages/UserDashboard/MyLearning";
+import CreateProduct from "pages/createProduct";
+import MyCart from "pages/My Cart";
 
 function App() {
   // const navigationElement = <Header1/>
@@ -70,6 +72,10 @@ function App() {
           element: <MyLearning />,
         },
         {
+          path: "/mycart",
+          element: <MyCart />,
+        },
+        {
           path: "/course/:slug",
           element: <CoursesDetailsPage />,
         },
@@ -100,6 +106,10 @@ function App() {
         {
           path: "/create-course",
           element: <CreateCourse />,
+        },
+        {
+          path: "/create-product",
+          element: <CreateProduct />,
         },
         { path: "/course/view/:slug", element: <CourseView /> },
       ],

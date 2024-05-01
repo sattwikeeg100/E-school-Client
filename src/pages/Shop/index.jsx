@@ -1,172 +1,225 @@
-import React, { useEffect, useState } from "react";
-import { Img,} from "../../components";
+import React, { useState, useEffect } from "react";
+import { Button, Img, Text, SelectBox, Input, Heading } from "../../components";
+import EduviShopMainCard from "../../components/EduviShopMainCard";
+import EduviShopPopularsCard from "components/EduviShopPopularsCard";
+import EduviShopNewArrivalCard from "components/EduviShopNewArrivalCard";
 import Footer from "../../components/Footer";
-import { IoSearchSharp } from "react-icons/io5";
-import BooksCard from "components/BooksCard";
-import Loading from "Loading/loading";
-import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
-import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import axios from "axios";
 
+const dropDownOptions = [
+  { label: "Sort by: Latest", value: "option1" },
+  { label: "Sort by: Price", value: "option2" },
+  { label: "Sort by: Ratings", value: "option3" },
+];
 
 export default function ShopPage() {
-  const [input, setInput] = useState("");
-  const [searchValues, setSearchValues] = useState("");
-  const [errorDiv, setErrorDiv] = useState(false);
-  const [books, setBooks] = useState();
-  const [demoData, setDemoData]= useState()
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1)
-  console.log(books)
- 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const [bookdata, setBookdata] = useState([]);
+
   useEffect(() => {
-    const searchUrl =
-      searchValues === ""
-        ? "https://api.itbook.store/1.0/new"
-        : `https://api.itbook.store/1.0/search/${searchValues}`;
+    const fetchBooks = async () => {
+      const { data } = await axios.get(`${API_BASE_URL}/products`);
+      setBookdata(data);
+      console.log(bookdata);
+    };
+    fetchBooks();
+  }, []);
 
-    if (searchValues !== "") {
-      setLoading(true);
-      setPage(1)
-      fetch(searchUrl)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setBooks(data);
-          if (data.books.length === 0) {
-            setErrorDiv(true);
-            setBooks(demoData);
-          } else {
-            setErrorDiv(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      fetch(searchUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setBooks(data);
-        setDemoData(data)
-        setErrorDiv(false); // Reset errorDiv if searchValues is empty
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }
-  }, [searchValues]);
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-
-  const handleSearch = () => {
-    setSearchValues(input);
+  // Category
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
   };
 
-  const totalPages = Math.ceil(books?.books.length / 6);
+  // Search
+  const [searchBarValue, setSearchBarValue] = useState("");
+  const handleSearch = (event) => {
+    setSearchBarValue(event.target.value);
+  };
 
-  const pageHandleler = (e)=>{
-    if(
-      e >= 1 &&
-      e <= totalPages &&
-      e !== page
+
+  const filteredBooks = searchBarValue
+  ? bookdata.filter((book) =>
+      book.title.toLowerCase().includes(searchBarValue.toLowerCase())
     )
-    setPage(e)
+  : selectedCategory
+  ? bookdata.filter((book) => book.category === selectedCategory)
+  : bookdata;
+
+  const totalpages = Math.ceil(filteredBooks.length / itemsPerPage);
+  // Sorting
+  const [sortBy, setSortBy] = React.useState("option1"); 
+  const handleSort = (selectedOption) => {
+    setSortBy(selectedOption.value);
+  };
+
+  let sortedBooks = [...filteredBooks]; 
+  switch (sortBy) {
+    case "option2":
+      sortedBooks.sort((a, b) => a.price - b.price); // Sort by price
+      break;
+    case "option3":
+      sortedBooks.sort((a, b) => b.totalrating - a.totalrating); // Sort by ratings
+      break;
+    default:
+      sortedBooks.sort((a, b) => new Date(b.publication_date) - new Date(a.publication_date)); // Sort by latest
+      break;
   }
+
   return (
     <>
-      <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
-      <div className="flex flex-row md:flex-col items-center justify-between w-[85%] h-[300px] gap-6 sm:gap-1 px-12 sm:px-0 bg-yellow-100 rounded-md mt-12 sm:mt-1 sm:py-2  sm:h-[250px]">
-              <h1 className="text-3xl w-[40%] !font-semibold sm:text-xl sm:w-[85%]">
-              Welcome to Learnopia shop
+      <div className="flex flex-col items-center justify-start w-full gap-[100px] md:gap-[30px] bg-gray-100">
+        <div className="flex flex-col items-center justify-start w-full gap-12">
+          <div className="flex flex-col items-start justify-start w-full gap-[5px] p-5 bg-red-50 max-w-7xl rounded-[20px]">
+            <Text as="p" className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium">
+              Home | Shop
+            </Text>
+            <div className="flex flex-row md:flex-wrap justify-between items-center w-[99%] ml-2.5 gap-[492px] md:gap-[50px]">
+              <Heading size="3xl" as="h1" className="w-[30%] !font-semibold">
+                Learnopia Online
                 <br />
-               buy online Books 
-               <br />
-               and Courses
-              </h1>
-              <Img src="images/img_kisspng_bookcas.png" alt="kisspngbookcas" className="w-[31%] object-cover sm:w-[90%]" />
-        </div>
-        </div>
-        <div className="w-full bg-gray-100 py-12 px-20 sm:px-2">
-         <div className="px-10 sm:px-0" >
-          <h1 className="text-4xl !font-bold sm:text-2xl"
-          >Popular Books</h1>
-         </div>
-         <div>
-          <div 
-          className="flex flex-row mt-4 justify-center"
-          >
-         <input
-                  id="searchValues"
-                  name="searchValues"
-                  type="text"
-                  required
-                  placeholder="Search books..."
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="block w-[600px] sm:w-full rounded-l-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 sm:text-sm sm:leading-6"
-                />
-          <button
-                type="button"
-                onClick={handleSearch}
-                className="text-orange-700 flex w-20 justify-center rounded-r-md bg-orange-500 px-3 py-1.5 text-2xl leading-6 text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-              >
-              <IoSearchSharp />
-              </button>
-           </div>
-        </div>
-          {errorDiv ? (
-              <div className="text-center mt-2">
-                <h1 className="text-xl font-semibold">No result Found</h1>
-              </div>
-            ):null
-          }
-        <div className="flex flex-wrap mt-4 items-center w-full justify-center gap-8 py-4">
-
-        {loading && (
-          <div className="py-2 rounded">
-            <Loading />
+                Book Shop
+              </Heading>
+              <Img src="images/img_kisspng_bookcas.png" alt="kisspngbookcas" className="w-[31%] object-cover md:w-[50%]" />
+            </div>
           </div>
-        )}
-        {books?.books.slice(page * 6 - 6, page * 6).map((product, index) => (
-      <BooksCard
-      key={index}
-    image={product.image}
-    title={product.title}
-    subtitle={product.subtitle}
-    price={product.price}
-  />
-))}
         </div>
-        {books?.books.length > 6 && 
-          <div className="gap-2 text-center my-8 flex flex-row justify-center">
-          
-          <button className={`text-2xl hover:text-gray-100 hover:bg-orange-300 px-2 rounded-md  ${page > 1 ? '' :'opacity-20 hover:bg-gray-400' }`}
-          onClick={() => pageHandleler(page - 1)}
-          ><MdOutlineKeyboardDoubleArrowLeft /></button>
-            
-             <span className="text-center">
-               {[...Array(Math.ceil(books.books.length / 6))].fill().map((_, i) => (
-               <button onClick={() => pageHandleler(i+1)} key={i} 
-               className={`mx-2 hover:text-orange-600 cursor-pointer ${page === i + 1 ? 'text-orange-600' : ''}`}
-               >{i + 1}</button>
+        <div className="flex flex-row justify-start items-start w-full pl-20 pr-14 gap-10">
+          <div className="md:hidden flex flex-col w-[31%] gap-[39px]">
+            <div className="flex flex-col items-start justify-start w-full pt-0.5 gap-3.5">
+              <Heading size="xl" as="h2" className="!text-black-900_02">
+                Popular Books
+              </Heading>
+              <div className="flex flex-col w-full gap-[15px]">
+                {bookdata.slice(0, 4).map(book => (
+                      <div key={book.isbn}>
+                      <EduviShopPopularsCard className="flex flex-col items-center justify-start w-full" 
+                        imgsrc={book.image.url}
+                        title={book.title}
+                        author={book.author}
+                        ratings={book.totalrating}
+                        price={book.price}
+                      />
+                      </div>
                 ))}
-             </span>
-
-             <button className={`text-2xl hover:text-gray-100 hover:bg-orange-300 px-2 rounded-md ${page < totalPages ? '' :'opacity-20 hover:bg-gray-400' }`}
-            onClick={() => pageHandleler(page + 1)}
-            ><MdOutlineKeyboardDoubleArrowRight /></button>
+              </div>
+              <Text size="xl" as="p" className="!text-red-300_01">
+                See More
+              </Text>
+            </div>
+            <div className="flex flex-col items-start justify-start w-full gap-4">
+              <Heading size="xl" as="h3" className="!text-black-900_02">
+                New Arrivals
+              </Heading>
+              <div className="flex flex-col w-full gap-[15px]">
+              {bookdata.slice(Math.max(bookdata.length - 3, 0)).map(book => (
+                  <div key={book.isbn}>
+                      <EduviShopNewArrivalCard className="flex flex-col items-center justify-start w-full" 
+                          imgsrc={book.image.url}
+                          title={book.title}
+                          author={book.author}
+                          ratings={book.totalrating}
+                          price={book.price}
+                      />
+                  </div>
+              ))}
+              </div>
+              <Text size="xl" as="p" className="!text-red-300_01">
+                See More
+              </Text>
+            </div>
           </div>
-          }
-        
+          <div className="flex flex-col items-center justify-start w-[65%] md:w-full gap-10">
+            <div className="flex flex-col items-center justify-start w-full gap-[30px]">
+              <div className="flex flex-row justify-start w-full gap-5 md:flex-wrap md:gap-1">
+                <Button color={selectedCategory === "" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("")}>
+                  All Books
+                </Button>
+                <Button color={selectedCategory === "Coding" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Coding")}>
+                  Coding
+                </Button>
+                <Button color={selectedCategory === "AI/ML/DS" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("AI/ML/DS")}>
+                  AI/ML/DS
+                </Button>
+                <Button color={selectedCategory === "Design" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Design")}>
+                  Design
+                </Button>
+                <Button color={selectedCategory === "Finance" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Finance")}>
+                  Finance
+                </Button>
+                <Button color={selectedCategory === "Motivation" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Motivation")}>
+                  Motivation
+                </Button>
+              </div>
+              <div className="flex flex-row justify-start w-full gap-[15px] md:flex-col md:gap-1">
+                <form className="flex w-[77%] md:w-full" onSubmit={(e) => e.preventDefault()}>
+                  <input
+                    type="text"
+                    placeholder="Search by Book Name"
+                    value={searchBarValue}
+                    onChange={handleSearch}
+                    className="px-4 w-[80%] bg-white font-medium rounded-l-md border-orange-200 focus:ring-orange-300"
+                  />
+                  <button
+                    type="submit"
+                    className="w-[20%] md:w-[25%] bg-orange-200 font-medium text-white rounded-r-md hover:bg-orange-300 focus:outline-none"
+                  >
+                    Search
+                  </button>
+                </form>
+
+                <SelectBox
+                  indicator={<Img src="images/img_arrowdown_red_300_01.svg" alt="arrow_down" />}
+                  name="sortbylatest"
+                  placeholder="Sort by: Latest"
+                  options={dropDownOptions}
+                  onChange={handleSort}
+                  className="w-[33%] gap-px font-medium md:w-full"
+                />
+              </div>
+              <div className="justify-center w-full gap-[15px] grid-cols-3 md:grid-cols-1 grid min-h-[auto]">
+                {sortedBooks.slice(indexOfFirstItem, indexOfLastItem).map(book => (
+                    <div key={book.isbn}>
+                    <EduviShopMainCard className="flex flex-col items-center justify-start w-full" 
+                      productId={book._id}
+                      imgsrc={book.image.url}
+                      title={book.title}
+                      author={book.author}
+                      ratings={book.totalrating}
+                      price={book.price}
+                    />
+                    </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-row justify-between items-center w-[35%] md:w-full">
+              <Button color="white_A700" size="lg" className="w-[15%] !rounded-md" onClick={() => paginate(currentPage - 1)}>
+                <Img src="images/img_arrow_left.svg" />
+              </Button>
+              <Text as="p" className="!text-gray-900 !font-medium">
+                Page
+              </Text>
+              <Button color="white_A700" size="sm" className="!text-gray-700_01 font-medium min-w-[42px] rounded-lg">
+                {currentPage > totalpages ? totalpages : currentPage < 1 ? 1 : currentPage}
+              </Button>
+              <Text as="p" className="!text-gray-900 !font-medium">
+                of {totalpages}
+              </Text>
+              <Button size="lg" className="w-[15%] !rounded-md" onClick={() => paginate(currentPage + 1)}>
+                <Img src="images/img_arrow_right.svg" />
+              </Button>
+            </div>
+          </div>
         </div>
         <Footer className="flex flex-col items-center justify-center w-full" />
-      
+      </div>
     </>
   );
 }

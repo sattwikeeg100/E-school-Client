@@ -1,30 +1,24 @@
+import React from 'react';
+import ReactStars from 'react-rating-stars-component';
 
-import ReactStars from "react-rating-stars-component";
+const RatingBar = ({ value }) => {
+  const ratingChanged = (newRating) => {
+    console.log(newRating);
+  };
 
-const RatingBar = ({
-  children,
-  className,
-  starCount = 5,
-  color = "grey",
-  activeColor = "red",
-  isEditable = false,
-  ...restProps
-}) => {
   return (
-    <>
+    <div>
       <ReactStars
-        edit={isEditable}
-        classNames={className}
-        count={starCount}
-        isHalf={false}
-        color={color}
-        activeColor={activeColor}
-        {...restProps}
-        key={restProps.value || 1}
+        count={5}
+        value={value}
+        isHalf={true}
+        onChange={ratingChanged}
+        size={20}
+        activeColor="#ffd700"
+        edit={false} // disable editing
       />
-      {children}
-    </>
+    </div>
   );
 };
 
-export { RatingBar };
+export {RatingBar};
