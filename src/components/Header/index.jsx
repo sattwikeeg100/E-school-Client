@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import { IoIosCloseCircleOutline, IoIosLogOut } from "react-icons/io";
 import { Context } from "context";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -78,7 +78,10 @@ export default function Header({ ...props }) {
         My Cart
       </Menu.Item>
       <Menu.Item key="2" onClick={logout}>
-        Logout
+        <p className="flex flex-row gap-2 items-center">
+          Logout
+          <IoIosLogOut/>
+        </p>
       </Menu.Item>
     </Menu>
   );
@@ -226,7 +229,7 @@ export default function Header({ ...props }) {
                 </button>
                 <button
                   className="text-center font-medium hover:text-orange-300 block mb-4 "
-                  onClick={navigateMentor}
+                  onClick={navigateCourses}
                 >
                   All Courses
                 </button>

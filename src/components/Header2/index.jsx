@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import { IoIosCloseCircleOutline, IoIosLogOut } from "react-icons/io";
 import { Context } from "context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaFaceGrinStars } from "react-icons/fa6";
+import { Dropdown, Menu } from "antd";
 
 export default function Header2({ ...props }) {
   const navigate = useNavigate();
@@ -69,6 +70,18 @@ const image = user?.image?.url
     }
   };
 
+  // Menu for Ant Design Dropdown
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" onClick={logout}>
+        <p className="flex flex-row gap-2 items-center">
+        Logout
+        <IoIosLogOut/>
+        </p>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <header {...props}>
       <div className="flex flex-row justify-between w-full mx-auto max-w-7xl">
@@ -120,17 +133,17 @@ const image = user?.image?.url
           >
             Overview
           </button>
+          <Dropdown overlay={menu} trigger={["click"]}>
           <button
-                onClick={logout}
                 className="flex items-center gap-1 float-right"
-              >
-                <p className="text-gray-900 font-medium mr-1">{name}</p>
-                <div className="w-12">
-                    {getInitials()}
-                 
-                </div>
-              </button>
-    
+                id="dropdown-menu"
+          >
+            <p className="text-gray-900 font-medium mr-1">{name}</p>
+            <div className="w-12">
+                {getInitials()}
+            </div>
+          </button>
+          </Dropdown>
         </div>
 
         {/* Mobile Menu */}
