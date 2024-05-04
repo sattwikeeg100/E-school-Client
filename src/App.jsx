@@ -24,6 +24,7 @@ import PaymentSuccess from "pages/CoursesDetails/PaymentSuccess";
 import MyLearning from "pages/UserDashboard/MyLearning";
 import CreateProduct from "pages/createProduct";
 import MyCart from "pages/My Cart";
+import InstructorOverview from "pages/InstructorOverview";
 
 function App() {
   // const navigationElement = <Header1/>
@@ -111,7 +112,11 @@ function App() {
           path: "/create-product",
           element: <CreateProduct />,
         },
-        { path: "/course/view/:slug", element: <CourseView /> },
+        {
+          path: "/overview",
+          element: <InstructorOverview />,
+        },
+        { path: "/overview/course/view/:slug", element: <CourseView /> },
       ],
     },
   ]);

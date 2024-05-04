@@ -1,242 +1,240 @@
-import axios from "axios";
-import { Context } from "context";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { PiStudentBold } from "react-icons/pi";
+import { PiVideoFill } from "react-icons/pi";
+import { FaRupeeSign } from "react-icons/fa";
+import { FaBook } from "react-icons/fa6";
 import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Heading } from "components";
-import { Key } from "react-feather";
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+  Rectangle,
+  ResponsiveContainer,
+  AreaChart, 
+  Area,
+} from "recharts";
+
 
 export default function InstructorDashboard() {
-  const {
-    state: { user },
-  } = useContext(Context);
-  const navigate = useNavigate();
-  const [courses, setCourses] = useState([]);
-  const [products, setProducts] = useState([]);
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    if (user === null) {
-      navigate("/login");
-    } else if (user && !user.role.includes("Instructor")) {
-      navigate("/joinasteacher");
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user && user.token) {
-      loadCourses();
-    }
-  }, [user]);
-  const loadCourses = async () => {
-    const { data } = await axios.get(`${API_BASE_URL}/instructor-courses`, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    setCourses(data);
-  };
-
-
-  useEffect(() => {
-    if (user && user.token) {
-      loadProducts();
-    }
-  }, [user]);
-  const loadProducts = async () => {
-    const { data } = await axios.get(`${API_BASE_URL}/instructor-products`, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    console.log(data);
-    setProducts(data);
-  };
-
-  const handlePublish = async (e, index) => {
-    e.preventDefault();
-    try {
-      let answer = window.confirm(
-        "Are you sure you want to publish this course?"
-      );
-      if (!answer) return;
-
-      const { data } = await axios.put(
-        `${API_BASE_URL}/course/publish/${courses[index]._id}`
-      );
-
-      const updatedCourses = [...courses];
-      updatedCourses[index] = data;
-
-      setCourses(updatedCourses);
-      toast.success("Course published successfully");
-    } catch (err) {
-      console.error(err);
-      toast.error("Toast published failed");
-    }
-  };
-
-  const handleUnPublish = async (e, index) => {
-    e.preventDefault();
-    try {
-      let answer = window.confirm(
-        "Are you sure you want to unpublish this course?"
-      );
-      if (!answer) return;
-
-      const { data } = await axios.put(
-        `${API_BASE_URL}/course/unpublish/${courses[index]._id}`
-      );
-
-      const updatedCourses = [...courses];
-      updatedCourses[index] = data;
-
-      setCourses(updatedCourses);
-      toast.success("Course unpublished successfully");
-    } catch (err) {
-      console.error(err);
-      toast.error("Toast unpublished failed");
-    }
-  };
-
-  const renderSubtitle = (subtitle) => {
-    const words = subtitle.split(' ');
-    if (words.length > 15) {
-      return (
-        <>
-          {words.slice(0, 15).join(' ')} ... <span className="text-blue-500 cursor-pointer">more</span>
-        </>
-      );
-    } else {
-      return subtitle;
-    }
-  };
+  const data = [
+    {
+      name: "Jan",
+     courses: 4,
+     students:15,
+    },
+    {
+      name: "Feb",
+      courses: 4,
+     students:15,
+    },
+    {
+      name: "Mar",
+      courses: 4,
+     students:15,
+    },
+    {
+      name: "Apr",
+      courses: 4,
+     students:15,
+    },
+    {
+      name: "May",
+      courses: 1,
+      students:15,
+    },
+    {
+      name: "Jun",
+      courses: 4,
+     students:18,
+    },
+    {
+      name: "Jul",
+      courses: 3,
+     students:17,
+    },
+    {
+      name: "Aug",
+      courses: 4,
+      students:15,
+    },
+    {
+      name: "Sept",
+      courses: 2,
+     students:11,
+    },
+    {
+      name: "Oct",
+      courses: 1,
+      students:5,
+    },
+    {
+      name: "Nov",
+      courses:2,
+      students:11,
+    },
+    {
+      name: "Dec",
+      courses: 2,
+     students:10,
+    },
+  ];
+  const reveneuData = [
+    {
+      name: "Jan",
+     reveneu: 200,
+    },
+    {
+      name: "Feb",
+      reveneu: 1000,
+    },
+    {
+      name: "Mar",
+      reveneu: 1200,
+    },
+    {
+      name: "Apr",
+      reveneu: 800,
+    },
+    {
+      name: "May",
+      reveneu: 1500,
+    },
+    {
+      name: "Jun",
+      reveneu: 1700,
+    },
+    {
+      name: "Jul",
+      reveneu: 900,
+    },
+    {
+      name: "Aug",
+      reveneu: 1200,
+    },
+    {
+      name: "Sept",
+      reveneu: 1500,
+    },
+    {
+      name: "Oct",
+      reveneu: 1000,
+    },
+    {
+      name: "Nov",
+      reveneu: 1400,
+    },
+    {
+      name: "Dec",
+      reveneu: 2000,
+    },
+  ];
   return (
+    <>
     <div className="flex flex-col mb-12 overflow-hidden">
-    <div className="mx-[130px] md:mx-8 overflow-hidden">
-      <Heading size="3xl" as="h1" className="text-center !font-semibold">Your Courses List</Heading>
-      <div className="flex flex-wrap gap-x-[45px] gap-y-[35px] sm:gap-[15px] overflow-hidden">
-        {courses.length===0 && <div className="text-xl"><i>You have not created any course yet!</i></div>}
-        {courses &&
-          courses.map((course, index) => (
-            <div key={index} className="">
-              <Card className="mt-2 w-96 h-[450px] overflow-hidden border-gray-150 border-2 gap-x-2 bg-white-A700_b2 sm:w-72 sm:h-[400px] overflow-hidden">
-                <CardHeader color="blue-gray" className="w-full mx-auto">
-                  <img
-                    src={
-                      course.image
-                        ? course.image.url
-                        : "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-                    }
-                    alt="card-image"
-                    className="h-[200px] w-full rounded-[5px] sm:h-[150px]"
-                   
-                  />
-                </CardHeader>
-                <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2 text-xl font-bold">
-                    {course.cousrseTittle}
-                  </Typography>
-                  <Typography variant="h6" color="blue-gray" className="mb-2">
-                    {course.subject}
-                  </Typography>
-                  <Typography className="mb-2 text-sm">{renderSubtitle(course.description)}</Typography>
-                  <Typography className="font-bold">
-                    {course.lessons.length} lessons added
-                  </Typography>
-                </CardBody>
-                <CardFooter className="pt-0">
-                  <div className="flex items-center gap-4 justify-between">
-                    <Link
-                      to={`course/view/${course.slug}`}
-                      className="text-blue-500 hover:text-blue-700 font-bold"
-                    >
-                      Go to course
-                    </Link>
-                    {courses[index].published ? (
-                      <Button
-                        size="lg"
-                        color="white"
-                        className="flex items-center gap-3"
-                        onClick={(e) => handleUnPublish(e, index)}
-                      >
-                        <img
-                          src="https://docs.material-tailwind.com/icons/metamask.svg"
-                          alt="metamask"
-                          className="h-6 w-6"
-                        />
-                        Unpublish
-                      </Button>
-                    ) : (
-                      <Button
-                        size="lg"
-                        color="white"
-                        className="flex items-center gap-3"
-                        onClick={(e) => handlePublish(e, index)}
-                      >
-                        <img
-                          src="https://docs.material-tailwind.com/icons/metamask.svg"
-                          alt="metamask"
-                          className="h-6 w-6"
-                        />
-                        Publish
-                      </Button>
-                    )}
-                  </div>
-                </CardFooter>
-              </Card>
-            </div>
-          ))}
+<div className='w-full h-72 sm:h-[800px] '>
+    <div className='bg-red-50 p-8  w-full h-40 absolute text-center'>
+      <h1 className='text-5xl sm:text-3xl'>Hello, <span className='font-semibold italic'>Souvik</span></h1>
+      <p className='text-sm'>hope you are having a nice day</p>
+   
+    <div className="flex flex-row mx-auto w-auto px-10 gap-10 justify-center relative my-4 sm:flex-col sm:px-2 sm:my-4">
+
+    <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72 ">
+    <div className="shadow-lg overviewBox  flex flex-row">
+    <div className=" bg-white h-16 text-green-500 flex justify-center items-center text-6xl w-20 pr-4 rounded-2xl sm:text-4xl ">
+<PiStudentBold />
+</div>
+<div className="">
+<p className='text-lg sm:text-sm'>Total student</p>
+<p className='text-2xl font-bold'>108</p>
+<p className='mt-4 text-sm text-gray-600'>10 enrolment in last 24 hrs</p>
+</div>
+
+</div>
+
+</div>
+
+     <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72 ">
+    <div className="shadow-lg overviewBox  flex flex-row">
+    <div className=" bg-white h-16 text-blue-500 flex justify-center items-center text-6xl w-20 pr-4 rounded-2xl sm:text-4xl ">
+<PiVideoFill />
+</div>
+<div className="">
+<p className='text-lg sm:text-sm'>Total Courses</p>
+<p className='text-2xl font-bold'>12</p>
+<p className='mt-4 text-sm text-gray-600'>1 published in last 24 hrs</p>
+</div>
+</div>
+
+</div>
+
+     <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72  ">
+    <div className="shadow-lg overviewBox  flex flex-row">
+    <div className=" bg-white h-16 text-green-500 flex justify-center items-center text-5xl w-20 pr-2 rounded-2xl sm:text-4xl ">
+    <FaBook />
+</div>
+<div className="">
+<p className='text-lg sm:text-sm'>Total Books published</p>
+<p className='text-2xl font-bold'>8</p>
+<p className='mt-4 text-sm text-gray-600'>2 books in last 24 hrs</p>
+</div>
+</div>
+
+</div>
+
+     <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4  bg-gray-50 cursor-pointer sm:w-72 ">
+    <div className="shadow-lg overviewBox  flex flex-row">
+    <div className=" bg-white h-16 text-orange-500 flex justify-center items-center text-5xl w-20 pr-2 rounded-2xl sm:text-4xl ">
+    <FaRupeeSign />
+</div>
+<div className="">
+<p className='text-lg sm:text-sm'>Total Reveneu</p>
+<p className='text-2xl font-bold'>12K</p>
+<p className='mt-4 text-sm text-gray-600'>0.4K reveneu in last 24 hrs</p>
+</div>
+</div>
+
+</div>
+
+    </div>
+    </div>
+</div>
+      <div className="mt-4 flex flex-row sm:flex-col ">
+      <div className="w-[900px] h-[375px] sm:w-80 sm:h-64 ">
+      <ResponsiveContainer width={'99%'} height={'99%'}>
+      <BarChart width={900} height={650} data={data}>
+        <XAxis dataKey="name" />
+        <YAxis/>
+        <Tooltip />
+        {/* <CartesianGrid stroke="#ccc" strokeDasharray="5 5" /> */}
+        <Legend />
+        <Bar dataKey="courses" fill="#FF99D6" activeBar={<Rectangle fill="red" stroke="blue" />} />
+        <Bar dataKey="students" fill="#B9B3FF" activeBar={<Rectangle fill="blue" stroke="purple" />} />
+      </BarChart>
+     </ResponsiveContainer>
+    </div>
+
+    <div className="w-[600px] h-[375px] sm:w-80 sm:h-56 sm:mt-4 ">
+    <ResponsiveContainer width="99%" height="99%">
+        <AreaChart
+          width={500}
+          height={400}
+          data={reveneuData}
+        >
+          {/* <CartesianGrid strokeDasharray="3 3" /> */}
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Area type="monotone" dataKey="reveneu" stroke="blue" fill="#B3E8FF" />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
       </div>
-    </div>
-
-
-    <div className="mx-[130px] md:mx-8">
-      <Heading size="3xl" as="h1" className="text-center !font-semibold">Your Products List</Heading>
-      <div className="flex flex-wrap gap-x-[45px] gap-y-[35px] sm:gap-[15px] overflow-hidden ">
-        {products.length===0 && <div className="text-xl"><i>You have not created any product yet!</i></div>}
-        {products &&
-          products.map((product, index) => (
-            <div key={index}>
-              <Card className="mt-6 w-96 pt-4 bg-white-A700_b2 shadow-md border-gray-150 border-2 sm:w-72 overflow-hidden ">
-                <CardHeader color="blue-gray" className=" w-48 mx-auto sm:w-28">
-                  <img
-                    src={
-                      product.image
-                        ? product.image.url
-                        : "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-                    }
-                    alt="card-image"
-                    className="items-center justify-center"
-                  />
-                </CardHeader>
-                <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="font-bold mb-2">
-                    {product.title}
-                  </Typography>
-                  <Typography variant="h6" color="blue-gray" className="mb-2">
-                    Category: {product.category}
-                  </Typography>
-                  <Typography className="mb-2">Author: {product.author}</Typography>
-                  <Typography className="mb-2">Publisher: {product.publisher}</Typography>
-                  <Typography className="mb-2">ISBN: {product.isbn}</Typography>
-                  <Typography className="mb-2">Price: Rs. {product.price}</Typography>
-                </CardBody>
-              </Card>
-            </div>
-          ))}
       </div>
-    </div>
-
-    </div>
+      
+    </>
   );
 }

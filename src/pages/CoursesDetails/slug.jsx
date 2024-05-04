@@ -29,6 +29,7 @@ export default function CoursesDetailsPage() {
   }, []);
   const loadCourse = async () => {
     const { data } = await axios.get(`${API_BASE_URL}/courseView/${slug}`);
+    console.log(data);
     setCourse(data);
   };
 
@@ -129,7 +130,7 @@ export default function CoursesDetailsPage() {
                 Home | {course.cousrseTittle} | Course Details
               </Text>
               <div className="flex flex-col items-start justify-start w-full gap-[29px]">
-                <div className="flex flex-row justify-start w-full">
+                <div className="flex flex-row justify-start w-full sm:flex-col">
                   <div className="h-[455px] w-full relative">
                     {course.lessons &&
                     course.lessons[0].video_link &&

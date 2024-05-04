@@ -34,8 +34,8 @@ const image = user?.image?.url
    navigate("/login")
    setMobileMenuOpen(false)
   };
-  const navigateMentor = () =>{
-    navigate("/allmentors")
+  const navigateOverview = () =>{
+    navigate("/overview")
     setMobileMenuOpen(false)
    };
   const navigateCreateCourse = () =>{
@@ -116,7 +116,7 @@ const image = user?.image?.url
           </button>
           <button
             className="font-medium hover:text-orange-300"
-            onClick={navigateMentor}
+            onClick={navigateOverview}
           >
             Overview
           </button>
@@ -172,7 +172,7 @@ const image = user?.image?.url
 
               <button
                 className="text-center font-medium hover:text-orange-300 block mb-4"
-                onClick={navigateMentor}
+                onClick={navigateOverview}
               >
                 Overview
               </button>
