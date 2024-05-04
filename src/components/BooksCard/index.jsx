@@ -24,7 +24,7 @@ const BooksCard = ({
     <div>
        <div key={index} className="w-96 sm:w-80 h-52 sm:48 border-2 bg-gray-100 rounded-xl px-4 py-4 overflow-hidden hover:shadow-lg">
   <div className="flex px-2">
-    <div className="w-48 h-40 mr-4">
+    <div className="w-48 h-4npm ru0 mr-4">
       <img src={image} alt={title} className="w-48 h-full" />
     </div>
     <div className="m-auto text-sm font-semibold">

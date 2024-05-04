@@ -6,8 +6,8 @@ export default function AllMentorsMaincard({
   email
 }) {
   return (
-    <div className="w-80 border border-gray-200 rounded-lg shadow-md overflow-hidden">
-      <div className="h-72">
+    <div className="w-80 border border-gray-200 rounded-lg shadow-md overflow-hidden sm:w-72">
+      <div className="h-72 sm:h-56">
         <img
           src={image}
           alt="Background"

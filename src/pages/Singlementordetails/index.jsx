@@ -1,6 +1,6 @@
 
 import { Text, Heading, Img, Button } from "../../components";
-import EduviCoursesSubscribe from "../../components/EduviCoursesSubscribe";
+import EduviCoursesSubscribe from "../../components/CoursesSubscribe";
 import Header1 from "../../components/Header";
 
 export default function SinglementordetailsPage() {

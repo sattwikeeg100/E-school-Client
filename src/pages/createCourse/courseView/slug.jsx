@@ -157,22 +157,27 @@ const CourseView = () => {
     <div>
       {/* <h1 className="jumbotron text-center square">{slug}</h1> */}
       {/* <pre>{JSON.stringify(course, null, 4)}</pre> */}
-      <div className="flex flex-col items-center justify-start w-full gap-12">
+      <div className="flex flex-col items-center justify-start w-full ">
         <div className="flex flex-row justify-center w-full">
-          <div className="flex flex-row justify-center w-full max-w-7xl">
+          <div className="flex flex-row justify-center w-full">
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-row justify-start w-full">
-                <div className="flex flex-row justify-start w-full p-[29px] bg-red-50 rounded-[20px]">
+                 <div className="justify-start w-full p-[29px] bg-red-50 rounded-[20px] mx-28 mt-4 sm:mx-4">
                   <Text
                     as="p"
-                    className="mb-[92px] !text-black-900_02 !font-medium"
+                    className="!text-black-900_02 text-5xl font-bold sm:text-2xl"
                   >
-                    Dashboard | Course | Details
+                     {course.cousrseTittle}
                   </Text>
+                  <p className="mb-[92px] !text-black-900_02  mt-4 sm:mt-2">
+                  {course.subject}
+                  </p>
                 </div>
               </div>
-              <div className="flex flex-row justify-start w-[32%] mt-[-81px] ml-[30px]">
-                <div className="flex flex-row justify-start items-center w-full gap-5">
+
+              <div className="mt-8 px-28 sm:px-8 sm:mt-4">
+                <div className="flex flex-row justify-start w-full gap-5 sm:flex-col sm:gap-2">
+                  <div className="w-[200px] h-[150px] mt-4 sm:w-[200px] sm:h-[100px] sm:mt-2 sm:mx-auto">
                   <Img
                     src={
                       course.image
@@ -180,17 +185,16 @@ const CourseView = () => {
                         : "https://www.questpond.com/img/2.png"
                     }
                     alt="bg_one"
-                    className="w-[170px] mb-px object-cover rounded-[10px]"
+                    className="w-full object-fit bg-transparent rounded-[10px] "
                   />
-
-                  <div className="flex flex-col items-start justify-start w-[53%] gap-1">
-                    <Text size="2xl" as="p" className="!text-gray-900">
-                      {course.cousrseTittle}
-                    </Text>
-                    <Text size="lg" as="p">
-                      {course.subject}
-                    </Text>
-                    <div className="flex items-center space-x-4">
+                  </div>
+                  <div className="m-2">
+                    <div className="w-[700px] sm:w-full">
+                        <p className="!text-gray-900 text-md sm:text-sm">
+                          {course.description}
+                        </p>
+                        </div>
+                      <div className="flex items-center space-x-4 mt-8">
                       <button
                         type="button"
                         onClick={() => setVisible(true)}
@@ -202,7 +206,40 @@ const CourseView = () => {
                         <UserSwitchOutlined className="pointer mr-4 h-8 w-8 text-red-500 text-2xl" />
                       </Tooltip>
                     </div>
-                    <Modal
+                        </div>
+                  
+                    <div className="mt-1">
+                        <h1 className="text-xl font-bold text-gray-500 pb-4 text-center ">
+                          {course && course.lessons && course.lessons.length}{" "}
+                          Lessons Added
+                        </h1>
+                        <List
+                          itemLayout="horizontal"
+                          dataSource={course && course.lessons}
+                          className="w-80 sm:w-full"
+                          renderItem={(item, index) => (
+                            <Item>
+                              <Item.Meta
+                                avatar={<Avatar>{index + 1}</Avatar>}
+                                title={item.title}
+                                className="items-center"
+                              ></Item.Meta>
+                              <DeleteOutlined
+                                onClick={() => handleLessonDelete(index)}
+                                className=" items-center"
+                              />
+                            </Item>
+                          )}
+                        ></List>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <Modal
                       title="+ Add Lesson"
                       centered
                       visible={visible}
@@ -220,41 +257,10 @@ const CourseView = () => {
                         handleVideoRemove={handleVideoRemove}
                       />
                     </Modal>
-                    <div className="row pb-5">
-                      <div className="col lesson-list">
-                        <Text size="1xl" as="p" className="!text-gray-900">
-                          {course.description}
-                        </Text>
-                        <h4>
-                          {course && course.lessons && course.lessons.length}{" "}
-                          Lessons
-                        </h4>
-                        <List
-                          itemLayout="horizontal"
-                          dataSource={course && course.lessons}
-                          renderItem={(item, index) => (
-                            <Item>
-                              <Item.Meta
-                                avatar={<Avatar>{index + 1}</Avatar>}
-                                title={item.title}
-                              ></Item.Meta>
-                              <DeleteOutlined
-                                onClick={() => handleLessonDelete(index)}
-                                className="text-danger float-right"
-                              />
-                            </Item>
-                          )}
-                        ></List>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          
+      
+  
   );
 };
 

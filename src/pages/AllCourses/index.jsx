@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { FaSearch } from "react-icons/fa";
 import { Text, Button, Img, Slider, Heading } from "../../components";
 import AllMentorsMaincard from "../../components/AllMentorsMaincard";
 import Footer from "../../components/Footer";
@@ -13,6 +13,7 @@ export default function AllcoursesPage() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [keywords, setKeywords] = useState("");
 
+  console.log({courses})
   const handleInput = (e) => {
     setKeywords(e.target.value);
   };
@@ -50,20 +51,20 @@ export default function AllcoursesPage() {
     <>
       <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
         <div className="flex flex-col items-center justify-start w-full gap-12">
-          <div className="flex flex-col items-start justify-start w-full gap-[5px] p-5 bg-red-50 max-w-7xl rounded-[20px]">
+          <div className="flex flex-col items-start justify-start w-full gap-[5px] p-5 bg-red-50 rounded-[20px] sm:p-2  max-w-7xl">
             <Text
               as="p"
-              className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium"
+              className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium sm:text-sm"
             >
               Home | Our Courses
             </Text>
-            <div className="flex flex-row justify-between items-center w-[99%] ml-2.5 gap-[420px]">
-              <Heading size="3xl" as="h1" className="w-[31%] !font-semibold">
+            <div className="flex flex-row justify-between items-center w-[99%] ml-2.5 gap-[420px] ">
+              <h1 className="w-[30%] !font-bold sm:w-[75%] sm:text-4xl text-6xl sm:mt-8">
                 Learnopia has the
                 <br />
                 best courses
-              </Heading>
-              <div className="flex flex-row justify-end w-[35%] py-[3px]">
+              </h1>
+              <div className="flex flex-row justify-end w-[35%] py-[3px] md:hidden">
                 <div className="flex flex-col items-center justify-start w-[97%] mb-1">
                   <div className="h-[198px] w-[99%] relative">
                     <div className="flex flex-col items-end justify-start w-[87%] h-full left-0 bottom-0 top-0 m-auto absolute">
@@ -335,28 +336,29 @@ export default function AllcoursesPage() {
           </div>
         </div>
 
-        <div className="flex flex-col justify-center items-center w-full gap-[42px]">
+        <div className="flex flex-col justify-center items-center w-full gap-[42px] sm:gap-[12px]">
           <div className="flex flex-row justify-center w-full">
-            <div className="flex flex-row items-center justify-center w-full gap-[42px]">
+            <div className="flex flex-row items-center justify-center w-full mx-4 gap-[42px] sm:gap-[2px]">
               <form method="GET" className="flex">
                 <input
                   type="text"
                   placeholder="Enter some keywords for the course you are looking for..."
-                  className="px-4 py-4 bg-white rounded-l-md border-orange-200 focus:ring-orange-300 w-[900px] text-base"
+                  className="px-4 py-4 bg-white rounded-l-md border-orange-200 focus:ring-orange-300 w-[700px] text-base sm:w-60 sm:h-8 sm:p-2 sm:text-sm"
                   onChange={handleInput}
                 />
                 <button
                   type="button"
-                  className="px-4 py-4 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none text-base"
+                  className="px-4 py-4 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none text-base sm:w-22 sm:h-8 sm:p-2 sm:text-sm"
                   onClick={handlerecommend}
                 >
-                  Get Courses Recommendation
+                  <span className="sm:hidden">Get Courses Recommendation</span>
+                  <span className="hidden sm:block"><FaSearch /></span>
                 </button>
               </form>
             </div>
           </div>
           <div className="flex flex-row justify-center max-w-9xl">
-            <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-1 gap-10">
+            <div className="flex flex-row flex-wrap gap-10">
               {coursedata.data !== "null" &&
                 coursedata.data.map((course) => (
                   <div key={course.course_title}>
@@ -377,23 +379,21 @@ export default function AllcoursesPage() {
           </div>
         </div>
 
-        <Heading className="font-bold text-5xl">
+        <Heading className="font-bold text-5xl sm:text-2xl">
           Explore our Amazing courses{" "}
         </Heading>
-        <div className="flex flex-row justify-center max-w-9xl">
-          <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-1 gap-10">
+        <div className="flex flex-row justifty-start max-w-9xl border-2 border-red-400">
+          <div className="flex flex-row flex-wrap gap-10 ">
             {courses.map((course) => (
-              <div key={course.title}>
+              <div key={course.title} className="border-2 border-red-400 mx-auto">
                 <AllCoursesMaincard
                   imgsrc={course.image.url}
-                  title={course.title}
+                  title={course.cousrseTittle}
                   slug={course.slug}
                   ispaid={course.is_paid ? "Paid" : "Free"}
                   price={course.price}
-                  level={course.level}
-                  content_duration={course.content_duration}
+                  content_duration={course.contentDuration}
                   subject={course.subject}
-                  published_date={course.published_date}
                 />
               </div>
             ))}

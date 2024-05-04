@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Img, Text, SelectBox, Input, Heading } from "../../components";
-import EduviShopMainCard from "../../components/EduviShopMainCard";
-import EduviShopPopularsCard from "components/EduviShopPopularsCard";
-import EduviShopNewArrivalCard from "components/EduviShopNewArrivalCard";
+import EduviShopMainCard from "../../components/ShopMainCard";
+import EduviShopPopularsCard from "components/ShopPopularsCard";
+import EduviShopNewArrivalCard from "components/ShopNewArrivalCard";
 import Footer from "../../components/Footer";
 import axios from "axios";
 
@@ -91,7 +91,7 @@ export default function ShopPage() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-start items-start w-full pl-20 pr-14 gap-10">
+        <div className="flex flex-row justify-start items-start w-full pl-14 pr-14 gap-10">
           <div className="md:hidden flex flex-col w-[31%] gap-[39px]">
             <div className="flex flex-col items-start justify-start w-full pt-0.5 gap-3.5">
               <Heading size="xl" as="h2" className="!text-black-900_02">
@@ -138,38 +138,38 @@ export default function ShopPage() {
           </div>
           <div className="flex flex-col items-center justify-start w-[65%] md:w-full gap-10">
             <div className="flex flex-col items-center justify-start w-full gap-[30px]">
-              <div className="flex flex-row justify-start w-full gap-5 md:flex-wrap md:gap-1">
-                <Button color={selectedCategory === "" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("")}>
+              <div className="flex flex-row justify-start w-full gap-5 flex-wrap md:gap-2">
+                <Button color={selectedCategory === "" ? "orange_200_01" : "white_A700"} className=" min-w-[120px] sm:text-sm md:w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("")}>
                   All Books
                 </Button>
-                <Button color={selectedCategory === "Coding" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Coding")}>
+                <Button color={selectedCategory === "Coding" ? "orange_200_01" : "white_A700"} className=" min-w-[120px] sm:text-sm md:w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Coding")}>
                   Coding
                 </Button>
-                <Button color={selectedCategory === "AI/ML/DS" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("AI/ML/DS")}>
+                <Button color={selectedCategory === "AI/ML/DS" ? "orange_200_01" : "white_A700"} className=" min-w-[120px] sm:text-sm md:w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("AI/ML/DS")}>
                   AI/ML/DS
                 </Button>
-                <Button color={selectedCategory === "Design" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Design")}>
+                <Button color={selectedCategory === "Design" ? "orange_200_01" : "white_A700"} className=" min-w-[120px] sm:text-sm md:w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Design")}>
                   Design
                 </Button>
-                <Button color={selectedCategory === "Finance" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Finance")}>
+                <Button color={selectedCategory === "Finance" ? "orange_200_01" : "white_A700"} className=" min-w-[120px] sm:text-sm md:w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Finance")}>
                   Finance
                 </Button>
-                <Button color={selectedCategory === "Motivation" ? "orange_200_01" : "white_A700"} className="font-medium min-w-[175px] md:text-sm md:min-w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Motivation")}>
+                <Button color={selectedCategory === "Motivation" ? "orange_200_01" : "white_A700"} className=" min-w-[120px] sm:text-sm md:w-[50px] rounded-[10px]" onClick={() => handleCategorySelect("Motivation")}>
                   Motivation
                 </Button>
               </div>
-              <div className="flex flex-row justify-start w-full gap-[15px] md:flex-col md:gap-1">
+              <div className="flex flex-row justify-start w-full gap-[15px] md:flex-col md:gap-2">
                 <form className="flex w-[77%] md:w-full" onSubmit={(e) => e.preventDefault()}>
                   <input
                     type="text"
                     placeholder="Search by Book Name"
                     value={searchBarValue}
                     onChange={handleSearch}
-                    className="px-4 w-[80%] bg-white font-medium rounded-l-md border-orange-200 focus:ring-orange-300"
+                    className="px-4 w-[80%] bg-white font-medium rounded-l-md border-orange-200 focus:ring-orange-300 sm:text-sm"
                   />
                   <button
                     type="submit"
-                    className="w-[20%] md:w-[25%] bg-orange-200 font-medium text-white rounded-r-md hover:bg-orange-300 focus:outline-none"
+                    className="w-[20%] md:w-[25%] bg-orange-200 font-medium text-white rounded-r-md hover:bg-orange-300 focus:outline-none sm:text-sm"
                   >
                     Search
                   </button>
@@ -181,7 +181,7 @@ export default function ShopPage() {
                   placeholder="Sort by: Latest"
                   options={dropDownOptions}
                   onChange={handleSort}
-                  className="w-[33%] gap-px font-medium md:w-full"
+                  className="w-[33%] gap-px font-medium md:w-full sm:h-8 sm:text-sm"
                 />
               </div>
               <div className="justify-center w-full gap-[15px] grid-cols-3 md:grid-cols-1 grid min-h-[auto]">

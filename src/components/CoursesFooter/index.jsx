@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Heading, Img, Button } from "./..";
+import { Text, Heading, Img, Button } from "..";
 
 export default function EduviCoursesFooter({
   p2021educatsy = "©2021 Educatsy",

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Heading, Text, Img, SelectBox} from "../../components";
-import EduviCoursesDetailsMaincard from "../../components/EduviCoursesDetailsMaincard";
-import EduviSubjectMainCard from "../../components/EduviSubjectMainCard";
-import EduviCoursesMore from "../../components/EduviCoursesMore";
+import EduviCoursesDetailsMaincard from "../../components/CoursesDetailsMaincard";
+import EduviSubjectMainCard from "../../components/SubjectMainCard";
+import EduviCoursesMore from "../../components/CoursesMore";
 import { oursubjectdata } from "./oursubjectdata";
 import Footer from "components/Footer";
 import { ourcoursedata } from "./ourcoursedata";
@@ -41,8 +41,8 @@ export default function LeranopiaMainPage() {
               </h2>
               <div className="flex flex-row justify-start sm:justify-center w-full">
                 <div className=" w-full sm:w-72 gap-10 grid-cols-4 grid min-h-[auto] sm:grid-cols-1 sm:gap-4">
-                  {oursubjectdata.map(carddata => (
-                    <div key={carddata.title}>
+                  {oursubjectdata.map((carddata , index) => (
+                    <div key={index}>
                     <EduviSubjectMainCard className="flex flex-col items-center justify-start w-full" 
                       imgsrc={carddata.image}
                       domain={carddata.subject}
@@ -83,8 +83,8 @@ export default function LeranopiaMainPage() {
               </div>
               <div className="justify-center w-full gap-10 grid-cols-2 grid min-h-[auto] sm:grid-cols-1 sm:w-72 sm:gap-2 sm:mx-4">
                 
-                {ourcoursedata.map(course => (
-                  <div key={course.title}>
+                {ourcoursedata.map((course, index) => (
+                  <div key={index}>
                     <EduviCoursesDetailsMaincard
                     className="flex flex-row justify-start w-full gap-6 p-[15px] bg-white-A700 cursor-pointer rounded-[10px] hover:shadow-xs"
                     courseimage={course.image}

@@ -1,4 +1,4 @@
-import EduviCoursesSubscribe from "components/EduviCoursesSubscribe";
+import EduviCoursesSubscribe from "components/CoursesSubscribe";
 import React from "react";
 
 export default function Footer() {

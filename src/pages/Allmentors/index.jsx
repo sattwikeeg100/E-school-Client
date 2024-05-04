@@ -37,16 +37,16 @@ export default function AllmentorsPage() {
       <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
         <div className="flex flex-col items-center justify-start w-full gap-12">
           <div className="flex flex-col items-start justify-start w-full gap-[5px] p-5 bg-red-50 max-w-7xl rounded-[20px]">
-            <Text as="p" className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium">
+            <Text as="p" className="mt-[5px] ml-2.5 !text-black-900_02 !font-medium sm:mb-8">
               Home | Our Mentors
             </Text>
             <div className="flex flex-row justify-between items-center w-[99%] ml-2.5 gap-[420px]">
-              <Heading size="3xl" as="h1" className="w-[31%] !font-semibold">
+              <Heading size="3xl" as="h1" className="w-[31%] !font-semibold sm:text-5xl">
                 Educatsy has the
                 <br />
                 qualified mentor
               </Heading>
-              <div className="flex flex-row justify-end w-[35%] py-[3px]">
+              {/* <div className="flex flex-row justify-end w-[35%] py-[3px]">
                 <div className="flex flex-col items-center justify-start w-[97%] mb-1">
                   <div className="h-[198px] w-[99%] relative">
                     <div className="flex flex-col items-end justify-start w-[87%] h-full left-0 bottom-0 top-0 m-auto absolute">
@@ -289,12 +289,12 @@ export default function AllmentorsPage() {
                   </div>
                   <Img src="images/img_vector_blue_gray_900_03_12x2.svg" alt="table_one" className="h-px" />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-center w-full">
-            <div className="flex flex-row items-center justify-center w-full gap-[42px]">
+        <div className="flex flex-row justify-center w-full sm:flex-col">
+            <div className="flex flex-row items-center justify-center w-full gap-[42px] sm:flex-col">
               {users.map((mentor , index)=>(
                 <div key={index}>
                   <AllMentorsMaincard

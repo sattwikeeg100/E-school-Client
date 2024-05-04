@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button, Img, Text, Heading } from "../../components";
-import EduviCartProductCard from "components/EduviCartProductCard";
+import EduviCartProductCard from "components/CartProductCard";
 import Footer from "../../components/Footer";
 import axios from "axios";
 import { Context } from "context";

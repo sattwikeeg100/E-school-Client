@@ -100,8 +100,8 @@ const AddLessonForm = ({
           </label>
           <ReactPlayer
             url={values.video.Location}
-            width="410px"
-            height="240px"
+            width="380px"
+            height="180px"
             controls
           />
           {!uploading && values.video.Location && (

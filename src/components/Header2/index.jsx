@@ -17,7 +17,7 @@ export default function Header2({ ...props }) {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 // console.log({user})
-const image = user?.image.url
+const image = user?.image?.url
   const logout = async () => {
     dispatch({
       type: "LOGOUT",

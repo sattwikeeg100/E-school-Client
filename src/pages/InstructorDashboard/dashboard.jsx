@@ -13,6 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Heading } from "components";
+import { Key } from "react-feather";
 
 export default function InstructorDashboard() {
   const {
@@ -107,17 +108,29 @@ export default function InstructorDashboard() {
     }
   };
 
+  const renderSubtitle = (subtitle) => {
+    const words = subtitle.split(' ');
+    if (words.length > 15) {
+      return (
+        <>
+          {words.slice(0, 15).join(' ')} ... <span className="text-blue-500 cursor-pointer">more</span>
+        </>
+      );
+    } else {
+      return subtitle;
+    }
+  };
   return (
-    <div className="flex flex-col gap-[50px] mb-20">
-    <div className="mx-[130px] md:mx-4">
+    <div className="flex flex-col mb-12 overflow-hidden">
+    <div className="mx-[130px] md:mx-8 overflow-hidden">
       <Heading size="3xl" as="h1" className="text-center !font-semibold">Your Courses List</Heading>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "25px" }}>
+      <div className="flex flex-wrap gap-x-[45px] gap-y-[35px] sm:gap-[15px] overflow-hidden">
         {courses.length===0 && <div className="text-xl"><i>You have not created any course yet!</i></div>}
         {courses &&
           courses.map((course, index) => (
-            <>
-              <Card className="mt-6 w-96">
-                <CardHeader color="blue-gray" className="relative h-56">
+            <div key={index} className="">
+              <Card className="mt-2 w-96 h-[450px] overflow-hidden border-gray-150 border-2 gap-x-2 bg-white-A700_b2 sm:w-72 sm:h-[400px] overflow-hidden">
+                <CardHeader color="blue-gray" className="w-full mx-auto">
                   <img
                     src={
                       course.image
@@ -125,21 +138,18 @@ export default function InstructorDashboard() {
                         : "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
                     }
                     alt="card-image"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      objectFit: "cover",
-                    }}
+                    className="h-[200px] w-full rounded-[5px] sm:h-[150px]"
+                   
                   />
                 </CardHeader>
                 <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                  <Typography variant="h5" color="blue-gray" className="mb-2 text-xl font-bold">
                     {course.cousrseTittle}
                   </Typography>
                   <Typography variant="h6" color="blue-gray" className="mb-2">
                     {course.subject}
                   </Typography>
-                  <Typography className="mb-2">{course.description}</Typography>
+                  <Typography className="mb-2 text-sm">{renderSubtitle(course.description)}</Typography>
                   <Typography className="font-bold">
                     {course.lessons.length} lessons added
                   </Typography>
@@ -184,21 +194,21 @@ export default function InstructorDashboard() {
                   </div>
                 </CardFooter>
               </Card>
-            </>
+            </div>
           ))}
       </div>
     </div>
 
 
-    <div className="mx-[130px] md:mx-4">
+    <div className="mx-[130px] md:mx-8">
       <Heading size="3xl" as="h1" className="text-center !font-semibold">Your Products List</Heading>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "25px" }}>
+      <div className="flex flex-wrap gap-x-[45px] gap-y-[35px] sm:gap-[15px] overflow-hidden ">
         {products.length===0 && <div className="text-xl"><i>You have not created any product yet!</i></div>}
         {products &&
           products.map((product, index) => (
-            <>
-              <Card className="mt-6 w-96 pt-4 bg-white-A700_b2 shadow-md">
-                <CardHeader color="blue-gray" className="relative">
+            <div key={index}>
+              <Card className="mt-6 w-96 pt-4 bg-white-A700_b2 shadow-md border-gray-150 border-2 sm:w-72 overflow-hidden ">
+                <CardHeader color="blue-gray" className=" w-48 mx-auto sm:w-28">
                   <img
                     src={
                       product.image
@@ -206,11 +216,6 @@ export default function InstructorDashboard() {
                         : "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
                     }
                     alt="card-image"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      objectFit: "cover",
-                    }}
                     className="items-center justify-center"
                   />
                 </CardHeader>
@@ -227,7 +232,7 @@ export default function InstructorDashboard() {
                   <Typography className="mb-2">Price: Rs. {product.price}</Typography>
                 </CardBody>
               </Card>
-            </>
+            </div>
           ))}
       </div>
     </div>
