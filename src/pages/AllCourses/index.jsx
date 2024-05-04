@@ -49,7 +49,7 @@ export default function AllcoursesPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
+      <div className="flex flex-col items-center justify-start w-full gap-[80px] md:gap-10 bg-gray-100">
         <div className="flex flex-col items-center justify-start w-full gap-12">
           <div className="flex flex-col items-start justify-start w-full gap-[5px] p-5 bg-red-50 rounded-[20px] sm:p-2  max-w-7xl">
             <Text
@@ -58,12 +58,12 @@ export default function AllcoursesPage() {
             >
               Home | Our Courses
             </Text>
-            <div className="flex flex-row justify-between items-center w-[99%] ml-2.5 gap-[420px] ">
-              <h1 className="w-[30%] !font-bold sm:w-[75%] sm:text-4xl text-6xl sm:mt-8">
+            <div className="flex flex-row md:flex-wrap justify-between items-center w-[99%] ml-2.5 gap-[420px] ">
+              <Heading className="w-[30%] !font-bold sm:w-[75%] sm:text-4xl text-5xl sm:mt-8">
                 Learnopia has the
                 <br />
                 best courses
-              </h1>
+              </Heading>
               <div className="flex flex-row justify-end w-[35%] py-[3px] md:hidden">
                 <div className="flex flex-col items-center justify-start w-[97%] mb-1">
                   <div className="h-[198px] w-[99%] relative">
@@ -336,19 +336,20 @@ export default function AllcoursesPage() {
           </div>
         </div>
 
-        <div className="flex flex-col justify-center items-center w-full gap-[42px] sm:gap-[12px]">
-          <div className="flex flex-row justify-center w-full">
-            <div className="flex flex-row items-center justify-center w-full mx-4 gap-[42px] sm:gap-[2px]">
+        <div className="flex flex-col justify-center items-center w-full gap-[42px] md:gap-2">
+          <Heading className="hidden md:flex font-bold text-2xl mb-2">Get Courses Recommendations</Heading>
+          <div className="flex flex-row justify-center w-full gap-[42px] ">
+            <div className="flex flex-row items-center justify-center w-full mx-4 ">
               <form method="GET" className="flex">
                 <input
                   type="text"
                   placeholder="Enter some keywords for the course you are looking for..."
-                  className="px-4 py-4 bg-white rounded-l-md border-orange-200 focus:ring-orange-300 w-[700px] text-base sm:w-60 sm:h-8 sm:p-2 sm:text-sm"
+                  className="px-4 py-4 bg-white rounded-l-md border-orange-200 focus:ring-orange-300 w-[700px] text-base md:w-60 md:h-10 md:p-2 md:text-sm"
                   onChange={handleInput}
                 />
                 <button
                   type="button"
-                  className="px-4 py-4 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none text-base sm:w-22 sm:h-8 sm:p-2 sm:text-sm"
+                  className="px-4 py-4 bg-orange-300 text-white rounded-r-md hover:bg-orange-200 focus:outline-none text-base md:w-30 md:h-10 md:p-2 md:text-sm"
                   onClick={handlerecommend}
                 >
                   <span className="sm:hidden">Get Courses Recommendation</span>
@@ -358,20 +359,16 @@ export default function AllcoursesPage() {
             </div>
           </div>
           <div className="flex flex-row justify-center max-w-9xl">
-            <div className="flex flex-row flex-wrap gap-10">
+            <div className="grid grid-cols-4 md:grid-cols-1 gap-10 min-h-[auto]">
               {coursedata.data !== "null" &&
                 coursedata.data.map((course) => (
                   <div key={course.course_title}>
                     <AllCoursesMaincard
                       imgsrc={course.course_image}
                       title={course.course_title}
-                      url={course.url}
-                      ispaid={course.is_paid ? "Paid" : "Free"}
+                      ispaid={course.is_paid}
                       price={course.price}
-                      level={course.level}
-                      content_duration={course.content_duration}
                       subject={course.subject}
-                      published_date={course.published_date}
                     />
                   </div>
                 ))}
@@ -379,21 +376,22 @@ export default function AllcoursesPage() {
           </div>
         </div>
 
-        <Heading className="font-bold text-5xl sm:text-2xl">
+        <Heading className="font-bold text-5xl md:text-2xl">
           Explore our Amazing courses{" "}
         </Heading>
-        <div className="flex flex-row justifty-start max-w-9xl border-2 border-red-400">
-          <div className="flex flex-row flex-wrap gap-10 ">
+        <div className="flex flex-row justifty-start max-w-9xl">
+          <div className="grid grid-cols-4 xxl:grid-cols-1 md:grid-cols-1 gap-10 min-h-[auto]">
             {courses.map((course) => (
-              <div key={course.title} className="border-2 border-red-400 mx-auto">
+              <div key={course.title} className="mx-auto">
                 <AllCoursesMaincard
                   imgsrc={course.image.url}
                   title={course.cousrseTittle}
                   slug={course.slug}
-                  ispaid={course.is_paid ? "Paid" : "Free"}
+                  ispaid={course.IsPaid}
                   price={course.price}
                   content_duration={course.contentDuration}
                   subject={course.subject}
+                  lessons={course.lessons.length}
                 />
               </div>
             ))}
