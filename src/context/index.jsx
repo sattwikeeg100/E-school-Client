@@ -37,9 +37,10 @@ const Provider = ({ children }) => {
     function (error) {
       let res = error.response;
       if (res.status === 401 && res.config && !res.config.__isRetryRequest) {
-        console.log("Received 401 error. Clearing local storage.");
+        console.log("/401 error > logout");
         dispatch({ type: "LOGOUT" });
-        window.localStorage.clear();
+        window.localStorage.removeItem("user");
+        window.localStorage.removeItem("Role");
         window.location.href = "/login";
       }
       return Promise.reject(error);
