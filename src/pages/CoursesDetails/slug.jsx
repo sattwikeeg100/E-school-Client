@@ -121,8 +121,8 @@ export default function CoursesDetailsPage() {
       {/* {console.log(course)} */}
       <div className="flex flex-col items-center justify-start w-full gap-[99px] bg-gray-100">
         <div className="flex flex-col items-center justify-start w-full gap-12">
-          <div className="flex flex-row justify-between items-start w-full p-6 bg-gray-200_01 max-w-7xl rounded-[20px]">
-            <div className="flex flex-col items-start justify-start w-[63%] ml-[5px] gap-[29px]">
+          <div className="flex flex-row justify-between items-start w-full p-6 pb-16 bg-gray-200_01 max-w-7xl rounded-[20px]">
+            <div className="flex flex-col items-start justify-start w-full mx-[5px] gap-[29px]">
               <Text
                 as="p"
                 className="!text-black-900_02 tracking-[0.48px] !font-medium"
@@ -130,8 +130,9 @@ export default function CoursesDetailsPage() {
                 Home | {course.cousrseTittle} | Course Details
               </Text>
               <div className="flex flex-col items-start justify-start w-full gap-[29px]">
-                <div className="flex flex-row justify-start w-full sm:flex-col">
-                  <div className="h-[455px] w-full relative">
+                <div className="flex flex-row justify- w-full sm:flex-col gap-8">
+
+                  <div className="h-[450px] w-full relative sm:h-[200px] sm:w-full">
                     {course.lessons &&
                     course.lessons[0].video_link &&
                     course.lessons[0].video_link.Location &&
@@ -151,23 +152,21 @@ export default function CoursesDetailsPage() {
                           <img
                             src={course.image.url}
                             alt={course.cousrseTittle}
-                            className="justify-center h-[455px] w-full left-0 bottom-0 right-0 top-0 m-auto object-contain absolute rounded-[20px]" //
+                            className="justify-center h-[455px] w-full left-0 bottom-0 right-0 top-0 m-auto object-contain absolute rounded-[20px] sm:h-[200px]" //
                             style={{ maxWidth: "100%" }}
                           />
                         )}
-                      </>
+                </>
                     )}
-                  </div>
-                </div>
-                {course.lessons && course.lessons.length > 0 && (
-                  <Heading size="lg" as="h1" className="!text-black-900_02">
+                    {course.lessons && course.lessons.length > 0 && (
+                  <Heading size="xl" as="h1" className="!text-black-900_02 mt-4 ">
                     {course.lessons[0].title}
                   </Heading>
                 )}
-              </div>
-            </div>
-            <div className="flex flex-col items-start justify-start w-[32%] mr-[5px] gap-3">
-              <Heading size="lg" as="h2" className="!text-black-900_02">
+                  </div>
+
+                  <div className="flex flex-col items-start justify-start w-[40%] sm:mt-16 gap-3 sm:w-full sm:text-lg ">
+              <Heading size="lg" as="h2" className="!text-black-900_02 sm:text-lg">
                 Course Playlists
               </Heading>
               {course.lessons &&
@@ -175,8 +174,8 @@ export default function CoursesDetailsPage() {
                 course.lessons.map((lesson, index) => {
                   const lessonClassName =
                     course.lessons[index].free_preview || enrolled.status
-                      ? "flex flex-row justify-start items-center w-full gap-2.5 p-2.5 bg-white-A700 shadow-sm cursor-pointer rounded-[10px] hover:shadow-sm"
-                      : "flex flex-row justify-start items-center w-full gap-2.5 p-2.5 bg-dark-A700 shadow-sm cursor-pointer rounded-[10px] hover:shadow-sm";
+                      ? "flex flex-row justify-start items-center w-full gap-2.5 p-2.5 bg-white-A700 shadow-sm cursor-pointer rounded-[10px] hover:shadow-sm sm:p-1"
+                      : "flex flex-row justify-start items-center w-full gap-2.5 p-2.5 bg-dark-A700 shadow-sm cursor-pointer rounded-[10px] hover:shadow-sm sm:p-1";
                   return (
                     <>
                       <div
@@ -238,47 +237,17 @@ export default function CoursesDetailsPage() {
                   );
                 })}
             </div>
-          </div>
-        </div>
-        <div className="flex flex-row justify-center w-full">
-          <div className="flex flex-row justify-start items-start w-full gap-10 max-w-7xl">
-            <div className="flex flex-col items-center justify-start w-[66%] gap-6">
-              <div className="flex flex-col items-start justify-start w-full gap-2">
-                <Heading size="xl" as="h2">
-                  Course Details
-                </Heading>
-                <Text as="p" className="!leading-[30px]">
-                  {course.description}
-                </Text>
-              </div>
-              <div className="flex flex-col items-start justify-start w-full gap-2">
-                <Heading size="xl" as="h3">
-                  Certification
-                </Heading>
-                <Text as="p" className="!leading-[30px]">
-                  The attainment of a certificate of completion is contingent
-                  upon successfully completing 90% of the coursework. This
-                  requirement highlights the importance of sustained effort and
-                  engagement throughout the learning process, showcasing a
-                  commitment to excellence. Upon achieving this milestone,
-                  individuals not only demonstrate proficiency but also gain
-                  validation of their expertise. This certification serves as a
-                  gateway to new opportunities, affirming dedication to
-                  continuous learning and professional development. Ultimately,
-                  it serves as a beacon of motivation, inspiring learners to
-                  strive for excellence and unlock their full potential.
-                </Text>
-              </div>
-              <div className="flex flex-col items-start justify-start w-full gap-2">
-                <Heading size="xl" as="h4">
-                  Who this course is for
-                </Heading>
-                <Text as="p" className="!leading-[30px]">
-                  {course.prerequisites}
-                </Text>
+                </div>
+                
               </div>
             </div>
-            <div className="flex flex-col items-center justify-start w-[32%] gap-[23px]">
+            
+          </div>
+        </div>
+        <div className="flex flex-row justify-center w-full px-8">
+          <div className="flex flex-row-reverse justify-start items-start w-full gap-10 max-w-7xl sm:flex-col">
+
+            <div className="flex flex-col items-center justify-start w-[32%] gap-[23px] sm:w-full">
               <div className="flex flex-col items-center justify-center w-full gap-[19px] p-[19px] bg-white-A700 rounded-[10px]">
                 <div className="flex flex-row justify-between items-center w-full mt-[5px]">
                   <Heading size="s" as="h6" className="!text-gray-700_01">
@@ -376,6 +345,42 @@ export default function CoursesDetailsPage() {
                   )}
                 </Button>
               )}
+            </div>
+            <div className="flex flex-col items-center justify-start w-[66%] gap-6 sm:w-full">
+              <div className="flex flex-col items-start justify-start w-full gap-2">
+                <Heading size="xl" as="h2">
+                  Course Details
+                </Heading>
+                <Text as="p" className="!leading-[30px]">
+                  {course.description}
+                </Text>
+              </div>
+              <div className="flex flex-col items-start justify-start w-full gap-2">
+                <Heading size="xl" as="h3">
+                  Certification
+                </Heading>
+                <Text as="p" className="!leading-[30px]">
+                  The attainment of a certificate of completion is contingent
+                  upon successfully completing 90% of the coursework. This
+                  requirement highlights the importance of sustained effort and
+                  engagement throughout the learning process, showcasing a
+                  commitment to excellence. Upon achieving this milestone,
+                  individuals not only demonstrate proficiency but also gain
+                  validation of their expertise. This certification serves as a
+                  gateway to new opportunities, affirming dedication to
+                  continuous learning and professional development. Ultimately,
+                  it serves as a beacon of motivation, inspiring learners to
+                  strive for excellence and unlock their full potential.
+                </Text>
+              </div>
+              <div className="flex flex-col items-start justify-start w-full gap-2">
+                <Heading size="xl" as="h4">
+                  Who this course is for
+                </Heading>
+                <Text as="p" className="!leading-[30px]">
+                  {course.prerequisites}
+                </Text>
+              </div>
             </div>
           </div>
         </div>

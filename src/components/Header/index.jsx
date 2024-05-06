@@ -201,10 +201,10 @@ export default function Header({ ...props }) {
                     <p className="mt-2 mb-8 text-sm font-semibold tracking-widest text-center">
                       {user.email}
                     </p>
-
+{/* 
                     <button className="font-medium hover:text-orange-300 mb-4 text-center">
                       My Profile
-                    </button>
+                    </button> */}
 
                     <button
                       className="font-medium hover:text-orange-300 mb-4 text-center"

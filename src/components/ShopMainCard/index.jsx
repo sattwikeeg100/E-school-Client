@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Context } from "context";
+import { useNavigate } from "react-router-dom";
 
 export default function EduviShopMainCard({
   imgsrc,
@@ -21,23 +22,29 @@ export default function EduviShopMainCard({
 
   const [isaddedtobag, setIsAddedToBag] = useState(false);
   useEffect(() => {
-    const fetchUserCart = async () => {
-      try {
-        const response = await axios.get(
-          `${API_BASE_URL}/current-user`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
-        );
-        const userCart = response.data.cart.products;
-        setIsAddedToBag(userCart.includes(productId));
-      } catch (error) {
-        console.error("Error fetching user cart:", error);
-      }
-    };
+   {user && user.token && fetchUserCart(user.token)}
+  },[user]);
+
+  const fetchUserCart = async (token) => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/current-user`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const userCart = response.data.cart.products;
+      setIsAddedToBag(userCart.includes(productId));
+    } catch (error) {
+      console.error("Error fetching user cart:", error);
+    }
+  };
   
-    fetchUserCart();
-  });
+const role = localStorage.getItem('Role');
+const Navigate = useNavigate();
 
   const handleAddToCart = async () => {
+   if(role === null){
+  Navigate("/login")
+  }else{
     try {
       const response = await axios.post(
         `${API_BASE_URL}/products/addtocart`,
@@ -60,6 +67,7 @@ export default function EduviShopMainCard({
 
       toast.error("Failed to add product to cart.");
     }
+  }
   };
 
   return (

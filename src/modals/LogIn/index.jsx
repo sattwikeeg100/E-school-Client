@@ -63,9 +63,10 @@ const Login = () => {
 
         <div className="sm:mx-auto sm:w-full">
           <div className="text-center">
-            <p className="mt-2 text-center text-5xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900">
+            <a className="mt-2 text-center text-5xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900"
+            href="/" >
               🎓 LearnOpia
-            </p>
+            </a>
           </div>
 
           <h2 className="mt-10 text-center text-xl font-bold leading-9 tracking-tight text-gray-900">

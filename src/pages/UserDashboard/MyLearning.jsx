@@ -46,14 +46,14 @@ function MyLearning() {
           className="d-flex justify-content-center display-1 text-danger p-5"
         />
       )}
-      <div className="flex flex-col items-center justify-start w-full gap-[100px] bg-gray-100">
-        <Heading className="font-bold text-5xl">
+      <div className="flex flex-col items-center justify-start w-full gap-[75px] bg-gray-100">
+        <Heading className="font-bold text-5xl sm:text-3xl sm:px-4 sm:text-center">
           Enjoy your Amazing courses{" "}
         </Heading>
         <div className="flex flex-row justify-center max-w-9xl">
-          <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-1 gap-10">
-            {enrolledCourses.map((course) => (
-              <div key={course.title}>
+          <div className="grid grid-cols-4 xxl:grid-cols-1 md:grid-cols-1 gap-4 min-h-[auto]">
+            {enrolledCourses.map((course , index) => (
+              <div key={index}>
                 <AllCoursesMaincard
                   imgsrc={course.image.url}
                   title={course.title}

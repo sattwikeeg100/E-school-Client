@@ -381,8 +381,8 @@ export default function AllcoursesPage() {
         </Heading>
         <div className="flex flex-row justifty-start max-w-9xl">
           <div className="grid grid-cols-4 xxl:grid-cols-1 md:grid-cols-1 gap-10 min-h-[auto]">
-            {courses.map((course) => (
-              <div key={course.title} className="mx-auto">
+            {courses.map((course , index) => (
+              <div key={index} className="mx-auto">
                 <AllCoursesMaincard
                   imgsrc={course.image.url}
                   title={course.cousrseTittle}
