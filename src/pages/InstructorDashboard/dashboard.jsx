@@ -1,4 +1,3 @@
-
 import { PiStudentBold } from "react-icons/pi";
 import { PiVideoFill } from "react-icons/pi";
 import { FaRupeeSign } from "react-icons/fa";
@@ -12,79 +11,130 @@ import {
   Bar,
   Rectangle,
   ResponsiveContainer,
-  AreaChart, 
+  AreaChart,
   Area,
 } from "recharts";
-
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { Context } from "context";
 
 export default function InstructorDashboard() {
+  const [courses, setCourses] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [payments, setPayments] = useState([]);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  const {
+    state: { user },
+  } = useContext(Context);
+
+  useEffect(() => {
+    if (user && user.token) {
+      loadCourses();
+    }
+  }, [user]);
+  const loadCourses = async () => {
+    const { data } = await axios.get(`${API_BASE_URL}/instructor-courses`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    console.log(data);
+    setCourses(data);
+  };
+
+  useEffect(() => {
+    if (user && user.token) {
+      loadProducts();
+    }
+  }, [user]);
+  const loadProducts = async () => {
+    const { data } = await axios.get(`${API_BASE_URL}/instructor-products`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    // console.log(data);
+    setProducts(data);
+  };
+
+  useEffect(() => {
+    if (user && user.token) {
+      loadPayments();
+    }
+  }, [user]);
+  const loadPayments = async () => {
+    const { data } = await axios.get(`${API_BASE_URL}/instructor-payments`);
+    // console.log(data);
+    setPayments(data);
+  };
 
   const data = [
     {
       name: "Jan",
-     courses: 4,
-     students:15,
+      courses: 4,
+      students: 15,
     },
     {
       name: "Feb",
       courses: 4,
-     students:15,
+      students: 15,
     },
     {
       name: "Mar",
       courses: 4,
-     students:15,
+      students: 15,
     },
     {
       name: "Apr",
       courses: 4,
-     students:15,
+      students: 15,
     },
     {
       name: "May",
       courses: 1,
-      students:15,
+      students: 15,
     },
     {
       name: "Jun",
       courses: 4,
-     students:18,
+      students: 18,
     },
     {
       name: "Jul",
       courses: 3,
-     students:17,
+      students: 17,
     },
     {
       name: "Aug",
       courses: 4,
-      students:15,
+      students: 15,
     },
     {
       name: "Sept",
       courses: 2,
-     students:11,
+      students: 11,
     },
     {
       name: "Oct",
       courses: 1,
-      students:5,
+      students: 5,
     },
     {
       name: "Nov",
-      courses:2,
-      students:11,
+      courses: 2,
+      students: 11,
     },
     {
       name: "Dec",
       courses: 2,
-     students:10,
+      students: 10,
     },
   ];
   const reveneuData = [
     {
       name: "Jan",
-     reveneu: 200,
+      reveneu: 200,
     },
     {
       name: "Feb",
@@ -133,108 +183,119 @@ export default function InstructorDashboard() {
   ];
   return (
     <>
-    <div className="flex flex-col mb-12 overflow-hidden">
-<div className='w-full h-72 sm:h-[800px] '>
-    <div className='bg-red-50 p-8  w-full h-40 absolute text-center'>
-      <h1 className='text-5xl sm:text-3xl'>Hello, <span className='font-semibold italic'>Souvik</span></h1>
-      <p className='text-sm'>hope you are having a nice day</p>
-   
-    <div className="flex flex-row mx-auto w-auto px-10 gap-10 justify-center relative my-4 sm:flex-col sm:px-2 sm:my-4">
+      <div className="flex flex-col mb-12 overflow-hidden">
+        <div className="w-full h-72 sm:h-[800px] ">
+          <div className="bg-red-50 p-8  w-full h-40 absolute text-center">
+            <h1 className="text-5xl sm:text-3xl">
+              Hello, <span className="font-semibold italic">Souvik</span>
+            </h1>
+            <p className="text-sm">hope you are having a nice day</p>
 
-    <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72 ">
-    <div className="shadow-lg overviewBox  flex flex-row">
-    <div className=" bg-white h-16 text-green-500 flex justify-center items-center text-6xl w-20 pr-4 rounded-2xl sm:text-4xl ">
-<PiStudentBold />
-</div>
-<div className="">
-<p className='text-lg sm:text-sm'>Total student</p>
-<p className='text-2xl font-bold'>108</p>
-<p className='mt-4 text-sm text-gray-600'>10 enrolment in last 24 hrs</p>
-</div>
+            <div className="flex flex-row mx-auto w-auto px-10 gap-10 justify-center relative my-4 sm:flex-col sm:px-2 sm:my-4">
+              <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72 ">
+                <div className="shadow-lg overviewBox  flex flex-row">
+                  <div className=" bg-white h-16 text-green-500 flex justify-center items-center text-6xl w-20 pr-4 rounded-2xl sm:text-4xl ">
+                    <PiStudentBold />
+                  </div>
+                  <div className="">
+                    <p className="text-lg sm:text-sm">Total student</p>
+                    <p className="text-2xl font-bold">108</p>
+                    <p className="mt-4 text-sm text-gray-600">
+                      10 enrolment in last 24 hrs
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-</div>
+              <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72 ">
+                <div className="shadow-lg overviewBox  flex flex-row">
+                  <div className=" bg-white h-16 text-blue-500 flex justify-center items-center text-6xl w-20 pr-4 rounded-2xl sm:text-4xl ">
+                    <PiVideoFill />
+                  </div>
+                  <div className="">
+                    <p className="text-lg sm:text-sm">Total Courses</p>
+                    <p className="text-2xl font-bold">12</p>
+                    <p className="mt-4 text-sm text-gray-600">
+                      1 published in last 24 hrs
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-</div>
+              <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72  ">
+                <div className="shadow-lg overviewBox  flex flex-row">
+                  <div className=" bg-white h-16 text-green-500 flex justify-center items-center text-5xl w-20 pr-2 rounded-2xl sm:text-4xl ">
+                    <FaBook />
+                  </div>
+                  <div className="">
+                    <p className="text-lg sm:text-sm">Total Books published</p>
+                    <p className="text-2xl font-bold">8</p>
+                    <p className="mt-4 text-sm text-gray-600">
+                      2 books in last 24 hrs
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-     <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72 ">
-    <div className="shadow-lg overviewBox  flex flex-row">
-    <div className=" bg-white h-16 text-blue-500 flex justify-center items-center text-6xl w-20 pr-4 rounded-2xl sm:text-4xl ">
-<PiVideoFill />
-</div>
-<div className="">
-<p className='text-lg sm:text-sm'>Total Courses</p>
-<p className='text-2xl font-bold'>12</p>
-<p className='mt-4 text-sm text-gray-600'>1 published in last 24 hrs</p>
-</div>
-</div>
+              <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4  bg-gray-50 cursor-pointer sm:w-72 ">
+                <div className="shadow-lg overviewBox  flex flex-row">
+                  <div className=" bg-white h-16 text-orange-500 flex justify-center items-center text-5xl w-20 pr-2 rounded-2xl sm:text-4xl ">
+                    <FaRupeeSign />
+                  </div>
+                  <div className="">
+                    <p className="text-lg sm:text-sm">Total Reveneu</p>
+                    <p className="text-2xl font-bold">12K</p>
+                    <p className="mt-4 text-sm text-gray-600">
+                      0.4K reveneu in last 24 hrs
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-row sm:flex-col ">
+          <div className="w-[900px] h-[375px] sm:w-80 sm:h-64 ">
+            <ResponsiveContainer width={"99%"} height={"99%"}>
+              <BarChart width={900} height={650} data={data}>
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                {/* <CartesianGrid stroke="#ccc" strokeDasharray="5 5" /> */}
+                <Legend />
+                <Bar
+                  dataKey="courses"
+                  fill="#FF99D6"
+                  activeBar={<Rectangle fill="red" stroke="blue" />}
+                />
+                <Bar
+                  dataKey="students"
+                  fill="#B9B3FF"
+                  activeBar={<Rectangle fill="blue" stroke="purple" />}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
 
-</div>
-
-     <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4 bg-gray-50 cursor-pointer sm:w-72  ">
-    <div className="shadow-lg overviewBox  flex flex-row">
-    <div className=" bg-white h-16 text-green-500 flex justify-center items-center text-5xl w-20 pr-2 rounded-2xl sm:text-4xl ">
-    <FaBook />
-</div>
-<div className="">
-<p className='text-lg sm:text-sm'>Total Books published</p>
-<p className='text-2xl font-bold'>8</p>
-<p className='mt-4 text-sm text-gray-600'>2 books in last 24 hrs</p>
-</div>
-</div>
-
-</div>
-
-     <div className="relative w-96 shadow-slate-200 shadow-2xl border-2 border-gray-200 rounded-xl p-4  bg-gray-50 cursor-pointer sm:w-72 ">
-    <div className="shadow-lg overviewBox  flex flex-row">
-    <div className=" bg-white h-16 text-orange-500 flex justify-center items-center text-5xl w-20 pr-2 rounded-2xl sm:text-4xl ">
-    <FaRupeeSign />
-</div>
-<div className="">
-<p className='text-lg sm:text-sm'>Total Reveneu</p>
-<p className='text-2xl font-bold'>12K</p>
-<p className='mt-4 text-sm text-gray-600'>0.4K reveneu in last 24 hrs</p>
-</div>
-</div>
-
-</div>
-
-    </div>
-    </div>
-</div>
-      <div className="mt-4 flex flex-row sm:flex-col ">
-      <div className="w-[900px] h-[375px] sm:w-80 sm:h-64 ">
-      <ResponsiveContainer width={'99%'} height={'99%'}>
-      <BarChart width={900} height={650} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis/>
-        <Tooltip />
-        {/* <CartesianGrid stroke="#ccc" strokeDasharray="5 5" /> */}
-        <Legend />
-        <Bar dataKey="courses" fill="#FF99D6" activeBar={<Rectangle fill="red" stroke="blue" />} />
-        <Bar dataKey="students" fill="#B9B3FF" activeBar={<Rectangle fill="blue" stroke="purple" />} />
-      </BarChart>
-     </ResponsiveContainer>
-    </div>
-
-    <div className="w-[600px] h-[375px] sm:w-80 sm:h-56 sm:mt-4 ">
-    <ResponsiveContainer width="99%" height="99%">
-        <AreaChart
-          width={500}
-          height={400}
-          data={reveneuData}
-        >
-          {/* <CartesianGrid strokeDasharray="3 3" /> */}
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Area type="monotone" dataKey="reveneu" stroke="blue" fill="#B3E8FF" />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+          <div className="w-[600px] h-[375px] sm:w-80 sm:h-56 sm:mt-4 ">
+            <ResponsiveContainer width="99%" height="99%">
+              <AreaChart width={500} height={400} data={reveneuData}>
+                {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Area
+                  type="monotone"
+                  dataKey="reveneu"
+                  stroke="blue"
+                  fill="#B3E8FF"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </div>
-      </div>
-      
     </>
   );
 }
