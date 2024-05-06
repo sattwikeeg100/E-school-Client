@@ -37,35 +37,14 @@ const Provider = ({ children }) => {
     function (error) {
       let res = error.response;
       if (res.status === 401 && res.config && !res.config.__isRetryRequest) {
-        return new Promise((resolve, reject) => {
-          axios
-            .get(`${API_BASE_URL}/logout`)
-            .then((data) => {
-              console.log("/401 error > logout successful");
-
-              dispatch({ type: "LOGOUT" });
-              window.localStorage.removeItem("user");
-              resolve();
-            })
-            .catch((err) => {
-              console.error("Logout request failed", err);
-
-              reject(error);
-            });
-        });
+        console.log("Received 401 error. Clearing local storage.");
+        dispatch({ type: "LOGOUT" });
+        window.localStorage.clear();
+        window.location.href = "/login";
       }
-
       return Promise.reject(error);
     }
   );
-
-  // useEffect(() => {
-  //   const getCsrfToken = async () => {
-  //     const { data } = await axios.get(`${API_BASE_URL}/csrf-token`);
-  //     axios.defaults.headers["X-CSRF-Token"] = data.getCsrfToken;
-  //   };
-  //   getCsrfToken();
-  // }, []);
 
   return (
     <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
