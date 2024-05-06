@@ -22,52 +22,47 @@ export default function EduviShopMainCard({
 
   const [isaddedtobag, setIsAddedToBag] = useState(false);
   useEffect(() => {
-   {user && user.token && fetchUserCart(user.token)}
-  },[user]);
+    user && fetchUserCart();
+  }, [user]);
 
-  const fetchUserCart = async (token) => {
+  const fetchUserCart = async () => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/current-user`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const userCart = response.data.cart.products;
+      const userCart = user.cart.products;
       setIsAddedToBag(userCart.includes(productId));
     } catch (error) {
       console.error("Error fetching user cart:", error);
     }
   };
-  
-const role = localStorage.getItem('Role');
-const Navigate = useNavigate();
+
+  const role = localStorage.getItem("Role");
+  const Navigate = useNavigate();
 
   const handleAddToCart = async () => {
-   if(role === null){
-  Navigate("/login")
-  }else{
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}/products/addtocart`,
-        { prodId: productId },
-        { headers: { Authorization: `Bearer ${user.token}` } }
-      );
+    if (role === null) {
+      Navigate("/login");
+    } else {
+      try {
+        const response = await axios.post(
+          `${API_BASE_URL}/products/addtocart`,
+          { prodId: productId },
+          { headers: { Authorization: `Bearer ${user.token}` } }
+        );
 
-      if (response.data.cart.products.includes(productId)) {
-        // Product was successfully added to the cart
-        setIsAddedToBag(true);
-        toast.success("Product added to cart successfully!");
-      } else {
-        // Product was already in the cart
-        setIsAddedToBag(false);
-        toast.warning("Product is removed from the cart!");
+        if (response.data.cart.products.includes(productId)) {
+          // Product was successfully added to the cart
+          setIsAddedToBag(true);
+          toast.success("Product added to cart successfully!");
+        } else {
+          // Product was already in the cart
+          setIsAddedToBag(false);
+          toast.warning("Product is removed from the cart!");
+        }
+      } catch (error) {
+        console.error("Error adding to cart:", error);
+
+        toast.error("Failed to add product to cart.");
       }
-
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-
-      toast.error("Failed to add product to cart.");
     }
-  }
   };
 
   return (
@@ -104,9 +99,7 @@ const Navigate = useNavigate();
           <Heading as="h2" className="text-red-300_01">
             Rs. {price}
           </Heading>
-          <RatingBar
-            value={ratings}
-          />
+          <RatingBar value={ratings} />
         </div>
       </div>
     </div>
