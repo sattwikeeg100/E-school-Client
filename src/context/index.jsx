@@ -41,7 +41,7 @@ const Provider = ({ children }) => {
         dispatch({ type: "LOGOUT" });
         window.localStorage.removeItem("user");
         window.localStorage.removeItem("Role");
-        window.location.href = "/login";
+        // window.location.href = "/login";
       }
       return Promise.reject(error);
     }
