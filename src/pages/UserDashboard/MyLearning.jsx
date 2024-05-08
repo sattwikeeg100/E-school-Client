@@ -5,6 +5,7 @@ import AllCoursesMaincard from "components/AllCoursesMainCard";
 import Footer from "components/Footer";
 import { Context } from "context";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function MyLearning() {
@@ -14,17 +15,14 @@ function MyLearning() {
   const {
     state: { user },
   } = useContext(Context);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && user.token) {
+    if (user) {
       const fetchCourses = async () => {
         try {
           setLoading(true);
-          const { data } = await axios.get(`${API_BASE_URL}/user/get-courses`, {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          });
+          const { data } = await axios.get(`${API_BASE_URL}/user/get-courses`);
           setEnrolledCourses(data);
           setLoading(false);
         } catch (error) {
@@ -35,6 +33,10 @@ function MyLearning() {
       };
       fetchCourses();
     }
+  }, [user]);
+
+  useEffect(() => {
+    if (user === null) navigate("/login");
   }, [user]);
 
   return (
@@ -52,7 +54,7 @@ function MyLearning() {
         </Heading>
         <div className="flex flex-row justify-center max-w-9xl">
           <div className="grid grid-cols-4 xxl:grid-cols-1 md:grid-cols-1 gap-4 min-h-[auto]">
-            {enrolledCourses.map((course , index) => (
+            {enrolledCourses.map((course, index) => (
               <div key={index}>
                 <AllCoursesMaincard
                   imgsrc={course.image.url}

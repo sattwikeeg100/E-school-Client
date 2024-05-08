@@ -20,26 +20,26 @@ const JoinAsTeacherForm = ({ closeModal }) => {
   const becomeInstructor = (event) => {
     event.preventDefault();
     axios
-      .post(
-        `${API_BASE_URL}/make-instructor`,
-        { qualification, experience, bankName, branchName, accountNumber },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      )
+      .post(`${API_BASE_URL}/make-instructor`, {
+        qualification,
+        experience,
+        bankName,
+        branchName,
+        accountNumber,
+      })
       .then((res) => {
         console.log(res);
 
         dispatch({
           type: "LOGIN",
-          payload: res.data,
+          payload: {
+            user: res.data,
+          },
         });
         window.localStorage.setItem("user", JSON.stringify(res.data));
         window.localStorage.setItem("Role", JSON.stringify(res.data.role));
-        window.location.reload()
-        navigate("/")
+        window.location.reload();
+        navigate("/");
       })
       .catch((err) => {
         console.error(err);
@@ -56,16 +56,13 @@ const JoinAsTeacherForm = ({ closeModal }) => {
     try {
       const { data } = await axios.post(
         `${API_BASE_URL}/instructor-image`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
+        formData
       );
       dispatch({
         type: "LOGIN",
-        payload: data,
+        payload: {
+          user: data,
+        },
       });
       window.localStorage.setItem("user", JSON.stringify(data));
     } catch (e) {
@@ -202,21 +199,21 @@ const JoinAsTeacherForm = ({ closeModal }) => {
             </div>
 
             <div className="flex flex-row sm:flex-row items-center">
-    <label className="cursor-pointer sm:mr-4">
-        <FaCamera className="mt-2 text-xl mr-2" />
-    </label>
-    <div className="mt-1">
-        <input
-            onChange={handleImage}
-            type="file"
-            accept="images/*"
-            id="image"
-            name="image"
-            required
-            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 text-sm sm:leading-6"
-        />
-    </div>
-</div>
+              <label className="cursor-pointer sm:mr-4">
+                <FaCamera className="mt-2 text-xl mr-2" />
+              </label>
+              <div className="mt-1">
+                <input
+                  onChange={handleImage}
+                  type="file"
+                  accept="images/*"
+                  id="image"
+                  name="image"
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-200 text-sm sm:leading-6"
+                />
+              </div>
+            </div>
 
             <div>
               <button

@@ -29,32 +29,26 @@ export default function InstructorDashboard() {
   } = useContext(Context);
 
   useEffect(() => {
-    if (user && user.token) {
+    if (user) {
       loadCourses();
     }
   }, [user]);
   const loadCourses = async () => {
-    const { data } = await axios.get(`${API_BASE_URL}/instructor-courses`, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    console.log(data);
-    setCourses(data);
+    try {
+      const { data } = await axios.get(`${API_BASE_URL}/instructor-courses`);
+      setCourses(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
-    if (user && user.token) {
+    if (user) {
       loadProducts();
     }
   }, [user]);
   const loadProducts = async () => {
-    const { data } = await axios.get(`${API_BASE_URL}/instructor-products`, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    // console.log(data);
+    const { data } = await axios.get(`${API_BASE_URL}/instructor-products`);
     setProducts(data);
   };
 
@@ -65,7 +59,6 @@ export default function InstructorDashboard() {
   }, [user]);
   const loadPayments = async () => {
     const { data } = await axios.get(`${API_BASE_URL}/instructor-payments`);
-    // console.log(data);
     setPayments(data);
   };
 
