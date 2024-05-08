@@ -22,7 +22,7 @@ export default function CoursesDetailsPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const {
-    state: { user },
+    state: { user , token },
   } = useContext(Context);
   useEffect(() => {
     loadCourse(course);
@@ -91,7 +91,7 @@ export default function CoursesDetailsPage() {
       order_id: data.order.id,
       callback_url: `${API_BASE_URL}/paymentverification?courseId=${encodeURIComponent(
         course._id
-      )}&token=${encodeURIComponent(user.token)}`,
+      )}&token=${encodeURIComponent(token)}`,
       prefill: {
         name: user.name,
         email: user.email,
