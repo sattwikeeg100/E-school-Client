@@ -55,12 +55,7 @@ const CourseView = () => {
     try {
       const { data } = await axios.post(
         `${API_BASE_URL}/course/lesson/${slug}/${course.instructor._id}`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
+        values
       );
       setValues({ ...values, title: "", content: "", video: {} });
       setVisible(false);
@@ -84,9 +79,6 @@ const CourseView = () => {
         `${API_BASE_URL}/course/video-upload/${course.instructor._id}`,
         videoData,
         {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
           onUploadProgress: (e) => {
             setProgress(Math.round((100 * e.loaded) / e.total));
           },
@@ -108,12 +100,7 @@ const CourseView = () => {
       setUploading(true);
       const { data } = await axios.post(
         `${API_BASE_URL}/course/video-remove/${course.instructor._id}`,
-        values.video,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
+        values.video
       );
       console.log(data);
       setValues({ ...values, video: {} });
@@ -135,15 +122,9 @@ const CourseView = () => {
     const removed = allLessons.splice(index, 1);
 
     try {
-      const { data } = await axios.post(
-        `${API_BASE_URL}/course/${slug}`,
-        { removed },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const { data } = await axios.post(`${API_BASE_URL}/course/${slug}`, {
+        removed,
+      });
 
       setCourse(data);
       toast.success("Lesson deleted successfully");
@@ -162,15 +143,15 @@ const CourseView = () => {
           <div className="flex flex-row justify-center w-full">
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-row justify-start w-full">
-                 <div className="justify-start w-full p-[29px] bg-red-50 rounded-[20px] mx-28 mt-4 sm:mx-4">
+                <div className="justify-start w-full p-[29px] bg-red-50 rounded-[20px] mx-28 mt-4 sm:mx-4">
                   <Text
                     as="p"
                     className="!text-black-900_02 text-5xl font-bold sm:text-2xl"
                   >
-                     {course.cousrseTittle}
+                    {course.cousrseTittle}
                   </Text>
                   <p className="mb-[92px] !text-black-900_02  mt-4 sm:mt-2">
-                  {course.subject}
+                    {course.subject}
                   </p>
                 </div>
               </div>
@@ -178,23 +159,23 @@ const CourseView = () => {
               <div className="mt-8 px-28 sm:px-8 sm:mt-4">
                 <div className="flex flex-row justify-start w-full gap-5 sm:flex-col sm:gap-2">
                   <div className="w-[200px] h-[150px] mt-4 sm:w-[200px] sm:h-[100px] sm:mt-2 sm:mx-auto">
-                  <Img
-                    src={
-                      course.image
-                        ? course.image.url
-                        : "https://www.questpond.com/img/2.png"
-                    }
-                    alt="bg_one"
-                    className="w-full object-fit bg-transparent rounded-[10px] "
-                  />
+                    <Img
+                      src={
+                        course.image
+                          ? course.image.url
+                          : "https://www.questpond.com/img/2.png"
+                      }
+                      alt="bg_one"
+                      className="w-full object-fit bg-transparent rounded-[10px] "
+                    />
                   </div>
                   <div className="m-2">
                     <div className="w-[700px] sm:w-full">
-                        <p className="!text-gray-900 text-md sm:text-sm">
-                          {course.description}
-                        </p>
-                        </div>
-                      <div className="flex items-center space-x-4 mt-8">
+                      <p className="!text-gray-900 text-md sm:text-sm">
+                        {course.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-4 mt-8">
                       <button
                         type="button"
                         onClick={() => setVisible(true)}
@@ -206,61 +187,58 @@ const CourseView = () => {
                         <UserSwitchOutlined className="pointer mr-4 h-8 w-8 text-red-500 text-2xl" />
                       </Tooltip>
                     </div>
-                        </div>
-                  
-                    <div className="mt-1">
-                        <h1 className="text-xl font-bold text-gray-500 pb-4 text-center ">
-                          {course && course.lessons && course.lessons.length}{" "}
-                          Lessons Added
-                        </h1>
-                        <List
-                          itemLayout="horizontal"
-                          dataSource={course && course.lessons}
-                          className="w-80 sm:w-full"
-                          renderItem={(item, index) => (
-                            <Item>
-                              <Item.Meta
-                                avatar={<Avatar>{index + 1}</Avatar>}
-                                title={item.title}
-                                className="items-center"
-                              ></Item.Meta>
-                              <DeleteOutlined
-                                onClick={() => handleLessonDelete(index)}
-                                className=" items-center"
-                              />
-                            </Item>
-                          )}
-                        ></List>
-                        </div>
-                        </div>
-                      </div>
-                    </div>
+                  </div>
+
+                  <div className="mt-1">
+                    <h1 className="text-xl font-bold text-gray-500 pb-4 text-center ">
+                      {course && course.lessons && course.lessons.length}{" "}
+                      Lessons Added
+                    </h1>
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={course && course.lessons}
+                      className="w-80 sm:w-full"
+                      renderItem={(item, index) => (
+                        <Item>
+                          <Item.Meta
+                            avatar={<Avatar>{index + 1}</Avatar>}
+                            title={item.title}
+                            className="items-center"
+                          ></Item.Meta>
+                          <DeleteOutlined
+                            onClick={() => handleLessonDelete(index)}
+                            className=" items-center"
+                          />
+                        </Item>
+                      )}
+                    ></List>
                   </div>
                 </div>
               </div>
-              
-              <Modal
-                      title="+ Add Lesson"
-                      centered
-                      visible={visible}
-                      onCancel={() => setVisible(false)}
-                      footer={null}
-                    >
-                      <AddLessonForm
-                        values={values}
-                        setValues={setValues}
-                        handleAddLesson={handleAddLesson}
-                        uploading={uploading}
-                        uploadButtonText={uploadButtonText}
-                        handleVideo={handleVideo}
-                        progress={progress}
-                        handleVideoRemove={handleVideoRemove}
-                      />
-                    </Modal>
             </div>
-          
-      
-  
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        title="+ Add Lesson"
+        centered
+        visible={visible}
+        onCancel={() => setVisible(false)}
+        footer={null}
+      >
+        <AddLessonForm
+          values={values}
+          setValues={setValues}
+          handleAddLesson={handleAddLesson}
+          uploading={uploading}
+          uploadButtonText={uploadButtonText}
+          handleVideo={handleVideo}
+          progress={progress}
+          handleVideoRemove={handleVideoRemove}
+        />
+      </Modal>
+    </div>
   );
 };
 

@@ -1,20 +1,23 @@
 import { useReducer, createContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const intialState = {
   user: null,
+  token: null,
 };
 
 const Context = createContext();
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const rootReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      return { ...state, user: action.payload };
+      return {
+        ...state,
+        user: action.payload.user,
+        token: action.payload.token,
+      };
     case "LOGOUT":
-      return { ...state, user: null };
+      return { ...state, user: null, token: null };
     default:
       return state;
   }
@@ -23,12 +26,19 @@ const rootReducer = (state, action) => {
 const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(rootReducer, intialState);
 
+  const token = JSON.parse(window.localStorage.getItem("Token"));
+
   useEffect(() => {
     dispatch({
       type: "LOGIN",
-      payload: JSON.parse(window.localStorage.getItem("user")),
+      payload: {
+        user: JSON.parse(window.localStorage.getItem("user")),
+        token: token,
+      },
     });
   }, []);
+
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   axios.interceptors.response.use(
     function (response) {
@@ -41,6 +51,7 @@ const Provider = ({ children }) => {
         dispatch({ type: "LOGOUT" });
         window.localStorage.removeItem("user");
         window.localStorage.removeItem("Role");
+        window.localStorage.removeItem("Token");
         // window.location.href = "/login";
       }
       return Promise.reject(error);

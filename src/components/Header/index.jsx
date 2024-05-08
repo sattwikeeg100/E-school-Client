@@ -28,9 +28,7 @@ export default function Header({ ...props }) {
     });
     window.localStorage.removeItem("user");
     window.localStorage.removeItem("Role");
-    const { data } = axios.get(`${API_BASE_URL}/logout`);
-    toast.success("Please visit again!🖖");
-    navigate("/login");
+    window.localStorage.removeItem("Token");
   };
 
   // const Name = {user.name}
@@ -80,7 +78,7 @@ export default function Header({ ...props }) {
       <Menu.Item key="2" onClick={logout}>
         <p className="flex flex-row gap-2 items-center">
           Logout
-          <IoIosLogOut/>
+          <IoIosLogOut />
         </p>
       </Menu.Item>
     </Menu>
@@ -149,7 +147,6 @@ export default function Header({ ...props }) {
               >
                 My learnings
               </button>
-
               <Dropdown overlay={menu} trigger={["click"]}>
                 <button
                   className="flex items-center gap-1 float-right"
@@ -163,7 +160,6 @@ export default function Header({ ...props }) {
                   </div>
                 </button>
               </Dropdown>
-
             </>
           )}
         </div>
@@ -201,7 +197,7 @@ export default function Header({ ...props }) {
                     <p className="mt-2 mb-8 text-sm font-semibold tracking-widest text-center">
                       {user.email}
                     </p>
-{/* 
+                    {/* 
                     <button className="font-medium hover:text-orange-300 mb-4 text-center">
                       My Profile
                     </button> */}

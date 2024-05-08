@@ -43,12 +43,7 @@ export default function CoursesDetailsPage() {
     try {
       if (course._id) {
         const { data } = await axios.get(
-          `${API_BASE_URL}/check-enrollment/${course._id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
+          `${API_BASE_URL}/check-enrollment/${course._id}`
         );
         // console.log("Status-", data);
         setEnrolled(data);
@@ -67,12 +62,7 @@ export default function CoursesDetailsPage() {
 
       const { data } = await axios.post(
         `${API_BASE_URL}/free-enrollment/${course._id}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
+        {}
       );
       toast.success(data.message);
       setLoading(false);
@@ -131,7 +121,6 @@ export default function CoursesDetailsPage() {
               </Text>
               <div className="flex flex-col items-start justify-start w-full gap-[29px]">
                 <div className="flex flex-row justify- w-full sm:flex-col gap-8">
-
                   <div className="h-[450px] w-full relative sm:h-[200px] sm:w-full">
                     {course.lessons &&
                     course.lessons[0].video_link &&
@@ -156,97 +145,102 @@ export default function CoursesDetailsPage() {
                             style={{ maxWidth: "100%" }}
                           />
                         )}
-                </>
+                      </>
                     )}
                     {course.lessons && course.lessons.length > 0 && (
-                  <Heading size="xl" as="h1" className="!text-black-900_02 mt-4 ">
-                    {course.lessons[0].title}
-                  </Heading>
-                )}
+                      <Heading
+                        size="xl"
+                        as="h1"
+                        className="!text-black-900_02 mt-4 "
+                      >
+                        {course.lessons[0].title}
+                      </Heading>
+                    )}
                   </div>
 
                   <div className="flex flex-col items-start justify-start w-[40%] sm:mt-16 gap-3 sm:w-full sm:text-lg ">
-              <Heading size="lg" as="h2" className="!text-black-900_02 sm:text-lg">
-                Course Playlists
-              </Heading>
-              {course.lessons &&
-                course.lessons.length > 0 &&
-                course.lessons.map((lesson, index) => {
-                  const lessonClassName =
-                    course.lessons[index].free_preview || enrolled.status
-                      ? "flex flex-row justify-start items-center w-full gap-2.5 p-2.5 bg-white-A700 shadow-sm cursor-pointer rounded-[10px] hover:shadow-sm sm:p-1"
-                      : "flex flex-row justify-start items-center w-full gap-2.5 p-2.5 bg-dark-A700 shadow-sm cursor-pointer rounded-[10px] hover:shadow-sm sm:p-1";
-                  return (
-                    <>
-                      <div
-                        key={lesson._id}
-                        className={lessonClassName}
-                        onClick={() => {
-                          // console.log(index);
-                          if (
-                            course.lessons[index].free_preview ||
-                            enrolled.status
-                          ) {
-                            setPreview(
-                              course.lessons[index].video_link.Location
-                            );
-                            setShowModal(!showModal);
-                            setTittle(course.lessons[index].title);
-                          }
-                        }}
-                      >
-                        {course.image && course.image.url && (
-                          <Img
-                            src={course.image.url}
-                            alt={course.courseTitle}
-                            className="w-[23%] object-cover rounded-[5px]"
-                          />
-                        )}
+                    <Heading
+                      size="lg"
+                      as="h2"
+                      className="!text-black-900_02 sm:text-lg"
+                    >
+                      Course Playlists
+                    </Heading>
+                    {course.lessons &&
+                      course.lessons.length > 0 &&
+                      course.lessons.map((lesson, index) => {
+                        const lessonClassName =
+                          course.lessons[index].free_preview || enrolled.status
+                            ? "flex flex-row justify-start items-center w-full gap-2.5 p-2.5 bg-white-A700 shadow-sm cursor-pointer rounded-[10px] hover:shadow-sm sm:p-1"
+                            : "flex flex-row justify-start items-center w-full gap-2.5 p-2.5 bg-dark-A700 shadow-sm cursor-pointer rounded-[10px] hover:shadow-sm sm:p-1";
+                        return (
+                          <>
+                            <div
+                              key={lesson._id}
+                              className={lessonClassName}
+                              onClick={() => {
+                                // console.log(index);
+                                if (
+                                  course.lessons[index].free_preview ||
+                                  enrolled.status
+                                ) {
+                                  setPreview(
+                                    course.lessons[index].video_link.Location
+                                  );
+                                  setShowModal(!showModal);
+                                  setTittle(course.lessons[index].title);
+                                }
+                              }}
+                            >
+                              {course.image && course.image.url && (
+                                <Img
+                                  src={course.image.url}
+                                  alt={course.courseTitle}
+                                  className="w-[23%] object-cover rounded-[5px]"
+                                />
+                              )}
 
-                        <div className="flex flex-col items-start justify-start w-[64%] gap-[3px]">
-                          <Heading as="h4" className="!text-black-900_02">
-                            {lesson.title}
-                          </Heading>
-                          <Text
-                            size="s"
-                            as="p"
-                            className="!text-deep_orange-400"
-                          >
-                            5:43
-                          </Text>
-                        </div>
-                      </div>
-                      <Modal
-                        title={tittle}
-                        visible={showModal}
-                        onCancel={() => {
-                          setShowModal(!showModal);
-                        }}
-                        width={720}
-                        footer={null}
-                      >
-                        <ReactPlayer
-                          url={preview}
-                          playing={showModal}
-                          controls={true}
-                          width="100%"
-                          height="100%"
-                        />
-                      </Modal>
-                    </>
-                  );
-                })}
-            </div>
+                              <div className="flex flex-col items-start justify-start w-[64%] gap-[3px]">
+                                <Heading as="h4" className="!text-black-900_02">
+                                  {lesson.title}
+                                </Heading>
+                                <Text
+                                  size="s"
+                                  as="p"
+                                  className="!text-deep_orange-400"
+                                >
+                                  5:43
+                                </Text>
+                              </div>
+                            </div>
+                            <Modal
+                              title={tittle}
+                              visible={showModal}
+                              onCancel={() => {
+                                setShowModal(!showModal);
+                              }}
+                              width={720}
+                              footer={null}
+                            >
+                              <ReactPlayer
+                                url={preview}
+                                playing={showModal}
+                                controls={true}
+                                width="100%"
+                                height="100%"
+                              />
+                            </Modal>
+                          </>
+                        );
+                      })}
+                  </div>
                 </div>
-                
               </div>
             </div>
-            
           </div>
         </div>
         <div className="flex flex-row justify-center w-full px-8">
           <div className="flex flex-row-reverse justify-start items-start w-full gap-10 max-w-7xl sm:flex-col">
-
             <div className="flex flex-col items-center justify-start w-[32%] gap-[23px] sm:w-full">
               <div className="flex flex-col items-center justify-center w-full gap-[19px] p-[19px] bg-white-A700 rounded-[10px]">
                 <div className="flex flex-row justify-between items-center w-full mt-[5px]">

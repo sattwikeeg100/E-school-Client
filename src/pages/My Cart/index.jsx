@@ -16,22 +16,18 @@ export default function MyCart() {
 
   useEffect(() => {
     {
-      user && user.token && fetchBooks(user.token);
+      user && fetchBooks(user.token);
     }
-    //console.log(bookdata);
   }, [user]);
 
-  const fetchBooks = async (token) => {
-    const { data } = await axios.get(`${API_BASE_URL}/user/mycart`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  const fetchBooks = async () => {
+    const { data } = await axios.get(`${API_BASE_URL}/user/mycart`);
     setBookdata(data.products);
     console.log("Book fetched");
 
     setCartTotal(data.cartTotal);
   };
 
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
   const indexOfLastItem = currentPage * itemsPerPage;

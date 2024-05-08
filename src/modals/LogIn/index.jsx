@@ -28,10 +28,14 @@ const Login = () => {
       });
       dispatch({
         type: "LOGIN",
-        payload: data,
+        payload: {
+          user: data.user,
+          token: data.token,
+        },
       });
-      window.localStorage.setItem("user", JSON.stringify(data));
-      window.localStorage.setItem("Role", JSON.stringify(data.role));
+      window.localStorage.setItem("user", JSON.stringify(data.user));
+      window.localStorage.setItem("Role", JSON.stringify(data.user.role));
+      window.localStorage.setItem("Token", JSON.stringify(data.token));
       toast.success("Welcome Back!🙇‍♂️");
       window.location.reload();
       navigate("/");
@@ -63,8 +67,10 @@ const Login = () => {
 
         <div className="sm:mx-auto sm:w-full">
           <div className="text-center">
-            <a className="mt-2 text-center text-5xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900"
-            href="/" >
+            <a
+              className="mt-2 text-center text-5xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900"
+              href="/"
+            >
               🎓 LearnOpia
             </a>
           </div>
