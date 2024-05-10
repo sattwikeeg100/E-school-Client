@@ -64,46 +64,51 @@ export default function InstructorDashboard() {
   };
 
 
-function getTotalStudentsAndStudentsInLast24Hours(arr) {
-  // Initialize counters
-  let totalStudents = 0;
-  let studentsInLast24Hours = 0;
-
-  // Get the current time
-  let currentTime = new Date().getTime();
-
-  // Calculate the timestamp for 24 hours ago
-  let twentyFourHoursAgo = currentTime - (24 * 60 * 60 * 1000);
-
-  // Loop through each object in the array
-  arr.forEach(obj => {
-      // Increment total students count
-      totalStudents++;
-
-      // Check if the object has 'subscriber' and 'updatedAt' properties
-      if (obj.hasOwnProperty('suscriber') && obj.hasOwnProperty('updatedAt')) {
-          // Get the timestamp of the 'updatedAt' property
-          let updatedAtTimestamp = new Date(obj.updatedAt).getTime();
-
-          // Check if the 'updatedAt' timestamp is within the last 24 hours
-          if (updatedAtTimestamp >= twentyFourHoursAgo && updatedAtTimestamp <= currentTime) {
-              // Increment the counter for students updated in the last 24 hours
-              studentsInLast24Hours++;
-          }
-      }
+  function getTotalStudentsAndStudentsInLast24Hours(arr , user) {
+    // Initialize counters
+    let totalStudents = 0;
+    let studentsInLast24Hours = 0;
+  
+    // Get the current time
+    let currentTime = new Date().getTime();
+  
+    // Calculate the timestamp for 24 hours ago
+    let twentyFourHoursAgo = currentTime - (24 * 60 * 60 * 1000);
+  
+    const instructorID = user?._id;
+    const filterArr = arr.filter(payment => {
+      return payment?.course && payment.course.instructor === instructorID;
   });
-
-  // Return an object containing both counts
-  return {
-      totalStudents: totalStudents,
-      studentsInLast24Hours: studentsInLast24Hours
-  };
-}
-let Students = getTotalStudentsAndStudentsInLast24Hours(payments);
+   
+    // Loop through each object in the array
+    filterArr.forEach(obj => {
+        // Increment total students count
+        totalStudents++;
+  
+        // Check if the object has 'subscriber' and 'updatedAt' properties
+        if (obj.hasOwnProperty('suscriber') && obj.hasOwnProperty('updatedAt')) {
+            // Get the timestamp of the 'updatedAt' property
+            let updatedAtTimestamp = new Date(obj.updatedAt).getTime();
+  
+            // Check if the 'updatedAt' timestamp is within the last 24 hours
+            if (updatedAtTimestamp >= twentyFourHoursAgo && updatedAtTimestamp <= currentTime) {
+                // Increment the counter for students updated in the last 24 hours
+                studentsInLast24Hours++;
+            }
+        }
+    });
+  
+    // Return an object containing both counts
+    return {
+        totalStudents: totalStudents,
+        studentsInLast24Hours: studentsInLast24Hours
+    };
+  }
+let Students = getTotalStudentsAndStudentsInLast24Hours(payments , user);
 const studenstInLast24Hrs = Students.studentsInLast24Hours;
 const totalStudents = Students.totalStudents;
 
-console.log(payments)
+console.log(products);
 
 function countCoursesAndProductCreatedLast24Hours(courseArray) {
   // Get the current time
@@ -130,7 +135,7 @@ function countCoursesAndProductCreatedLast24Hours(courseArray) {
 let coursesInLast24Hrs = countCoursesAndProductCreatedLast24Hours(courses);
 let ProductInLast24Hrs = countCoursesAndProductCreatedLast24Hours(products);
 
-function getTotalRevenueAndRecent(payments) {
+function getTotalRevenueAndRecent(arr , user) {
   let totalPrice = 0;
   let totalPriceLast24Hours = 0;
 
@@ -139,9 +144,12 @@ function getTotalRevenueAndRecent(payments) {
 
   // Calculate the timestamp for 24 hours ago
   let twentyFourHoursAgo = currentTime - (24 * 60 * 60 * 1000);
-
+  const instructorID = user?._id;
+  const filterArr = arr.filter(payment => {
+    return payment?.course && payment.course.instructor === instructorID;
+});
   // Iterate through each payment object
-  payments.forEach(payment => {
+  filterArr.forEach(payment => {
       // Check if the payment object has a 'course' property and it has a 'price'
       if (payment.hasOwnProperty('course') && payment.course.hasOwnProperty('price') && !isNaN(parseFloat(payment.course.price))) {
           // Add the price of the course to the total price
@@ -160,7 +168,7 @@ function getTotalRevenueAndRecent(payments) {
   };
 }
 
-let result = getTotalRevenueAndRecent(payments);
+let result = getTotalRevenueAndRecent(payments , user);
 const TotalRevenue = result.totalRevenue;
 const TotalRevenueLast24Hours= result.totalRevenueLast24Hours;
 
@@ -207,7 +215,7 @@ function countCoursesCreatedInMonth(courseArray, monthName) {
 
 // let coursesInMonth = countCoursesCreatedInMonth(courses, "April");
 
-function countStudentCreatedInMonth(paymentArray, monthName) {
+function countStudentCreatedInMonth(arr, monthName ) {
   // Convert month name to its corresponding index (0-indexed)
   let monthIndex = {
       "January": 0,
@@ -232,8 +240,13 @@ function countStudentCreatedInMonth(paymentArray, monthName) {
   // Initialize a count for payments created in the specified month
   let count = 0;
 
+  const instructorID = user?._id;
+  const filterArr = arr.filter(payment => {
+    return payment?.course && payment.course.instructor === instructorID;
+});
+
   // Iterate through each payment object in the array
-  paymentArray.forEach(payment => {
+  filterArr.forEach(payment => {
       // Extract the month from the createdAt date string
       let createdAtDate = new Date(payment.createdAt);
       let createdAtMonthIndex = createdAtDate.getMonth();
@@ -293,7 +306,7 @@ function countStudentCreatedInMonth(paymentArray, monthName) {
 //   return monthlyRevenue;
 // }
 
-function calculateMonthlyRevenue(paymentArray, monthName) {
+function calculateMonthlyRevenue(arr, monthName) {
   // Convert month name to its corresponding index (0-indexed)
   let monthIndex = {
       "January": 0,
@@ -317,9 +330,12 @@ function calculateMonthlyRevenue(paymentArray, monthName) {
 
   // Initialize the total price for the specified month
   let totalPriceForMonth = 0;
-
+  const instructorID = user?._id;
+  const filterArr = arr.filter(payment => {
+    return payment?.course && payment.course.instructor === instructorID;
+});
   // Iterate through each payment object in the array
-  paymentArray.forEach(payment => {
+  filterArr.forEach(payment => {
       // Extract the month from the createdAt date string
       let createdAtDate = new Date(payment.createdAt);
       let paymentMonth = createdAtDate.getMonth();

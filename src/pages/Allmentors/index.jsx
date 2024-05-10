@@ -294,9 +294,9 @@ export default function AllmentorsPage() {
           </div>
         </div>
         <div className="flex flex-row justify-center w-full sm:flex-col">
-            <div className="flex flex-row items-center justify-center w-full gap-[42px] sm:flex-col">
+            <div className="flex flex-row items-center justify-center w-full gap-[42px] sm:flex-col flex-wrap">
               {users.map((mentor , index)=>(
-                <div key={index}>
+                <div key={index} >
                   <AllMentorsMaincard
                   image = {mentor.image.url}
                   name = {mentor.name}
