@@ -70,24 +70,26 @@ const CourseView = () => {
 
   const handleVideo = async (e) => {
     try {
-      const file = e.target.files[0];
-      setUploadButtonText(file.name);
-      setUploading(true);
-      const videoData = new FormData();
-      videoData.append("video", file);
-      const { data } = await axios.post(
-        `${API_BASE_URL}/course/video-upload/${course.instructor._id}`,
-        videoData,
-        {
-          onUploadProgress: (e) => {
-            setProgress(Math.round((100 * e.loaded) / e.total));
-          },
-        }
-      );
+      if(course && course.instructor){
+        const file = e.target.files[0];
+        setUploadButtonText(file.name);
+        setUploading(true);
+        const videoData = new FormData();
+        videoData.append("video", file);
+        const { data } = await axios.post(
+          `${API_BASE_URL}/course/video-upload/${course.instructor._id}`,
+          videoData,
+          {
+            onUploadProgress: (e) => {
+              setProgress(Math.round((100 * e.loaded) / e.total));
+            },
+          }
+        );
 
-      console.log(data);
-      setValues({ ...values, video: data });
-      setUploading(false);
+        console.log(data);
+        setValues({ ...values, video: data });
+        setUploading(false);
+      }
     } catch (err) {
       console.log(err);
       setUploading(false);
