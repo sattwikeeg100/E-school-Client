@@ -7,10 +7,12 @@ import { TabPanel, TabList, Tab, Tabs } from "react-tabs";
 import AllCoursesMaincard from "components/AllCoursesMainCard";
 import axios from "axios";
 
+
 export default function AllcoursesPage() {
   const [courses, setCourses] = useState([]);
   const [coursedata, setCoursedata] = useState({ data: "null" });
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const ML_BASE_URL =  import.meta.env.VITE_ML_BASE_URL;
   const [keywords, setKeywords] = useState("");
 
   console.log({courses})
@@ -29,7 +31,7 @@ export default function AllcoursesPage() {
   const handlerecommend = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/recommend?course=${keywords}`
+        `${ML_BASE_URL}/recommend?course=${keywords}`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
