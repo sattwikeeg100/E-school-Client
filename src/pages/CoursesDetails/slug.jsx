@@ -105,6 +105,8 @@ export default function CoursesDetailsPage() {
     razor.open();
     setEnrolled({ ...enrolled, status: true });
   };
+
+  console.log(course);
   return (
     <>
       {/* {JSON.stringify(course, null, 4)} */}
@@ -123,6 +125,7 @@ export default function CoursesDetailsPage() {
                 <div className="flex flex-row justify- w-full sm:flex-col gap-8">
                   <div className="h-[450px] w-full relative sm:h-[200px] sm:w-full">
                     {course.lessons &&
+                    course.lessons.length>0 &&
                     course.lessons[0].video_link &&
                     course.lessons[0].video_link.Location &&
                     course.image &&
