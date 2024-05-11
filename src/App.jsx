@@ -48,7 +48,7 @@ function App() {
     { path: "/login", element: <Login /> },
     { path: "/signup", element: <SignUp /> },
     { path: "/forgetpassword", element: <ForgetPassword /> },
-    { path: "/reset-password/:id/:token", element: <ResetPassword /> },
+    { path: "/reset-password/:id", element: <ResetPassword /> },
     { path: "*", element: <NotFound /> },
     {
       path: "/",

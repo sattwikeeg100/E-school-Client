@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { id, token } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -14,7 +14,7 @@ const ResetPassword = () => {
     e.preventDefault();
     try {
       await axios
-        .post(`${API_BASE_URL}/reset-password/${id}/${token}`, {
+        .post(`${API_BASE_URL}/reset-password/${id}`, {
           password,
         })
         .then((res) => {
