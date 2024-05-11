@@ -8,6 +8,7 @@ import Footer from "components/Footer";
 import { ourcoursedata } from "./ourcoursedata";
 import axios from "axios";
 import EduviShopMainCard from "components/ShopMainCard";
+import AllCoursesMaincard from "components/AllCoursesMainCard";
 
 const dropDownOptions = [
   { label: "Sort by: Latest", value: "option1" },
@@ -18,6 +19,7 @@ const dropDownOptions = [
 export default function LeranopiaMainPage() {
   const [searchBarValue7, setSearchBarValue7] = useState("");
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const [courses, setCourses] = useState([])
   const [bookdata, setBookdata] = useState([]);
 
   
@@ -28,6 +30,14 @@ export default function LeranopiaMainPage() {
       console.log(bookdata);
     };
     fetchBooks();
+  }, []);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const { data } = await axios.get(`${API_BASE_URL}/courses`);
+      setCourses(data);
+    };
+    fetchCourses();
   }, []);
 
   // Pagination
@@ -97,24 +107,29 @@ export default function LeranopiaMainPage() {
 
         <div className="flex flex-col items-center justify-start w-full gap-[47px]">
           <div className="flex flex-row justify-center w-full">
-            <div className="flex flex-col items-start justify-start w-full gap-[23px] max-w-7xl">
+            <div className="flex flex-col items-start justify-start w-full gap-[23px] max-w-8xl mx-16 sm:mx-0 sm:max-w-7xl">
               <h2 className="text-4xl font-bold sm:p-2">
                 Discover Our Top Free Courses!
               </h2>
               <div className="flex flex-row justify-start sm:justify-center w-full">
-                <div className=" w-full sm:w-72 gap-10 grid-cols-4 grid min-h-[auto] sm:grid-cols-1 sm:gap-4">
-                  {oursubjectdata.map((carddata , index) => (
-                    <div key={index}>
-                    <EduviSubjectMainCard className="flex flex-col items-center justify-start w-full" 
-                      imgsrc={carddata.image}
-                      domain={carddata.subject}
-                      description={carddata.description}
-                    />
-                    </div>
-                  ))}
-                  <EduviCoursesMore className="flex flex-col items-center justify-start w-full" />
-                </div>
+              <div className="grid grid-cols-4 xxl:grid-cols-1 md:grid-cols-1 gap-10 min-h-[auto]">
+            {courses.slice(0, 7).map((course , index) => (
+              <div key={index} className="mx-auto">
+                <AllCoursesMaincard
+                  imgsrc={course.image.url}
+                  title={course.cousrseTittle}
+                  slug={course.slug}
+                  ispaid={course.IsPaid}
+                  price={course.price}
+                  content_duration={course.contentDuration}
+                  subject={course.subject}
+                  lessons={course.lessons.length}
+                />
               </div>
+            ))}
+            <EduviCoursesMore className="flex flex-col items-center justify-start w-full" />
+          </div>     
+             </div>
             </div>
           </div>
         </div>
