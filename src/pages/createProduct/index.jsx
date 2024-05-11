@@ -35,11 +35,6 @@ export default function CreateProduct() {
         const { data } = await axios.post(
             `${API_BASE_URL}/products/upload-image`,
             formData,
-            {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-            },
-            }
         );
         console.log(data);
         setImage(data);
@@ -56,11 +51,7 @@ export default function CreateProduct() {
             {
             image,
             },
-            {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-            },
-            }
+            
         );
         setImage({});
         } catch (err) {
@@ -86,11 +77,6 @@ export default function CreateProduct() {
             publisher,
             format
             },
-            {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-            },
-            }
         );
         toast.success("Great! Your product is added to shop");
         navigate("/");

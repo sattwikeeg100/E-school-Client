@@ -24,6 +24,7 @@ export default function InstructorOverview() {
   const [products, setProducts] = useState([]);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+
   useEffect(() => {
     if (user === null) {
       navigate("/login");
@@ -43,7 +44,7 @@ export default function InstructorOverview() {
   };
 
   useEffect(() => {
-    if (user && user.token) {
+    if (user) {
       loadProducts();
     }
   }, [user]);
