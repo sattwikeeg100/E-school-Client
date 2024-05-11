@@ -29,7 +29,6 @@ export default function EduviCartProductCard({
       const response = await axios.post(
         `${API_BASE_URL}/products/addtocart`,
         { prodId: productId },
-        { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
       if (response.data.cart.products.includes(productId)) {
