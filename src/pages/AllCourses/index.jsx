@@ -7,24 +7,31 @@ import { TabPanel, TabList, Tab, Tabs } from "react-tabs";
 import AllCoursesMaincard from "components/AllCoursesMainCard";
 import axios from "axios";
 
-
 export default function AllcoursesPage() {
   const [courses, setCourses] = useState([]);
   const [coursedata, setCoursedata] = useState({ data: "null" });
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  const ML_BASE_URL =  import.meta.env.VITE_ML_BASE_URL;
+  const ML_BASE_URL = import.meta.env.VITE_ML_BASE_URL;
   const [keywords, setKeywords] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  console.log({courses})
   const handleInput = (e) => {
     setKeywords(e.target.value);
   };
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const { data } = await axios.get(`${API_BASE_URL}/courses`);
-      setCourses(data);
+      try {
+        setLoading(true); // Set loading to true before starting the fetch
+        const { data } = await axios.get(`${API_BASE_URL}/courses`);
+        setCourses(data);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false); // Set loading to false after the fetch completes
+      }
     };
+
     fetchCourses();
   }, []);
 
@@ -44,10 +51,6 @@ export default function AllcoursesPage() {
       console.error("Error fetching data:", error);
     }
   };
-
-  useEffect(() => {
-    console.log(courses);
-  }, [courses]);
 
   return (
     <>
@@ -339,7 +342,9 @@ export default function AllcoursesPage() {
         </div>
 
         <div className="flex flex-col justify-center items-center w-full gap-[42px] md:gap-2">
-          <Heading className="hidden md:flex font-bold text-2xl mb-2">Get Courses Recommendations</Heading>
+          <Heading className="hidden md:flex font-bold text-2xl mb-2">
+            Get Courses Recommendations
+          </Heading>
           <div className="flex flex-row justify-center w-full gap-[42px] ">
             <div className="flex flex-row items-center justify-center w-full mx-4 ">
               <form method="GET" className="flex">
@@ -355,7 +360,9 @@ export default function AllcoursesPage() {
                   onClick={handlerecommend}
                 >
                   <span className="sm:hidden">Get Courses Recommendation</span>
-                  <span className="hidden sm:block"><FaSearch /></span>
+                  <span className="hidden sm:block">
+                    <FaSearch />
+                  </span>
                 </button>
               </form>
             </div>
@@ -383,20 +390,29 @@ export default function AllcoursesPage() {
         </Heading>
         <div className="flex flex-row justifty-start max-w-9xl">
           <div className="grid grid-cols-4 xxl:grid-cols-1 md:grid-cols-1 gap-10 min-h-[auto]">
-            {courses.map((course , index) => (
-              <div key={index} className="mx-auto">
-                <AllCoursesMaincard
-                  imgsrc={course.image.url}
-                  title={course.cousrseTittle}
-                  slug={course.slug}
-                  ispaid={course.IsPaid}
-                  price={course.price}
-                  content_duration={course.contentDuration}
-                  subject={course.subject}
-                  lessons={course.lessons.length}
-                />
-              </div>
-            ))}
+            {loading
+              ? Array(7)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div key={index} className="mx-auto">
+                      <AllCoursesMaincard loading={true} />
+                    </div>
+                  ))
+              : courses.slice(0, 7).map((course, index) => (
+                  <div key={index} className="mx-auto">
+                    <AllCoursesMaincard
+                      loading={false}
+                      imgsrc={course.image.url}
+                      title={course.courseTitle}
+                      slug={course.slug}
+                      ispaid={course.IsPaid}
+                      price={course.price}
+                      content_duration={course.contentDuration}
+                      subject={course.subject}
+                      lessons={course.lessons.length}
+                    />
+                  </div>
+                ))}
           </div>
         </div>
 

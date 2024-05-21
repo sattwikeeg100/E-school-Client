@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Context } from "context";
 import { useNavigate } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function EduviShopMainCard({
   imgsrc,
@@ -13,6 +15,7 @@ export default function EduviShopMainCard({
   ratings,
   price,
   productId,
+  loading,
   ...props
 }) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -35,16 +38,16 @@ export default function EduviShopMainCard({
   };
 
   const role = localStorage.getItem("Role");
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleAddToCart = async () => {
     if (role === null) {
-      Navigate("/login");
+      navigate("/login");
     } else {
       try {
         const response = await axios.post(
           `${API_BASE_URL}/products/addtocart`,
-          { prodId: productId },
+          { prodId: productId }
         );
 
         if (response.data.cart.products.includes(productId)) {
@@ -66,18 +69,28 @@ export default function EduviShopMainCard({
 
   return (
     <div {...props}>
-      <div className="flex flex-col items-center justify-start w-full p-5 bg-white-A700 rounded-[10px]  gap-[10px] shadow-md">
+      <div className="flex flex-col items-center justify-start w-full p-5 bg-white-A700 rounded-[10px] gap-[10px] shadow-md">
         <div className="flex flex-col items-center justify-start w-full max-w-[200px]">
-          <Img
-            src={imgsrc}
-            alt="image"
-            className="w-full object-cover rounded-[10px]"
-          />
+          {loading ? (
+            <Skeleton height={200} width={200} />
+          ) : (
+            <Img
+              src={imgsrc}
+              alt="image"
+              className="w-full object-cover rounded-[10px]"
+            />
+          )}
         </div>
 
         <div className="flex flex-row justify-between items-center w-full">
           <Heading as="h1" className="text-lg font-semibold text-gray-900">
-            {title} <br /> <i> Author: {author} </i>
+            {loading ? (
+              <Skeleton width={150} />
+            ) : (
+              <>
+                {title} <br /> <i> Author: {author} </i>
+              </>
+            )}
           </Heading>
           <Button
             color={isaddedtobag ? "red_300_01" : "red_50"}
@@ -96,9 +109,9 @@ export default function EduviShopMainCard({
         </div>
         <div className="flex flex-row justify-between items-center w-full">
           <Heading as="h2" className="text-red-300_01">
-            Rs. {price}
+            {loading ? <Skeleton width={50} /> : `Rs. ${price}`}
           </Heading>
-          <RatingBar value={ratings} />
+          {loading ? <Skeleton width={100} /> : <RatingBar value={ratings} />}
         </div>
       </div>
     </div>

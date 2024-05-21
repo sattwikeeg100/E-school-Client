@@ -4,28 +4,42 @@ import EduviCartProductCard from "components/CartProductCard";
 import Footer from "../../components/Footer";
 import axios from "axios";
 import { Context } from "context";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useNavigate } from "react-router-dom";
 
 export default function MyCart() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const {
     state: { user },
   } = useContext(Context);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user === null) navigate("/");
+  }, [user]);
 
   const [bookdata, setBookdata] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    {
-      user && fetchBooks(user.token);
+    if (user) {
+      setLoading(true);
+      fetchBooks();
     }
   }, [user]);
 
   const fetchBooks = async () => {
-    const { data } = await axios.get(`${API_BASE_URL}/user/mycart`);
-    setBookdata(data.products);
-    console.log("Book fetched");
-
-    setCartTotal(data.cartTotal);
+    try {
+      const { data } = await axios.get(`${API_BASE_URL}/user/mycart`);
+      setBookdata(data.products);
+      setCartTotal(data.cartTotal);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -84,24 +98,34 @@ export default function MyCart() {
           {/* Books Section  */}
           <div className="flex flex-col items-center justify-start w-full gap-[30px]">
             <div className="justify-center w-full gap-[15px] grid-cols-3 md:grid-cols-1 grid min-h-[auto]">
-              {bookdata
-                ?.slice(indexOfFirstItem, indexOfLastItem)
-                .map((book) => (
-                  <div key={book.isbn}>
-                    <EduviCartProductCard
-                      className="flex flex-col items-center justify-start w-full"
-                      productId={book._id}
-                      imgsrc={book.image.url}
-                      title={book.title}
-                      author={book.author}
-                      publisher={book.publisher}
-                      isbn={book.isbn}
-                      format={book.format}
-                      ratings={book.totalrating}
-                      price={book.price}
-                    />
-                  </div>
-                ))}
+              {loading
+                ? // Render skeleton if loading
+                  Array.from({
+                    length: indexOfLastItem - indexOfFirstItem,
+                  }).map((_, index) => (
+                    <div key={index}>
+                      <Skeleton height={400} />
+                    </div>
+                  ))
+                : // Render actual book cards
+                  bookdata
+                    ?.slice(indexOfFirstItem, indexOfLastItem)
+                    .map((book) => (
+                      <div key={book.isbn}>
+                        <EduviCartProductCard
+                          className="flex flex-col items-center justify-start w-full"
+                          productId={book._id}
+                          imgsrc={book.image.url}
+                          title={book.title}
+                          author={book.author}
+                          publisher={book.publisher}
+                          isbn={book.isbn}
+                          format={book.format}
+                          ratings={book.totalrating}
+                          price={book.price}
+                        />
+                      </div>
+                    ))}
             </div>
           </div>
 

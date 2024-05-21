@@ -25,11 +25,11 @@ import MyLearning from "pages/UserDashboard/MyLearning";
 import CreateProduct from "pages/createProduct";
 import MyCart from "pages/My Cart";
 import InstructorOverview from "pages/InstructorOverview";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 function App() {
   // const navigationElement = <Header1/>
   const Role = localStorage.getItem("Role");
-  console.log(Role);
 
   const HomePage =
     Role === null || (Role !== null && !Role.includes("Instructor")) ? (
@@ -122,12 +122,14 @@ function App() {
   ]);
 
   return (
-    <Provider>
-      <ToastContainer />
-      <RouterProvider router={router}>
-        <Outlet />
-      </RouterProvider>
-    </Provider>
+    <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f0f0f0">
+      <Provider>
+        <ToastContainer />
+        <RouterProvider router={router}>
+          <Outlet />
+        </RouterProvider>
+      </Provider>
+    </SkeletonTheme>
   );
 }
 
