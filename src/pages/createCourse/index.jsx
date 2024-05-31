@@ -32,19 +32,12 @@ export default function CreateCourse() {
     const formData = new FormData();
     formData.append("image", file);
 
-    console.log([...formData]);
 
     try {
       const { data } = await axios.post(
         `${API_BASE_URL}/course/upload-image`,
         formData,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
       );
-      console.log(data);
       setImage(data);
     } catch (e) {
       console.error(e);
@@ -59,11 +52,6 @@ export default function CreateCourse() {
         {
           image,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
       );
       // setInputValue("");
       setImage({});
@@ -85,11 +73,6 @@ export default function CreateCourse() {
           prerequisites,
           contentDuration,
           image,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
         }
       );
       toast.success("Great! Now you can start adding lessons");
