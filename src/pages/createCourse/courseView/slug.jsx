@@ -62,15 +62,20 @@ const CourseView = () => {
       setUploadButtonText("Upload video");
       setCourse(data);
       toast.success("Lesson added");
+      window.location.reload();
     } catch (err) {
-      console.log(err);
-      toast.error("Lesson add failed");
+      console.error(err);
+      if (err.response && err.response.data) {
+        toast.error(err.response.data);
+      } else {
+        toast.error("Lesson add failed");
+      }
     }
   };
 
   const handleVideo = async (e) => {
     try {
-      if(course && course.instructor){
+      if (course && course.instructor) {
         const file = e.target.files[0];
         setUploadButtonText(file.name);
         setUploading(true);

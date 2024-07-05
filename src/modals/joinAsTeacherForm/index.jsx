@@ -1,9 +1,9 @@
 import axios from "axios";
 import { Context } from "context";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaCamera } from "react-icons/fa";
+import { SyncOutlined } from "@ant-design/icons";
 
 const JoinAsTeacherForm = ({ closeModal }) => {
   const [qualification, setQualification] = useState("");
@@ -11,11 +11,11 @@ const JoinAsTeacherForm = ({ closeModal }) => {
   const [bankName, setBankName] = useState("");
   const [branchName, setBranchName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
+  const [uploading, setUploading] = useState(false);
   const {
     state: { user },
     dispatch,
   } = useContext(Context);
-  const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const becomeInstructor = (event) => {
     event.preventDefault();
@@ -38,8 +38,7 @@ const JoinAsTeacherForm = ({ closeModal }) => {
         });
         window.localStorage.setItem("user", JSON.stringify(res.data));
         window.localStorage.setItem("Role", JSON.stringify(res.data.role));
-        window.location.reload();
-        navigate("/");
+        window.location.href = "/";
       })
       .catch((err) => {
         console.error(err);
@@ -47,11 +46,10 @@ const JoinAsTeacherForm = ({ closeModal }) => {
       });
   };
   const handleImage = async (e) => {
+    setUploading(true);
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("image", file);
-
-    console.log([...formData]);
 
     try {
       const { data } = await axios.post(
@@ -68,6 +66,8 @@ const JoinAsTeacherForm = ({ closeModal }) => {
     } catch (e) {
       console.error(e);
       toast.error("Image upload failed!");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -218,9 +218,10 @@ const JoinAsTeacherForm = ({ closeModal }) => {
             <div>
               <button
                 type="submit"
+                disabled={uploading}
                 className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
-                Join In
+                {uploading ? <SyncOutlined spin className="pt-3" /> : "Join In"}
               </button>
             </div>
             <div className="text-center">

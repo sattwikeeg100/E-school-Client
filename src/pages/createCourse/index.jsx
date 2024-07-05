@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { RxCrossCircled } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+import { SyncOutlined } from "@ant-design/icons";
 
 export default function CreateCourse() {
   // const [inputValue, setInputValue] = useState("");
@@ -14,7 +15,7 @@ export default function CreateCourse() {
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   const [prerequisites, setPrerequisites] = useState("");
-
+  const [uploading, setUploading] = useState(false);
   const [contentDuration, setContentDuration] = useState();
   const [image, setImage] = useState({});
   const {
@@ -27,32 +28,30 @@ export default function CreateCourse() {
     setIsPaid(event.target.value === "paid");
   };
   const handleImage = async (e) => {
-    // setInputValue(e.target.value);
+    setUploading(true);
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("image", file);
 
-
     try {
       const { data } = await axios.post(
         `${API_BASE_URL}/course/upload-image`,
-        formData,
+        formData
       );
       setImage(data);
     } catch (e) {
       console.error(e);
       toast.error("Image upload failed!");
+    } finally {
+      setUploading(false);
     }
   };
 
   const handleImageRemove = async () => {
     try {
-      const res = await axios.post(
-        `${API_BASE_URL}/course/remove-image`,
-        {
-          image,
-        },
-      );
+      const res = await axios.post(`${API_BASE_URL}/course/remove-image`, {
+        image,
+      });
       // setInputValue("");
       setImage({});
     } catch (err) {
@@ -267,9 +266,14 @@ export default function CreateCourse() {
                 <div>
                   <button
                     type="submit"
+                    disabled={uploading}
                     className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                   >
-                    Create Now
+                    {uploading ? (
+                      <SyncOutlined spin className="pt-3" />
+                    ) : (
+                      "Create Course"
+                    )}
                   </button>
                 </div>
                 <div className="text-center"></div>
