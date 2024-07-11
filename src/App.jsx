@@ -1,10 +1,9 @@
+import React, { Suspense } from "react";
 import Header from "components/Header";
 import Login from "modals/LogIn";
 import SignUp from "modals/SignUp";
 import ShopPage from "./pages/Shop";
 import EduviCoursesPricing from "./pages/CoursesPricing";
-import JoinAsTeacherPage from "./pages/JoinAsTeacher/index.jsx";
-import Allmentors from "./pages/Allmentors";
 import Singlementordetails from "./pages/Singlementordetails";
 import NotFound from "pages/NotFound";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -14,8 +13,6 @@ import ForgetPassword from "modals/ForgetPassword";
 import ResetPassword from "modals/ForgetPassword/resetPassword";
 import "react-toastify/dist/ReactToastify.css";
 import Header2 from "components/Header2";
-import LeranopiaMainPage from "pages/LearnopiaMainPage";
-import InstructorDashboard from "pages/InstructorDashboard/dashboard";
 import CreateCourse from "pages/createCourse";
 import CourseView from "pages/createCourse/courseView/slug";
 import AllcoursesPage from "pages/AllCourses";
@@ -26,6 +23,12 @@ import CreateProduct from "pages/createProduct";
 import MyCart from "pages/My Cart";
 import InstructorOverview from "pages/InstructorOverview";
 import { SkeletonTheme } from "react-loading-skeleton";
+import Loading from "Loading/loading";
+
+const LeranopiaMainPage = React.lazy(() => import("pages/LearnopiaMainPage"));
+const InstructorDashboard = React.lazy(() => import("pages/InstructorDashboard/dashboard"));
+const Allmentors = React.lazy(() => import("./pages/Allmentors"));
+const JoinAsTeacherPage = React.lazy(() => import("./pages/JoinAsTeacher/index.jsx"));
 
 function App() {
   // const navigationElement = <Header1/>
@@ -122,6 +125,7 @@ function App() {
   ]);
 
   return (
+    <Suspense fallback={<div><Loading/></div>}>
     <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f0f0f0">
       <Provider>
         <ToastContainer />
@@ -130,6 +134,7 @@ function App() {
         </RouterProvider>
       </Provider>
     </SkeletonTheme>
+    </Suspense>
   );
 }
 

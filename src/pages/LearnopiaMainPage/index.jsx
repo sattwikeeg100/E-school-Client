@@ -110,7 +110,7 @@ export default function LeranopiaMainPage() {
           className="flex flex-row md:flex-col items-center justify-around w-full h-[300px] gap-5 sm:gap-2 p-5 sm:p-4
   bg-yellow-100 max-w-7xl rounded-20 mt-12 sm:mt-1   sm:h-[300px] font-serif"
         >
-          <h1 className="!font-semibold text-4xl sm:text-2xl whitespace-normal tracking-wide italic">
+          <h1 className="font-semibold text-4xl sm:text-2xl whitespace-normal tracking-wide italic">
             Welcome to Learnopia ,<br /> Where Knowledge Blossoms and Futures
             Flourish!
           </h1>
