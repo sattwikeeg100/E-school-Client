@@ -95,7 +95,7 @@ export default function LeranopiaMainPage() {
                           />
                         </div>
                       ))}
-                  <EduviCoursesMore className="flex flex-col items-center justify-start w-full" />
+                  {!loading && <EduviCoursesMore className="flex flex-col items-center justify-start w-full" />}
                 </div>
               </div>
             </div>
