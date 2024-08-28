@@ -10,98 +10,40 @@ import axios from "axios";
 import EduviShopMainCard from "components/ShopMainCard";
 import AllCoursesMaincard from "components/AllCoursesMainCard";
 
-const dropDownOptions = [
-  { label: "Sort by: Latest", value: "option1" },
-  { label: "Sort by: Price", value: "option2" },
-  { label: "Sort by: Level", value: "option3" },
-];
-
 export default function LeranopiaMainPage() {
-  const [searchBarValue7, setSearchBarValue7] = useState("");
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [courses, setCourses] = useState([]);
-  const [bookdata, setBookdata] = useState([]);
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchBooks = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`${API_BASE_URL}/products`);
+      setBooks(data);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchCourses = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`${API_BASE_URL}/courses`);
+      setCourses(data);
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axios.get(`${API_BASE_URL}/products`);
-        setBookdata(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchCourses();
     fetchBooks();
   }, []);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axios.get(`${API_BASE_URL}/courses`);
-        setCourses(data);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCourses();
-  }, []);
-
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Category
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
-  };
-
-  // Search
-  const [searchBarValue, setSearchBarValue] = useState("");
-  const handleSearch = (event) => {
-    setSearchBarValue(event.target.value);
-  };
-
-  const filteredBooks = searchBarValue
-    ? bookdata.filter((book) =>
-        book.title.toLowerCase().includes(searchBarValue.toLowerCase())
-      )
-    : selectedCategory
-    ? bookdata.filter((book) => book.category === selectedCategory)
-    : bookdata;
-
-  const totalpages = Math.ceil(filteredBooks.length / itemsPerPage);
-  // Sorting
-  const [sortBy, setSortBy] = React.useState("option1");
-  const handleSort = (selectedOption) => {
-    setSortBy(selectedOption.value);
-  };
-
-  let sortedBooks = [...filteredBooks];
-  switch (sortBy) {
-    case "option2":
-      sortedBooks.sort((a, b) => a.price - b.price); // Sort by price
-      break;
-    case "option3":
-      sortedBooks.sort((a, b) => b.totalrating - a.totalrating); // Sort by ratings
-      break;
-    default:
-      sortedBooks.sort(
-        (a, b) => new Date(b.publication_date) - new Date(a.publication_date)
-      ); // Sort by latest
-      break;
-  }
 
   return (
     <>
@@ -124,7 +66,7 @@ export default function LeranopiaMainPage() {
 
         <div className="flex flex-col items-center justify-start w-full gap-[47px]">
           <div className="flex flex-row justify-center w-full">
-            <div className="flex flex-col items-start justify-start w-full gap-[23px] max-w-8xl mx-16 sm:mx-0 sm:max-w-7xl">
+            <div className="flex flex-col items-start justify-start w-full gap-[23px] max-w-7xl mx-16 sm:mx-0 sm:max-w-7xl">
               <h2 className="text-4xl font-bold sm:p-2">
                 Discover Our Top Free Courses!
               </h2>
@@ -169,15 +111,13 @@ export default function LeranopiaMainPage() {
               </div>
               <div className="justify-center w-full gap-[15px] grid-cols-3 md:grid-cols-1 grid min-h-[auto]">
                 {loading
-                  ? Array.from({
-                      length: indexOfLastItem - indexOfFirstItem,
-                    }).map((_, index) => (
+                  ? Array.from(6).map((_, index) => (
                       <div key={index}>
                         <EduviShopMainCard loading={loading} />
                       </div>
                     ))
-                  : sortedBooks
-                      .slice(indexOfFirstItem, indexOfLastItem)
+                  : books
+                      .slice(0,6)
                       .map((book) => (
                         <div key={book.isbn}>
                           <EduviShopMainCard
