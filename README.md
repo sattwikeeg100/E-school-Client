@@ -1,6 +1,6 @@
 # Learnopia
 
-Learnopia is an educational website designed to facilitate learning experiences for users. Whether you're a student seeking academic resources, an educator looking for teaching materials, or someone eager to expand your knowledge, Learnopia offers a platform to discover, share, and engage with educational content .
+Learnopia is an educational website designed to facilitate learning experiences for users. Whether you're a student seeking academic resources, an educator looking for teaching materials, or someone eager to expand your knowledge, Learnopia offers a platform to discover, share, and engage with educational content.
 
 ## Description
 
