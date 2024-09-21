@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Text, Button, Img, Slider, Heading } from "../../components";
-import AllMentorsMaincard from "../../components/AllMentorsMaincard";
 import Footer from "../../components/Footer";
-import { TabPanel, TabList, Tab, Tabs } from "react-tabs";
 import AllCoursesMaincard from "components/AllCoursesMainCard";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function AllcoursesPage() {
   const [courses, setCourses] = useState([]);
-  const [coursedata, setCoursedata] = useState({ data: "null" });
+  const [recommendations, setRecommendations] = useState([]);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const ML_BASE_URL = import.meta.env.VITE_ML_BASE_URL;
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(true);
   const [recommendationLoading, setRecommendationLoading] = useState(false);
+  const [nullRecommendations, setNullRecommendations] = useState(false);
 
   const handleInput = (e) => {
     setKeywords(e.target.value);
@@ -41,13 +41,20 @@ const handlerecommend = async () => {
     setRecommendationLoading(true);
 
     const response = await axios.get(`${ML_BASE_URL}/recommend`, {
-      params: { course: keywords }, 
+      params: { course: keywords },
     });
 
-    setCoursedata(response.data);
+    if (response.data.data && response.data.data.length === 0) {
+      setNullRecommendations(true);
+    } else {
+      setNullRecommendations(false);
+    }
+
+    setRecommendations(response.data.data);
     setRecommendationLoading(false);
   } catch (error) {
     console.error("Error fetching data:", error);
+    toast.error("Fetching recommendations failed!");
     setRecommendationLoading(false);
   }
 };
@@ -387,8 +394,8 @@ const handlerecommend = async () => {
             ) : (
               <>
                 <div className="grid grid-cols-4 md:grid-cols-1 gap-10 min-h-[auto]">
-                  {coursedata.data !== "null" && coursedata.data.length > 0
-                    ? coursedata.data.map((course) => (
+                  {recommendations !== "null" && recommendations.length > 0
+                    ? recommendations.map((course) => (
                         <div key={course.course_title}>
                           <AllCoursesMaincard
                             imgsrc={course.course_image}
@@ -401,11 +408,14 @@ const handlerecommend = async () => {
                       ))
                     : null}
                 </div>
-                {coursedata.data === "null" || coursedata.data.length === 0 ? (
+                {nullRecommendations && (
                   <div>
-                    <p>Sorry! We have no courses matching your keywords. Try with some different keywords.</p>
+                    <p>
+                      Sorry! We have no courses matching your keywords. Try with
+                      some different keywords.
+                    </p>
                   </div>
-                ) : null}
+                )}
               </>
             )}
           </div>
