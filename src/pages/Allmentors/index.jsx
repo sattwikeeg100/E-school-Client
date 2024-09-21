@@ -42,9 +42,9 @@ export default function AllmentorsPage() {
             </Text>
             <div className="flex flex-row justify-between items-center w-[99%] ml-2.5 gap-[420px]">
               <Heading size="3xl" as="h1" className="w-[31%] !font-semibold sm:text-5xl">
-                Educatsy has the
+                Learnopia has the
                 <br />
-                qualified mentor
+                qualified mentors
               </Heading>
               {/* <div className="flex flex-row justify-end w-[35%] py-[3px]">
                 <div className="flex flex-col items-center justify-start w-[97%] mb-1">

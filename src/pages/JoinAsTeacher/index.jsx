@@ -43,7 +43,7 @@ export default function JoinAsTeacherPage() {
                   Home | Become An Instructor
                 </p>
                 <h1 className="!font-semibold text-3xl my-8 sm:text-lg sm:my-1 sm:right-1">
-                  Join Educatsy as
+                  Join Learnopia as
                   <br />a Mentor
                 </h1>
               </div>

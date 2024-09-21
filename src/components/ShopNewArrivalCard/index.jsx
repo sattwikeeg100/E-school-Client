@@ -16,8 +16,8 @@ export default function EduviShopNewArrivalCard({
       {loading ? ( // Render skeleton if loading is true
         <div className="flex flex-row justify-start items-center w-full gap-[35px] p-[21px] bg-white-A700 rounded-[10px]">
           <Skeleton
-            width={150}
-            height={200}
+            width={70}
+            height={110}
             className="w-[15%] ml-[10px] object-cover rounded-[5px]"
           />
           <div className="flex flex-col items-start justify-start w-[73%]  mr-[3px] gap-2.5">

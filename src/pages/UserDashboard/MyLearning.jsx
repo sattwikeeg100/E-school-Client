@@ -61,7 +61,7 @@ function MyLearning() {
                     <AllCoursesMaincard
                       loading={false}
                       imgsrc={course.image.url}
-                      title={course.courseTitle}
+                      title={course.cousrseTittle}
                       slug={course.slug}
                       ispaid={course.IsPaid}
                       price={course.price}

@@ -14,6 +14,7 @@ export default function AllcoursesPage() {
   const ML_BASE_URL = import.meta.env.VITE_ML_BASE_URL;
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(true);
+  const [recommendationLoading, setRecommendationLoading] = useState(false);
 
   const handleInput = (e) => {
     setKeywords(e.target.value);
@@ -35,22 +36,21 @@ export default function AllcoursesPage() {
     fetchCourses();
   }, []);
 
-  const handlerecommend = async () => {
-    try {
-      const response = await fetch(
-        `${ML_BASE_URL}/recommend?course=${keywords}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      console.log("handlerecommend called"); // Log the received data
-      setCoursedata(data);
-      console.log(coursedata);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+const handlerecommend = async () => {
+  try {
+    setRecommendationLoading(true);
+
+    const response = await axios.get(`${ML_BASE_URL}/recommend`, {
+      params: { course: keywords }, 
+    });
+
+    setCoursedata(response.data);
+    setRecommendationLoading(false);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    setRecommendationLoading(false);
+  }
+};
 
   return (
     <>
@@ -367,21 +367,47 @@ export default function AllcoursesPage() {
               </form>
             </div>
           </div>
-          <div className="flex flex-row justify-center max-w-9xl">
-            <div className="grid grid-cols-4 md:grid-cols-1 gap-10 min-h-[auto]">
-              {coursedata.data !== "null" &&
-                coursedata.data.map((course) => (
-                  <div key={course.course_title}>
-                    <AllCoursesMaincard
-                      imgsrc={course.course_image}
-                      title={course.course_title}
-                      ispaid={course.is_paid}
-                      price={course.price}
-                      subject={course.subject}
-                    />
+          <div className="flex flex-row justify-center items-center max-w-9xl">
+            {recommendationLoading ? (
+              <div className="flex flex-col">
+                <span className="justify-center items-center font-medium mb-4">
+                  Wait while we are fetching our curated recommendations for
+                  you...
+                </span>
+                <div className="grid grid-cols-4 md:grid-cols-1 gap-10 min-h-[auto]">
+                  {Array(4)
+                    .fill(0)
+                    .map((_, index) => (
+                      <div key={index} className="mx-auto">
+                        <AllCoursesMaincard loading={true} />
+                      </div>
+                    ))}
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-4 md:grid-cols-1 gap-10 min-h-[auto]">
+                  {coursedata.data !== "null" && coursedata.data.length > 0
+                    ? coursedata.data.map((course) => (
+                        <div key={course.course_title}>
+                          <AllCoursesMaincard
+                            imgsrc={course.course_image}
+                            title={course.course_title}
+                            ispaid={course.is_paid}
+                            price={course.price}
+                            subject={course.subject}
+                          />
+                        </div>
+                      ))
+                    : null}
+                </div>
+                {coursedata.data === "null" || coursedata.data.length === 0 ? (
+                  <div>
+                    <p>Sorry! We have no courses matching your keywords. Try with some different keywords.</p>
                   </div>
-                ))}
-            </div>
+                ) : null}
+              </>
+            )}
           </div>
         </div>
 
@@ -403,7 +429,7 @@ export default function AllcoursesPage() {
                     <AllCoursesMaincard
                       loading={false}
                       imgsrc={course.image.url}
-                      title={course.courseTitle}
+                      title={course.cousrseTittle}
                       slug={course.slug}
                       ispaid={course.IsPaid}
                       price={course.price}

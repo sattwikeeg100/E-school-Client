@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Heading, Text, Img, SelectBox } from "../../components";
-import EduviCoursesDetailsMaincard from "../../components/CoursesDetailsMaincard";
-import EduviSubjectMainCard from "../../components/SubjectMainCard";
 import EduviCoursesMore from "../../components/CoursesMore";
-import { oursubjectdata } from "./oursubjectdata";
 import Footer from "components/Footer";
-import { ourcoursedata } from "./ourcoursedata";
 import axios from "axios";
 import EduviShopMainCard from "components/ShopMainCard";
 import AllCoursesMaincard from "components/AllCoursesMainCard";
+import { useNavigate } from "react-router-dom";
 
 export default function LeranopiaMainPage() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [courses, setCourses] = useState([]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [booksloading, setBooksLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchBooks = async () => {
     try {
-      setLoading(true);
+      setBooksLoading(true);
       const { data } = await axios.get(`${API_BASE_URL}/products`);
       setBooks(data);
     } catch (error) {
       console.error("Error fetching books:", error);
     } finally {
-      setLoading(false);
+      setBooksLoading(false);
     }
   };
 
@@ -95,7 +93,9 @@ export default function LeranopiaMainPage() {
                           />
                         </div>
                       ))}
-                  {!loading && <EduviCoursesMore className="flex flex-col items-center justify-start w-full" />}
+                  {!loading && (
+                    <EduviCoursesMore className="flex flex-col items-center justify-start w-full" />
+                  )}
                 </div>
               </div>
             </div>
@@ -110,27 +110,26 @@ export default function LeranopiaMainPage() {
                 </h1>
               </div>
               <div className="justify-center w-full gap-[15px] grid-cols-3 md:grid-cols-1 grid min-h-[auto]">
-                {loading
-                  ? Array.from(6).map((_, index) => (
+                {booksloading
+                  ? Array(6).fill(0).map((_, index) => (
                       <div key={index}>
-                        <EduviShopMainCard loading={loading} />
+                        <EduviShopMainCard loading={true} />
                       </div>
                     ))
-                  : books
-                      .slice(0,6)
-                      .map((book) => (
-                        <div key={book.isbn}>
-                          <EduviShopMainCard
-                            productId={book._id}
-                            imgsrc={book.image.url}
-                            title={book.title}
-                            author={book.author}
-                            ratings={book.totalrating}
-                            price={book.price}
-                          />
-                        </div>
-                      ))}
+                  : books.slice(0, 6).map((book) => (
+                      <div key={book.isbn}>
+                        <EduviShopMainCard
+                          productId={book._id}
+                          imgsrc={book.image.url}
+                          title={book.title}
+                          author={book.author}
+                          ratings={book.totalrating}
+                          price={book.price}
+                        />
+                      </div>
+                    ))}
               </div>
+              <button onClick={() => navigate("shop")} className="justify-center items-center border-b-2 border-black-900_02">Explore More books...</button>
             </div>
           </div>
         </div>

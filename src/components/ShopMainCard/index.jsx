@@ -72,7 +72,7 @@ export default function EduviShopMainCard({
       <div className="flex flex-col items-center justify-start w-full p-5 bg-white-A700 rounded-[10px] gap-[10px] shadow-md">
         <div className="flex flex-col items-center justify-start w-full max-w-[200px]">
           {loading ? (
-            <Skeleton height={200} width={200} />
+            <Skeleton height={300} width={200} />
           ) : (
             <Img
               src={imgsrc}
@@ -92,7 +92,7 @@ export default function EduviShopMainCard({
               </>
             )}
           </Heading>
-          <Button
+          {!loading && <Button
             color={isaddedtobag ? "red_300_01" : "red_50"}
             size="lg"
             className="w-11 !rounded-md"
@@ -105,7 +105,7 @@ export default function EduviShopMainCard({
                   : "images/img_shopping_bag_24.svg"
               }
             />
-          </Button>
+          </Button>}
         </div>
         <div className="flex flex-row justify-between items-center w-full">
           <Heading as="h2" className="text-red-300_01">

@@ -299,7 +299,9 @@ export default function ShopPage() {
                 color="white_A700"
                 size="lg"
                 className="w-[15%] !rounded-md"
-                onClick={() => paginate(currentPage - 1)}
+                onClick={() =>
+                  currentPage == 1 ? {} : paginate(currentPage - 1)
+                }
               >
                 <Img src="images/img_arrow_left.svg" />
               </Button>
@@ -311,11 +313,7 @@ export default function ShopPage() {
                 size="sm"
                 className="!text-gray-700_01 font-medium min-w-[42px] rounded-lg"
               >
-                {currentPage > totalpages
-                  ? totalpages
-                  : currentPage < 1
-                  ? 1
-                  : currentPage}
+                {currentPage}
               </Button>
               <Text as="p" className="!text-gray-900 !font-medium">
                 of {totalpages}
@@ -323,7 +321,9 @@ export default function ShopPage() {
               <Button
                 size="lg"
                 className="w-[15%] !rounded-md"
-                onClick={() => paginate(currentPage + 1)}
+                onClick={() =>
+                  currentPage == totalpages ? {} : paginate(currentPage + 1)
+                }
               >
                 <Img src="images/img_arrow_right.svg" />
               </Button>
